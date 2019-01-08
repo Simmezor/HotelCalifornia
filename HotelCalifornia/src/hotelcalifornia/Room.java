@@ -16,4 +16,9 @@ public class Room {
     //ett attribut kan vara boolean is available
     //constructor
     //getter setter
+    int roomNumber;
+    int numberOfBeds;
+    boolean hasBalcony;
+    double pricePerNight;
+    boolean isBooked;
 }
