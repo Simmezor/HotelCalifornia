@@ -38,7 +38,7 @@ public class Room {
     public boolean isHasBalcony() {
         return hasBalcony;
     }
-
+    
     public double getPricePerNight() {
         return pricePerNight;
     }
