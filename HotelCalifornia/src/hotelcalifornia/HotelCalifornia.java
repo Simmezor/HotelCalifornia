@@ -5,6 +5,8 @@
  */
 package hotelcalifornia;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Helena
@@ -18,7 +20,13 @@ public class HotelCalifornia {
         HotelLogic california = new HotelLogic();
         //här kan vi anropa showMenu
         
-       
+//       california.addCustomer();
+//       ArrayList<Customer> temp= california.getCustomers();
+//       for(int i =0; i<temp.size(); i++){
+//        System.out.println(temp.get(i).getName()+ );
+//       }
+//       //To String i Customer tex för att få alla information
+//      
     }
     
 }

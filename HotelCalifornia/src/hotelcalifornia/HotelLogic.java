@@ -42,6 +42,10 @@ public class HotelLogic {
        
     }
     
+   public ArrayList<Customer> getCustomers(){
+   return customers;
+   }
+    
     
     //en metod per backlog (kan vara fler)
     //namn på metoderna ska visa vad de gör
