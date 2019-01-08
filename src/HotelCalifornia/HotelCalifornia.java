@@ -19,6 +19,7 @@ public class HotelCalifornia {
        
         HotelLogic myhotel = new HotelLogic();
         
+        System.out.println("Test");
         
         myhotel.showMenu();
     }
