@@ -5,6 +5,7 @@
  */
 package HotelCalifornia;
 
+import java.awt.Robot;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ public class HotelLogic {
     
         private ArrayList <Customer> customers;
         private ArrayList <Room> rooms;
-        
+       
         
      public  HotelLogic(){
       customers = new ArrayList();
@@ -31,11 +32,11 @@ public class HotelLogic {
          return customers;
     }
     
-        public  static void showMenu(){
+        public static void showMenu(){
     
-     // TODO code application logic here
+     
         
-       int ShowMenu;
+       String ShowMenu;
 Scanner sc = new Scanner(System.in);
 while(true){  
 System.out.println("1 = Rooms\n"
@@ -43,28 +44,28 @@ System.out.println("1 = Rooms\n"
         + "3 = Customer\n"
         + "4 = fdfdsfdsf\n"
         + "5 = sdfdsfdsfsdf\n");
-        ShowMenu = sc.nextInt();
+        ShowMenu = sc.next();
       
 switch (ShowMenu)
 {
 
-case 1:
+case "1":
     roomChoice();
 break;
 
-case 2:
+case "2":
     bookingChoice();
 break;
 
-case 3:
+case "3":
    customerChoice();
 break;
 
-case 4:
+case "4":
     testMenu();
     break;
     
-case 5:
+case "5":
     testMenu();
     break;
     
@@ -182,7 +183,7 @@ break;
         }
         
         public static void bookingChoice(){
-             int choice;
+             String choice;
             boolean asking = true;
 Scanner sc = new Scanner(System.in);
 while(asking == true){  
@@ -191,32 +192,32 @@ System.out.println("1 = Show Bookings\n"
         + "3 = Remove Booking\n"
         + "4 = Edit Booking\n"
         + "5 = Return to main menu");
-        choice = sc.nextInt();
+        choice = sc.next();
       
 switch (choice)
 {
 
-case 1:
+case "1":
     System.out.println("Show Bookings");
     testMenu();
 break;
 
-case 2:
+case "2":
     System.out.println("Add new Booking");
     testMenu();
 break;
 
-case 3:
+case "3":
     System.out.println("Remove Booking");
     testMenu();
 break;
 
-case 4:
+case "4":
     System.out.println("Edit Booking");
     testMenu();
     break;
 
-case 5:
+case "5":
     System.out.println("Returning to main menu");
     asking = false;
 break;    
@@ -228,6 +229,9 @@ break;
  }
             
         }
+        
+           
+
     
     public void getRoom(){}
     public void getRooms(){}
