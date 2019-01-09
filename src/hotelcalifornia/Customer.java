@@ -1,9 +1,66 @@
-
 package hotelcalifornia;
 
+import java.util.ArrayList;
 
+/**
+ *
+ * @author Helena
+ */
 public class Customer {
-    //arraylist av Booking  
-    //andra attribut
+    
+    String ssn;
+    String name;
+    String address;
+    String telephoneNumber;
+    
+    ArrayList<Booking> bookings;
+    
+    public Customer(String ssn, String name, String address, String telephoneNumber){
+        this.ssn = ssn;
+        this.name = name;
+        this.address = address;
+        this.telephoneNumber = telephoneNumber;
+        bookings = new ArrayList();
+    }
+    
+    public String getSsn(){
+    return ssn;
+    }
+    
+    public String getName(){
+    return name;
+    }
+    
+    public String getAddress(){
+    return address;
+    }
+    
+    public String getTelephoneNumber(){
+    return telephoneNumber;
+    }
+    
+    public ArrayList<Booking> getBookings (){
+    return bookings;
+    }
+    
+    public void setAdress(String newAddress){
+    address = newAddress;
+    }
+    
+    public void setTelephoneNumber (String newTel){
+    telephoneNumber = newTel;
+    }
+    
+    public void addBooking(Booking b){
+        bookings.add(b);
+    }
+    
+    
+    
+    //attribut personnummer, namn, adress, telefon (String)
+    //ArrayList av Booking
+    //andra attribute
+    //Contructor
+    //getter setter
     
 }
