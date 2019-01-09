@@ -36,7 +36,7 @@ public class HotelLogic {
     
      
         
-       String ShowMenu;
+       int ShowMenu;
 Scanner sc = new Scanner(System.in);
 while(true){  
 System.out.println("1 = Rooms\n"
@@ -44,28 +44,28 @@ System.out.println("1 = Rooms\n"
         + "3 = Customer\n"
         + "4 = fdfdsfdsf\n"
         + "5 = sdfdsfdsfsdf\n");
-        ShowMenu = sc.next();
+        ShowMenu = sc.nextInt();
       
 switch (ShowMenu)
 {
 
-case "1":
+case 1:
     roomChoice();
 break;
 
-case "2":
+case 2:
     bookingChoice();
 break;
 
-case "3":
+case 3:
    customerChoice();
 break;
 
-case "4":
+case 4:
     testMenu();
     break;
     
-case "5":
+case 5:
     testMenu();
     break;
     
