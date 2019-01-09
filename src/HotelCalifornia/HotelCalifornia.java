@@ -5,6 +5,7 @@
  */
 package HotelCalifornia;
 
+import java.applet.Applet;
 import java.io.PrintStream;
 import java.awt.*;
 import javax.swing.*;
@@ -52,16 +53,12 @@ System.out.println( "Hello World" );
                 gui.jTextArea1.append("");
         
         myhotel.showMenu();
-        
-       
-        
-        
-             System.out.println("test");
+ 
  {
      //do something
  }
     }
 
-    
+
     
 }

@@ -5,7 +5,12 @@
  */
 package HotelCalifornia;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -131,7 +136,17 @@ public class HotelCaliforniaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+Robot r;
+        try {
+            r = new Robot();
+        } catch (AWTException ex) {
+            Logger.getLogger(HotelCaliforniaGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+r = null;
+r.keyPress(KeyEvent.VK_1);
+r.keyRelease(KeyEvent.VK_1);
+
+
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
