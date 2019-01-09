@@ -27,13 +27,13 @@ public class HotelLogic {
     
     public void addCustomer(){
         Scanner in = new Scanner(System.in);
-        System.out.println("Please enter your first and last name: ");
+        System.out.println("First and last name: ");
         String name = in.next();
-        System.out.println("Please write your social security number: ");
+        System.out.println("Social security number: ");
         String ssn = in.next();
-        System.out.println("Please enter your address: ");
+        System.out.println("Address: ");
         String address = in.next();
-        System.out.println("Please enter your telephone number: ");
+        System.out.println("Telephone number: ");
         String telephoneNumber = in.next();
         
         Customer newCustomer = new Customer(ssn, name, address, telephoneNumber);
