@@ -28,23 +28,9 @@ public class HotelCalifornia {
        
        
    }
-    
-    
-    public static void main(String[] args) {
-       
-        HotelLogic myhotelLogic = new HotelLogic();
-        
-        System.out.println("Test");
-        
-        //myhotelLogic.addRoom();
-        
-         ArrayList <Customer> customers;
-         ArrayList <Room> rooms;
-        
-         customers = new ArrayList();
-         rooms = new ArrayList();
-         
-         int numberofbeds = 0;
+   
+   public static void AddTenTestRooms(ArrayList <Room> rooms, boolean print){
+            int numberofbeds = 0;
          double price = 0;
          boolean booked = false;
          boolean balcony = false;
@@ -75,8 +61,28 @@ public class HotelCalifornia {
              
             rooms.add(new Room(i+1, numberofbeds,balcony,price, booked ));
             
-            printRoomInfo(rooms.get(i));
+            if(print){  printRoomInfo(rooms.get(i));}
+          
         }
+   
+   }
+    
+    
+    public static void main(String[] args) {
+       
+        HotelLogic myhotelLogic = new HotelLogic();
+        
+        System.out.println("Test");
+        
+        //myhotelLogic.addRoom();
+        
+         ArrayList <Customer> customers;
+         ArrayList <Room> rooms;
+        
+         customers = new ArrayList();
+         rooms = new ArrayList();
+         
+         AddTenTestRooms(rooms, true);
          
       
          
