@@ -1,4 +1,4 @@
-package HotelCalifornia.Tests;
+package HotelCalifornia;
 
 
 
