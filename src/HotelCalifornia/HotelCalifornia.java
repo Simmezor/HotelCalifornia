@@ -29,6 +29,43 @@ public class HotelCalifornia {
        
    }
    
+   
+  public static void printCustomerInfo(Customer c){
+  
+      System.out.println("SSN:    "+c.getSsn());
+      System.out.println("Name:   "+c.getName());
+      System.out.println("Adress: "+c.getAddress());
+      System.out.println("Phone:  "+c.getTelephoneNumber());
+      
+      System.out.println("");
+
+  
+  }
+  
+  public static void printBookingInfo(Booking b){
+  
+      System.out.println("BookingID     "+b.getBookingId());
+      System.out.println("CheckIn Date:  "+b.getCheckInDate());
+      System.out.println("CheckOut Date: "+b.getCheckOutDate());
+      System.out.println("TotalPrice:    "+b.getTotalPrice());
+      
+      
+      if(b.getRooms().size() == 0){
+          System.out.println("No rooms Booked.");
+      }else{
+      
+                for (int i = 0; i < b.getRooms().size(); i++) {
+          
+          printRoomInfo(b.getRooms().get(i));
+      }
+          
+      }
+      
+
+ 
+  }
+  
+   
    public static void AddTenTestRooms(ArrayList <Room> rooms, boolean print){
             int numberofbeds = 0;
          double price = 0;
@@ -82,7 +119,20 @@ public class HotelCalifornia {
          customers = new ArrayList();
          rooms = new ArrayList();
          
-         AddTenTestRooms(rooms, true);
+         AddTenTestRooms(rooms, false);
+         
+         Customer testCostumer = new Customer("1948910-1234","Jackson Browne","Heidelberg Road 17","555-123-987");
+         
+         customers.add(testCostumer);
+         
+         Booking testBooking = new Booking(1,"2019-01-11", "2019-01-03",250);
+         
+         testBooking.addRoom(rooms.get(0));
+         testBooking.addRoom(rooms.get(1));
+         
+         printCustomerInfo(testCostumer);
+         
+         printBookingInfo(testBooking);
          
       
          
