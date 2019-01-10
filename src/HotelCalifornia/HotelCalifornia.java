@@ -49,6 +49,8 @@ public class HotelCalifornia {
       System.out.println("CheckOut Date: "+b.getCheckOutDate());
       System.out.println("TotalPrice:    "+b.getTotalPrice());
       
+      System.out.println("Rooms Booked: \n");
+      
       
       if(b.getRooms().size() == 0){
           System.out.println("No rooms Booked.");
@@ -103,6 +105,27 @@ public class HotelCalifornia {
         }
    
    }
+   
+   
+   public static void AddThreeTestCustomers(ArrayList <Customer> customers, boolean print){
+   
+         Customer testCostumer1 = new Customer("19480910-0001","Jackson Browne","Heidelberg Road 17","555-123-987");
+         customers.add(testCostumer1);
+         
+         Customer testCostumer2 = new Customer("19460615-0002","Linda Ronstadt","Tucson Avenue 6","555-568-123");
+         customers.add(testCostumer2);
+         
+         Customer testCostumer3 = new Customer("19451102-0003","John David Souther","Detroit Street 9","555-789-159");
+         customers.add(testCostumer3);
+         
+         
+       for (int i = 0; i < 3; i++) {
+                  if(print){  printCustomerInfo(customers.get(i));}
+       }
+       
+
+         
+   }
     
     
     public static void main(String[] args) {
@@ -121,16 +144,15 @@ public class HotelCalifornia {
          
          AddTenTestRooms(rooms, false);
          
-         Customer testCostumer = new Customer("1948910-1234","Jackson Browne","Heidelberg Road 17","555-123-987");
-         
-         customers.add(testCostumer);
+   
+         AddThreeTestCustomers(customers, false);
          
          Booking testBooking = new Booking(1,"2019-01-11", "2019-01-03",250);
          
          testBooking.addRoom(rooms.get(0));
          testBooking.addRoom(rooms.get(1));
          
-         printCustomerInfo(testCostumer);
+     
          
          printBookingInfo(testBooking);
          
