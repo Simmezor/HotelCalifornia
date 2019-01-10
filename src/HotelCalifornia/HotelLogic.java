@@ -76,7 +76,7 @@ public class HotelLogic {
     
     public void getAvailableRooms(){}
     
-      public void addRoom(){
+     public void addRoom(){
          Scanner in = new Scanner(System.in);
 
          boolean gettinginput = true;
@@ -86,11 +86,11 @@ public class HotelLogic {
          
          String balcony = "-1";
          boolean balconybool = false;
-         double price = -0;
+         double price = -1;
          
          while(gettinginput) {
                   try{
-         System.out.println("Whats the room number: ");    
+         System.out.println("What is the rooms number: ");    
          temproomnum = in.nextInt();      
          gettinginput =false;
                   }catch( Exception e){
@@ -148,7 +148,7 @@ public class HotelLogic {
 
                                     while(gettinginput) {
                   try{
-         System.out.println("What is the price for the room?: ");    
+         System.out.println("How much does the room cost per night?: ");    
          price = in.nextDouble();    //Needs to be in a try catch 
          gettinginput =false;
                   }catch( Exception e){
@@ -165,11 +165,7 @@ public class HotelLogic {
          
          rooms.add(newRoom);
          
-
-     
-
 }
-    public void addRoom(){}
     
     public void checkInCustomer(){}
     public void checkOutCustomer(){}
