@@ -85,7 +85,7 @@ public class HotelCalifornia {
               price = 129.49;
              }
              
-                          if(i % 3 == 0){
+            if(i % 3 == 0){
              booked = true;
              }else{
             booked = false;
@@ -126,6 +126,30 @@ public class HotelCalifornia {
 
          
    }
+   
+   public static void AddTwoTestBookings(ArrayList <Booking> bookings, Room r1, Room r2, boolean print){
+   
+             Booking testBooking1 = new Booking(1,"2019-01-11", "2019-01-13",250);
+             
+               testBooking1.addRoom(r1);
+               
+               bookings.add(testBooking1);
+
+             
+             Booking testBooking2 = new Booking(2,"2019-05-24", "2019-06-01",3000);
+             
+               testBooking2.addRoom(r2);
+               
+               bookings.add(testBooking2);
+             
+             if(print){
+                for (Booking i : bookings) {
+                        printBookingInfo(i);
+                  }
+            }
+
+       
+   }
     
     
     public static void main(String[] args) {
@@ -138,24 +162,27 @@ public class HotelCalifornia {
         
          ArrayList <Customer> customers;
          ArrayList <Room> rooms;
+         ArrayList <Booking> bookings;
         
          customers = new ArrayList();
          rooms = new ArrayList();
+         bookings = new ArrayList();
          
          AddTenTestRooms(rooms, false);
          
    
          AddThreeTestCustomers(customers, false);
          
-         Booking testBooking = new Booking(1,"2019-01-11", "2019-01-03",250);
          
-         testBooking.addRoom(rooms.get(0));
-         testBooking.addRoom(rooms.get(1));
+         AddTwoTestBookings(bookings, rooms.get(0), rooms.get(1), true);
          
-     
+  
          
-         printBookingInfo(testBooking);
+
+      
          
+         
+
       
          
      } // end of main  
