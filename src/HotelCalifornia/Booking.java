@@ -1,5 +1,5 @@
 
-package hotelcalifornia;
+package HotelCalifornia;
 
 import java.util.ArrayList;
 

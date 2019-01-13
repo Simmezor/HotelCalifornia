@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ShowAllRooms",
+            "request": "launch",
+            "mainClass": "HotelCalifornia.ShowAllRooms"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - GetBookedRoom",
+            "request": "launch",
+            "mainClass": "HotelCalifornia.GetBookedRoom"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - AvailableRooms",
+            "request": "launch",
+            "mainClass": "HotelCalifornia.AvailableRooms"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - HotelCalifornia",
+            "request": "launch",
+            "mainClass": "HotelCalifornia.HotelCalifornia"
+        }
+    ]
+}
