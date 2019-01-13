@@ -3,7 +3,6 @@
 
 package HotelCalifornia;
 
-import java.util.*;
 import java.util.ArrayList;
 
 public class AvailableRooms
@@ -14,7 +13,7 @@ public class AvailableRooms
             
             if(!room.isBooked)
             {
-                System.out.println("Room " + room.roomNumber + " is available.");
+                System.out.println("Room " + room.getRoomNumber() + " is available.");
             }
         }
     }
