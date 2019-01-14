@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GetBookedRoom
 {
 
-    public static void showBookedRoom()
+    public static void showBookedRoom(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings)
     {
         //TODO: Add logic to show the booked room for a customer
         //1: Enter ssn of the customer
@@ -41,6 +41,6 @@ public class GetBookedRoom
 
         customer1.addBooking(booking1); //Add the booking to the first customer
 
-        //TODO: Call showBookedRoom()
+        //TODO: Call showBookedRoom(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings)
     }
 }

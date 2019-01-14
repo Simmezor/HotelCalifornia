@@ -10,11 +10,6 @@ public class GetCustomer
 
     public static void searchForCustomer(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings)
     {
-        //TODO: Add logic to show the booked room for a customer
-        //1: Enter ssn of the customer
-        //2: If no match, print an error message
-        //3: If there is a match, print the room number
-
         String ssnToSearch;
         Scanner sc = new Scanner(System.in);
 
@@ -22,13 +17,18 @@ public class GetCustomer
         ssnToSearch = sc.next();
         System.out.println("Searching for " + ssnToSearch);
 
-        // for (Customer customer : customers) {
+        for (Customer customer : customers) {
 
-        //     if(ssnToSearch.matches(customer.getSsn()))
-        //     {
-        //         System.out.println("Found a match!");
-        //     }
-        // }
+            if(ssnToSearch.matches(customer.getSsn()))
+            {
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS");
+                System.out.println(customer.getBookings());
+            }
+        }
 
     }
 
@@ -57,7 +57,7 @@ public class GetCustomer
         Booking booking1 = new Booking(1, "2019-02-02", "2019-02-05", 6750);
         bookings.add(booking1);
 
-        customer1.addBooking(booking1); //Add the booking to the first customer
+        customer2.addBooking(booking1); //Add the booking to the first customer
 
         searchForCustomer(rooms, customers, bookings);
     }
