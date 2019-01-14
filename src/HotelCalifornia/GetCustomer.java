@@ -14,6 +14,7 @@ public class GetCustomer
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Enter customer SSN: ");
+        
         ssnToSearch = sc.next();
         System.out.println("Searching for " + ssnToSearch);
 
@@ -26,7 +27,13 @@ public class GetCustomer
                 System.out.println("Address: " + customer.getAddress());
                 System.out.println("Phone number: " + customer.getTelephoneNumber());
                 System.out.println("BOOKINGS");
-                System.out.println(customer.getBookings());
+                ArrayList<Booking> customerBookings = customer.getBookings();
+                for (Booking customerBooking : customerBookings) {
+
+                    System.out.println(customerBooking.bookingId + ": Check-in:" + customerBooking.checkInDate + ". Check-out: " + customerBooking.checkOutDate + ". "
+                    + "Price: " + customerBooking.getTotalPrice() + ".");
+                    
+                }
             }
         }
 
