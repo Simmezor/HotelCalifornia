@@ -14,7 +14,7 @@ public class GetCustomer
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Enter customer SSN: ");
-        
+
         ssnToSearch = sc.next();
         System.out.println("Searching for " + ssnToSearch);
 
@@ -36,6 +36,8 @@ public class GetCustomer
                 }
             }
         }
+
+        sc.close();
 
     }
 
