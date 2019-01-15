@@ -552,13 +552,7 @@ fc.setFileFilter(filter);
 
 
           
-//            System.out.print("Enter the file name with extension : ");
-//
-//  int result = fileChooser.showOpenDialog(fileChooser);
-//if (result == JFileChooser.APPROVE_OPTION) {
-//    File selectedFile = fileChooser.getSelectedFile();
-//    System.out.println("Selected file: " + selectedFile.getName());
-//}
+
         
 
         while (asking == true) {
