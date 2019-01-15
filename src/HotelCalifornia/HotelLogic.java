@@ -143,7 +143,7 @@ public class HotelLogic {
                     + "1 = Show available rooms\n"
                     + "2 = Show all rooms\n"
                     + "3 = Add new room\n"
-                    + "4 = Remove room\n"
+                    + "4 = Search room\n"
                     + "5 = Return to main menu");
 
             choice = sc.nextLine();
@@ -164,7 +164,7 @@ public class HotelLogic {
                     break;
 
                 case "4":
-                    System.out.println("Remove room not implemented");
+                    searchRoom();
                     break;
 
                 case "5":
@@ -555,25 +555,68 @@ public class HotelLogic {
 
     }
 
-    public void getSearchRoom(int roomnumber) {
+    public void searchRoom() {
 
-        Room tempRoom;
         ArrayList<Room> bookedrooms = new ArrayList();
-        Customer tempCustomer;
-        Booking tempBooking;
-        ArrayList<Booking> tempbookings = new ArrayList();
+
+        int roomnumber = -1;
+        Scanner sc = new Scanner(System.in);
+
+        boolean matchfound = false;
+        boolean gettinginput = true;
+
+        while (gettinginput) {
+
+            try {
+                System.out.println("What is the rooms number: ");
+                roomnumber = sc.nextInt();
+                gettinginput = false;
+
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                sc.next();
+            }
+        }
 
         for (Room room : rooms) {
             if (room.isIsBooked()) {
                 bookedrooms.add(room);
             } else {
                 if (room.getRoomNumber() == roomnumber) {
+                    System.out.println("Match found!");
+                    matchfound = true;
+
                     printRoomInfo(room);
+                    return;
+
                 }
             }
         }
-        
-        
+
+        for (Customer customer : customers) {
+
+            for (int i = 0; i < customer.getBookings().size(); i++) {
+                for (int j = 0; j < customer.getBookings().get(i).rooms.size(); j++) {
+                    if (customer.getBookings().get(i).rooms.get(j).roomNumber == roomnumber) {
+
+                        matchfound = true;
+                        System.out.println("Match found!");
+                        printRoomInfo(customer.getBookings().get(i).rooms.get(j));
+
+                        System.out.println("Booked by");
+                        printCustomerInfo(customer);
+
+                        System.out.println("Booking information:");
+                        printBookingInfo(customer.getBookings().get(i));
+                    }
+                }
+            }
+
+        }
+
+        if (matchfound == false) {
+            System.out.println("No room with that roomnumber found.");
+        }
 
     }
 
