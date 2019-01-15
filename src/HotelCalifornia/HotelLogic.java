@@ -59,6 +59,28 @@ public class HotelLogic {
         System.out.println("");
 
     }
+    
+        public static void printBookingInfo(Booking b) {
+
+        System.out.println("BookingID     " + b.getBookingId());
+        System.out.println("CheckIn Date:  " + b.getCheckInDate());
+        System.out.println("CheckOut Date: " + b.getCheckOutDate());
+        System.out.println("TotalPrice:    " + b.getTotalPrice());
+
+        System.out.println("Rooms Booked: \n");
+
+        if (b.getRooms().size() == 0) {
+            System.out.println("No rooms Booked.");
+        } else {
+
+            for (int i = 0; i < b.getRooms().size(); i++) {
+
+                printRoomInfo(b.getRooms().get(i));
+            }
+
+        }
+
+    }
 
     public static void showLogo() {
 
