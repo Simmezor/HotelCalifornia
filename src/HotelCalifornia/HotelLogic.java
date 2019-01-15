@@ -64,9 +64,9 @@ public class HotelLogic {
     public static void printBookingInfo(Booking b) {
 
         System.out.println("BookingID     " + b.getBookingId());
-        System.out.println("CheckIn Date:  " + b.getCheckInDate());
-        System.out.println("CheckOut Date: " + b.getCheckOutDate());
-        System.out.println("TotalPrice:    " + b.getTotalPrice());
+        System.out.println("Check-in Date:  " + b.getCheckInDate());
+        System.out.println("Check-out Date: " + b.getCheckOutDate());
+        System.out.println("Total Price:    " + b.getTotalPrice());
 
         System.out.println("Rooms Booked: \n");
 
@@ -146,7 +146,7 @@ public class HotelLogic {
                     break;
 
                 default:
-                    System.out.println("Error: Pick 1 - 5 and try again!");
+                    System.out.println("Error: Pick 1,2 or 5 and try again!");
                     break;
             }
         }
@@ -161,8 +161,8 @@ public class HotelLogic {
         Scanner sc = new Scanner(System.in);
         while (gettingInput == true) {
             System.out.println(""
-                    + "1 = Show available rooms\n"
-                    + "2 = Show all rooms\n"
+                    + "1 = Show all rooms\n"
+                    + "2 = Show available rooms\n"
                     + "3 = Add new room\n"
                     + "4 = Search for room\n"
                     + "5 = Return to main menu");
@@ -172,12 +172,13 @@ public class HotelLogic {
             switch (choice) {
 
                 case "1":
-                    CheckAvailableRooms();
+                    CheckAllRooms();
+                    
 
                     break;
 
                 case "2":
-                    CheckAllRooms();
+                    CheckAvailableRooms();
                     break;
 
                 case "3":
@@ -707,7 +708,7 @@ public class HotelLogic {
         }
 
         if (matchfound == false) {
-            System.out.println("No match found");
+            System.out.println("No match found.");
         }
 
     }
@@ -755,7 +756,7 @@ public class HotelLogic {
         while (gettinginput) {
 
             try {
-                System.out.println("What is the rooms number: ");
+                System.out.println("Enter the roomnumber: ");
                 roomnumber = sc.nextInt();
                 gettinginput = false;
 
