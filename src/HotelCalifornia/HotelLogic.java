@@ -477,7 +477,45 @@ public class HotelLogic {
     }
 
     public void getBookedRoom() {
-        System.out.println("getBooked not implemented");
+      public  void getBookedRoom(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
+       String ssnToSearch;
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter customer SSN: ");
+        ssnToSearch = sc.next();
+        System.out.println("Searching for " + ssnToSearch);
+
+
+        for (Customer customer : customers) {
+
+            if(ssnToSearch.matches(customer.getSsn()))
+            {
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS");
+            }else{
+                System.out.println("Please enter numbers. ");
+                        }
+                
+                ArrayList<Booking> customerBookings = customer.getBookings();
+                for (Booking customerBooking : customerBookings) {
+                System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDate + ": " + customerBooking.checkOutDate + ": " + customerBooking.totalPrice);
+
+                }
+                
+            }
+            ArrayList<Room> customerRooms = customer.getRooms ();
+            for (Room customerRoom : customerRooms) {
+                System.out.println(customerRoom.hasBalcony + ": " + customerRoom.isBooked + ": " + customerRoom.numberOfBeds + ": " + customerRoom.pricePerNight + ": " + customerRoom.roomNumber);
+            }
+            System.out.println(" The search didn´t succeed, please try again. ");
+        
+
+
+        }
+    
     }
 
     public void getRoom() {
