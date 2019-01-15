@@ -467,6 +467,7 @@ public class HotelLogic {
         String choice;
         boolean asking = true;
         Scanner sc = new Scanner(System.in);
+        
 //    fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
     
         
@@ -528,26 +529,6 @@ fc.setFileFilter(filter);
  
    
    
-  // Försök till att läsa en fil
-  
-//    JTextArea tarea = new JTextArea(10, 10);
-//
-//   File file = chooser.getSelectedFile();
-//          BufferedReader input = null;
-//            try {
-//                input = new BufferedReader(new InputStreamReader(
-//                        new FileInputStream(file)));
-//            } catch (FileNotFoundException ex) {
-//                Logger.getLogger(HotelLogic.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            try {
-//                tarea.read(input, "READING FILE :-)");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//          
-//
-//  }
 
 
 
