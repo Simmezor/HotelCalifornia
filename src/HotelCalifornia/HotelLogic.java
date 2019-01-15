@@ -118,8 +118,8 @@ public class HotelLogic {
             System.out.println(""
                     + "1 = Rooms\n"
                     + "2 = Customer\n"
-//                    + "3 = Customer\n"
-//                    + "4 = TestMenu\n"
+                    //                    + "3 = Customer\n"
+                    //                    + "4 = TestMenu\n"
                     + "5 = exit\n");
 
             choice = sc.nextLine();
@@ -173,7 +173,6 @@ public class HotelLogic {
 
                 case "1":
                     CheckAllRooms();
-                    
 
                     break;
 
@@ -538,7 +537,7 @@ public class HotelLogic {
         for (int i = 0; i < rooms.size(); i++) {
             tempBooking.addRoom(rooms.get(i));
         }
-
+        printBookingInfo(tempBooking);
         return tempBooking;
     }
 
@@ -616,13 +615,15 @@ public class HotelLogic {
                     if (room.getRoomNumber() == roomnumber) {
                         room.setIsBooked(true);
                         bookedrooms.add(room);
+
                         numrooms++;
                     }
                 }
             }
             if (numrooms == numberOfrooms) {
                 booking = false;
-                createBooking(bookedrooms);
+
+                customer.addBooking(createBooking(bookedrooms));
             }
         }
 
@@ -696,14 +697,21 @@ public class HotelLogic {
                 System.out.println("Name: " + customer.getName());
                 System.out.println("Address: " + customer.getAddress());
                 System.out.println("Phone number: " + customer.getTelephoneNumber());
-                System.out.println("BOOKINGS");
+
                 ArrayList<Booking> customerBookings = customer.getBookings();
-                for (Booking customerBooking : customerBookings) {
+                if (customerBookings.size() > 0) {
+                    System.out.println("BOOKINGS:");
+                    for (Booking customerBooking : customerBookings) {
 
-                    System.out.println(customerBooking.bookingId + ": Check-in:" + customerBooking.checkInDate + ". Check-out: " + customerBooking.checkOutDate + ". "
-                            + "Price: " + customerBooking.getTotalPrice() + ".");
+                        System.out.println(customerBooking.bookingId + ": Check-in:" + customerBooking.checkInDate + ". Check-out: " + customerBooking.checkOutDate + ". "
+                                + "Price: " + customerBooking.getTotalPrice() + ".");
 
+                    }
+                    System.out.println("");
+                } else {
+                    System.out.println("No rooms booked.\n");
                 }
+
             }
         }
 
@@ -713,35 +721,7 @@ public class HotelLogic {
 
     }
 
-    public void SearchRoom(int roomnumber) {
 
-        ArrayList<Room> bookedrooms = new ArrayList();
-
-        for (Room room : rooms) {
-            if (room.isIsBooked()) {
-                bookedrooms.add(room);
-            } else {
-                if (room.getRoomNumber() == roomnumber) {
-                    printRoomInfo(room);
-
-                }
-            }
-        }
-
-        for (Customer customer : customers) {
-
-            for (int i = 0; i < customer.getBookings().size(); i++) {
-                for (int j = 0; j < customer.getBookings().get(i).rooms.size(); j++) {
-                    if (customer.getBookings().get(i).rooms.get(j).roomNumber == roomnumber) {
-                        printRoomInfo(customer.getBookings().get(i).rooms.get(j));
-
-                    }
-                }
-            }
-
-        }
-
-    }
 
     public void searchRoom() {
 
@@ -767,39 +747,41 @@ public class HotelLogic {
         }
 
         for (Room room : rooms) {
-            if (room.isIsBooked()) {
-                bookedrooms.add(room);
-            } else {
-                if (room.getRoomNumber() == roomnumber) {
-                    System.out.println("Match found!");
-                    matchfound = true;
 
-                    printRoomInfo(room);
-                    return;
+//            System.out.println("roomnumber " + roomnumber);
+//            
+//            System.out.println("room.getRoomNumber " + room.getRoomNumber());
+//            System.out.println(room.isIsBooked());
+            if (room.isIsBooked() == false && room.getRoomNumber() == roomnumber) {
+                 System.out.println("Match found!");
+                 printRoomInfo(room);
+                 matchfound= true;
 
-                }
             }
-        }
 
-        for (Customer customer : customers) {
+            if (room.isIsBooked() == true && room.getRoomNumber() == roomnumber) {
+                         System.out.println("Match found!");
+                        printRoomInfo(room);
+                for (Customer customer : customers) {
 
-            for (int i = 0; i < customer.getBookings().size(); i++) {
-                for (int j = 0; j < customer.getBookings().get(i).rooms.size(); j++) {
-                    if (customer.getBookings().get(i).rooms.get(j).roomNumber == roomnumber) {
+                    for (int i = 0; i < customer.getBookings().size(); i++) {
+                        for (int j = 0; j < customer.getBookings().get(i).rooms.size(); j++) {
+                            if (customer.getBookings().get(i).rooms.get(j).roomNumber == roomnumber) {
 
-                        matchfound = true;
-                        System.out.println("Match found!");
-                        printRoomInfo(customer.getBookings().get(i).rooms.get(j));
+                                matchfound = true;
 
-                        System.out.println("Booked by");
-                        printCustomerInfo(customer);
+                                System.out.println("Booked by");
+                                printCustomerInfo(customer);
 
-                        System.out.println("Booking information:");
-                        printBookingInfo(customer.getBookings().get(i));
+                                System.out.println("Booking information:");
+                                printBookingInfo(customer.getBookings().get(i));
+                            }
+                        }
                     }
-                }
-            }
 
+                }
+                 matchfound= true;
+            }
         }
 
         if (matchfound == false) {
@@ -807,6 +789,8 @@ public class HotelLogic {
         }
 
     }
+
+
 
     public void showAllCustomers() {
 
