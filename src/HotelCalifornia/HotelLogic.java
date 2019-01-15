@@ -4,7 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package HotelCalifornia;
+package hotelcalifornia;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,12 +25,39 @@ public class HotelLogic {
         bookings = new ArrayList();
     }
 
-    public Customer getCustomer(String ssn) {
-        return null;
+    public ArrayList getArrayListCustomers() {
+        return customers;
     }
 
-    public ArrayList getCustomers() {
-        return customers;
+    public ArrayList getArrayListRooms() {
+        return rooms;
+    }
+
+    public ArrayList getArrayListBookings() {
+        return bookings;
+    }
+
+    public static void printRoomInfo(Room r) {
+
+        System.out.println("RoomNumber: " + r.getRoomNumber());
+        System.out.println("Beds: " + r.getNumberOfBeds());
+        System.out.println("Has Balcony: " + r.isHasBalcony());
+        System.out.println("Price: " + r.getPricePerNight());
+        System.out.println("Booked: " + r.isIsBooked());
+
+        System.out.println("");
+
+    }
+
+    public static void printCustomerInfo(Customer c) {
+
+        System.out.println("SSN:    " + c.getSsn());
+        System.out.println("Name:   " + c.getName());
+        System.out.println("Adress: " + c.getAddress());
+        System.out.println("Phone:  " + c.getTelephoneNumber());
+
+        System.out.println("");
+
     }
 
     public static void showLogo() {
@@ -58,6 +85,7 @@ public class HotelLogic {
     public void showMenu() {
 
         showLogo();
+
         String choice;
         boolean gettingInput = true;
 
@@ -163,7 +191,7 @@ public class HotelLogic {
             System.out.println(""
                     + "1 = Show Cusomers\n"
                     + "2 = Add new Customer\n"
-                    + "3 = Remove Customer\n"
+                    + "3 = Search Customer\n"
                     + "4 = Edit customer\n"
                     + "5 = Return to main menu");
 
@@ -179,7 +207,7 @@ public class HotelLogic {
                     break;
 
                 case "3":
-                    System.out.println("Remove Customer not implemented");
+                    searchForCustomer();
                     break;
 
                 case "4":
@@ -227,13 +255,12 @@ public class HotelLogic {
                     break;
 
                 case "3":
-                    System.out.println("Remove Booking");
-                    testMenu();
+                    System.out.println("Remove Booking not implemented");
+
                     break;
 
                 case "4":
-                    System.out.println("Edit Booking");
-                    testMenu();
+                    editBooking();
                     break;
 
                 case "5":
@@ -438,18 +465,116 @@ public class HotelLogic {
     }
 
     public void checkInCustomer() {
+        System.out.println("checkInCustomer not implemented");
     }
 
     public void checkOutCustomer() {
+        System.out.println("checkOutCustomer not implemented");
     }
 
     public void editBooking() {
+        System.out.println("editBooking not implemented");
     }
 
     public void getBookedRoom() {
+        System.out.println("getBooked not implemented");
     }
 
     public void getRoom() {
+        System.out.println("getRoom not implemented");
+    }
+
+    public void searchForCustomer(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
+        String ssnToSearch;
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter customer SSN: ");
+
+        ssnToSearch = sc.next();
+        System.out.println("Searching for " + ssnToSearch);
+
+        for (Customer customer : customers) {
+
+            if (ssnToSearch.matches(customer.getSsn())) {
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS");
+                ArrayList<Booking> customerBookings = customer.getBookings();
+                for (Booking customerBooking : customerBookings) {
+
+                    System.out.println(customerBooking.bookingId + ": Check-in:" + customerBooking.checkInDate + ". Check-out: " + customerBooking.checkOutDate + ". "
+                            + "Price: " + customerBooking.getTotalPrice() + ".");
+
+                }
+            }
+        }
+
+        sc.close();
+
+    }
+
+    public void searchForCustomer() {
+        String ssnToSearch;
+        Scanner sc = new Scanner(System.in);
+
+        boolean matchfound = false;
+
+        System.out.println("Enter customer SSN: ");
+
+        ssnToSearch = sc.nextLine();
+        System.out.println("Searching for " + ssnToSearch);
+
+        for (Customer customer : customers) {
+
+            if (ssnToSearch.matches(customer.getSsn())) {
+
+                matchfound = true;
+
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS");
+                ArrayList<Booking> customerBookings = customer.getBookings();
+                for (Booking customerBooking : customerBookings) {
+
+                    System.out.println(customerBooking.bookingId + ": Check-in:" + customerBooking.checkInDate + ". Check-out: " + customerBooking.checkOutDate + ". "
+                            + "Price: " + customerBooking.getTotalPrice() + ".");
+
+                }
+            } 
+        }
+        
+        if (matchfound == false) {
+            System.out.println("No match found");
+        }
+
+
+
+    }
+
+    public void getSearchRoom(int roomnumber) {
+
+        Room tempRoom;
+        ArrayList<Room> bookedrooms = new ArrayList();
+        Customer tempCustomer;
+        Booking tempBooking;
+        ArrayList<Booking> tempbookings = new ArrayList();
+
+        for (Room room : rooms) {
+            if (room.isIsBooked()) {
+                bookedrooms.add(room);
+            } else {
+                if (room.getRoomNumber() == roomnumber) {
+                    printRoomInfo(room);
+                }
+            }
+        }
+        
+        
+
     }
 
 } // end of class
