@@ -117,9 +117,9 @@ public class HotelLogic {
         while (gettingInput) {
             System.out.println(""
                     + "1 = Rooms\n"
-                    + "2 = Booking\n"
-                    + "3 = Customer\n"
-                    + "4 = TestMenu\n"
+                    + "2 = Customer\n"
+//                    + "3 = Customer\n"
+//                    + "4 = TestMenu\n"
                     + "5 = exit\n");
 
             choice = sc.nextLine();
@@ -131,17 +131,15 @@ public class HotelLogic {
                     break;
 
                 case "2":
-                    bookingMenu();
-                    break;
-
-                case "3":
                     customerMenu();
                     break;
 
-                case "4":
-                    testMenu();
-                    break;
-
+//                case "2":
+//                    customerMenu();
+//                    break;
+//                case "4":
+//                    testMenu();
+//                    break;
                 case "5":
 
                     gettingInput = false;
@@ -166,7 +164,7 @@ public class HotelLogic {
                     + "1 = Show available rooms\n"
                     + "2 = Show all rooms\n"
                     + "3 = Add new room\n"
-                    + "4 = Remove room\n"
+                    + "4 = Search for room\n"
                     + "5 = Return to main menu");
 
             choice = sc.nextLine();
@@ -187,7 +185,7 @@ public class HotelLogic {
                     break;
 
                 case "4":
-                    System.out.println("Remove room not implemented");
+                    searchRoom();
                     break;
 
                 case "5":
@@ -196,7 +194,7 @@ public class HotelLogic {
                     break;
 
                 default:
-                    System.out.println("Error: Pick 1 - 6 and try again!");
+                    System.out.println("Error: Pick 1 - 5 and try again!");
                     break;
             }
         }
@@ -554,17 +552,15 @@ public class HotelLogic {
         Scanner sc = new Scanner(System.in);
         boolean booking = true;
         boolean gettinginput = true;
-    
 
         int allbooked = 0;
-        
+
         for (Room room : rooms) {
             if (room.isBooked) {
                 allbooked++;
             }
         }
-        
-        
+
         while (gettinginput) {
 
             try {
