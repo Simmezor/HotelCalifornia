@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -56,6 +57,63 @@ public class HotelLogic {
     public ArrayList getCustomers() {
         return customers;
     }
+    public ArrayList getArrayListCustomers() {
+        return customers;
+    }
+
+    public ArrayList getArrayListRooms() {
+        return rooms;
+    }
+
+    public ArrayList getArrayListBookings() {
+        return bookings;
+    }
+
+    public static void printRoomInfo(Room r) {
+
+        System.out.println("RoomNumber: " + r.getRoomNumber());
+        System.out.println("Beds: " + r.getNumberOfBeds());
+        System.out.println("Has Balcony: " + r.isHasBalcony());
+        System.out.println("Price: " + r.getPricePerNight());
+        System.out.println("Booked: " + r.isIsBooked());
+
+        System.out.println("");
+
+    }
+
+    public static void printCustomerInfo(Customer c) {
+
+        System.out.println("SSN:    " + c.getSsn());
+        System.out.println("Name:   " + c.getName());
+        System.out.println("Adress: " + c.getAddress());
+        System.out.println("Phone:  " + c.getTelephoneNumber());
+
+        System.out.println("");
+
+    }
+
+    public static void printBookingInfo(Booking b) {
+
+        System.out.println("BookingID     " + b.getBookingId());
+        System.out.println("Check-in Date:  " + b.getCheckInDate());
+        System.out.println("Check-out Date: " + b.getCheckOutDate());
+        System.out.println("Total Price:    " + b.getTotalPrice());
+
+        System.out.println("Rooms Booked: \n");
+
+        if (b.getRooms().size() == 0) {
+            System.out.println("No rooms Booked.");
+        } else {
+
+            for (int i = 0; i < b.getRooms().size(); i++) {
+
+                printRoomInfo(b.getRooms().get(i));
+            }
+
+        }
+
+    }
+
 
     public static void showLogo() {
 
@@ -257,7 +315,7 @@ public class HotelLogic {
 
                 case "4":
                     System.out.println("Edit Booking");
-                    testMenu();
+                    editBooking(rooms, customers,  bookings);
                     break;
 
                 case "5":
@@ -580,13 +638,265 @@ fc.setFileFilter(filter);
     public void checkOutCustomer() {
     }
 
-    public void editBooking() {
+    public void editBooking(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
+        String ssnToSearch;
+        String EditCustomer;
+        Scanner sc = new Scanner(System.in);
+        Scanner scEdit = new Scanner(System.in);
+
+        System.out.println("Enter customer SSN: ");
+        ssnToSearch = sc.next();
+        System.out.println("Searching for " + ssnToSearch);  
+        
+        for (Customer customer : customers) {
+
+            if(ssnToSearch.matches(customer.getSsn()))
+            {
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS");
+            }else{
+                System.out.println("Please enter numbers. ");
+                        }
+                
+                ArrayList<Booking> customerBookings = customer.getBookings();
+                for (Booking customerBooking : customerBookings) {
+                System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDate + ": " + customerBooking.checkOutDate + ": " + customerBooking.totalPrice);
+
+                }
+                
+            }
+            ArrayList<Room> customerRooms = customer.getRooms ();
+            for (Room customerRoom : customerRooms) {
+                System.out.println(customerRoom.hasBalcony + ": " + customerRoom.isBooked + ": " + customerRoom.numberOfBeds + ": " + customerRoom.pricePerNight + ": " + customerRoom.roomNumber);
+            }
+            System.out.println(" The search didn´t succeed, please try again. ");
+            
+            // Edit part starts here, after searching booked room, so a edit can happen - Above code taken from Meck getBookedRoom
+            
+            ArrayList<Booking> Edit1 = new ArrayList<Booking>();
+            Edit1.add(customerBooking.bookingId);
+            System.out.println("Enter the customer you wanna edit booking off");
+            
+
+        Edit1.add(new Booking("Booking")); // the integer represents stock
+        Edit1.add(new Booking("Booking"));
+        Edit1.add(new Booking("Booking"));
+        Booking temp;
+        String bookingSelected = scEdit.next();; // customer's input
+        for (int i = 0; i < Edit1.size(); i++) {
+            temp = Edit1.get(i);
+            if(temp.EditCustomer == bookingSelected) {
+                Edit1.get(i).setQuantity(temp.quantity - bookingSelected);
+                System.out.println(Edit1.get(i).bookingid);
+            }
+        }
+        System.out.println("wait");
+    
+
+         
+                        
+            
     }
 
-    public void getBookedRoom() {
+ public void getBookedRoom(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
+        
+       String ssnToSearch;
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter customer SSN: ");
+        ssnToSearch = sc.next();
+        System.out.println("Searching for " + ssnToSearch);
+
+
+        for (Customer customer : customers) {
+
+            if(ssnToSearch.matches(customer.getSsn()))
+            {
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS");
+            }else{
+                System.out.println("Please enter numbers. ");
+                        }
+                
+                ArrayList<Booking> customerBookings = customer.getBookings();
+                for (Booking customerBooking : customerBookings) {
+                System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDate + ": " + customerBooking.checkOutDate + ": " + customerBooking.totalPrice);
+
+                }
+                
+            }
+            ArrayList<Room> customerRooms = customer.getRooms ();
+            for (Room customerRoom : customerRooms) {
+                System.out.println(customerRoom.hasBalcony + ": " + customerRoom.isBooked + ": " + customerRoom.numberOfBeds + ": " + customerRoom.pricePerNight + ": " + customerRoom.roomNumber);
+            }
+            System.out.println(" The search didn´t succeed, please try again. ");
+        
+
+
+        }
+    
+
+ public void getRoom() {
+    }
+    
+ public void searchForCustomer(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
+        String ssnToSearch;
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter customer SSN: ");
+
+        ssnToSearch = sc.next();
+        System.out.println("Searching for " + ssnToSearch);
+
+        for (Customer customer : customers) {
+
+            if (ssnToSearch.matches(customer.getSsn())) {
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS");
+                ArrayList<Booking> customerBookings = customer.getBookings();
+                for (Booking customerBooking : customerBookings) {
+
+                    System.out.println(customerBooking.bookingId + ": Check-in:" + customerBooking.checkInDate + ". Check-out: " + customerBooking.checkOutDate + ". "
+                            + "Price: " + customerBooking.getTotalPrice() + ".");
+
+                }
+            }
+        }
+
+        sc.close();
+
     }
 
-    public void getRoom() {
+ public void searchForCustomer() {
+        String ssnToSearch;
+        Scanner sc = new Scanner(System.in);
+
+        boolean matchfound = false;
+
+        System.out.println("Enter customer SSN: ");
+
+        ssnToSearch = sc.nextLine();
+        System.out.println("Searching for " + ssnToSearch);
+
+        for (Customer customer : customers) {
+
+            if (ssnToSearch.matches(customer.getSsn())) {
+
+                matchfound = true;
+
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+
+                ArrayList<Booking> customerBookings = customer.getBookings();
+                if (customerBookings.size() > 0) {
+                    System.out.println("BOOKINGS:");
+                    for (Booking customerBooking : customerBookings) {
+
+                        System.out.println(customerBooking.bookingId + ": Check-in:" + customerBooking.checkInDate + ". Check-out: " + customerBooking.checkOutDate + ". "
+                                + "Price: " + customerBooking.getTotalPrice() + ".");
+
+                    }
+                    System.out.println("");
+                } else {
+                    System.out.println("No rooms booked.\n");
+                }
+
+            }
+        }
+
+        if (matchfound == false) {
+            System.out.println("No match found.");
+        }
+
+    }
+
+
+
+ public void searchRoom() {
+
+        ArrayList<Room> bookedrooms = new ArrayList();
+
+        int roomnumber = -1;
+        Scanner sc = new Scanner(System.in);
+
+        boolean matchfound = false;
+        boolean gettinginput = true;
+
+        while (gettinginput) {
+
+            try {
+                System.out.println("Enter the roomnumber: ");
+                roomnumber = sc.nextInt();
+                gettinginput = false;
+
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                sc.next();
+            }
+        }
+
+        for (Room room : rooms) {
+
+//            System.out.println("roomnumber " + roomnumber);
+//            
+//            System.out.println("room.getRoomNumber " + room.getRoomNumber());
+//            System.out.println(room.isIsBooked());
+            if (room.isIsBooked() == false && room.getRoomNumber() == roomnumber) {
+                 System.out.println("Match found!");
+                 printRoomInfo(room);
+                 matchfound= true;
+
+            }
+
+            if (room.isIsBooked() == true && room.getRoomNumber() == roomnumber) {
+                         System.out.println("Match found!");
+                        printRoomInfo(room);
+                for (Customer customer : customers) {
+
+                    for (int i = 0; i < customer.getBookings().size(); i++) {
+                        for (int j = 0; j < customer.getBookings().get(i).rooms.size(); j++) {
+                            if (customer.getBookings().get(i).rooms.get(j).roomNumber == roomnumber) {
+
+                                matchfound = true;
+
+                                System.out.println("Booked by");
+                                printCustomerInfo(customer);
+
+                                System.out.println("Booking information:");
+                                printBookingInfo(customer.getBookings().get(i));
+                            }
+                        }
+                    }
+
+                }
+                 matchfound= true;
+            }
+        }
+
+        if (matchfound == false) {
+            System.out.println("No room with that roomnumber found.");
+        }
+
+    }
+
+
+
+ public void showAllCustomers() {
+
+        for (Customer customer : customers) {
+            printCustomerInfo(customer);
+        }
     }
 
 } // end of class
