@@ -225,6 +225,7 @@ public class HotelLogic {
 
                 case "2":
                     addCustomer();
+                    checkInCustomer(customers.get(customers.size()-1));
                     break;
 
                 case "3":
@@ -482,7 +483,7 @@ public class HotelLogic {
 
         Customer newCustomer = new Customer(ssn, name, address, telephone);
         customers.add(newCustomer);
-        checkInCustomer(newCustomer);
+       
     }
 
     public Booking createBooking(ArrayList<Room> rooms) {
