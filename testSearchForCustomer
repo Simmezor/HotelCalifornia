@@ -1,0 +1,26 @@
+    @Test
+    public void testSearchForCustomer_failed() {
+        System.out.println("searchForCustomer");
+        HotelLogic instance = new HotelLogic();
+        Customer c = new Customer("1234555", "Fail", "Moon", "123456");
+        instance.getArrayListCustomers().add(c);
+        boolean result = instance.searchForCustomer("123458");
+        boolean expResult = false;
+     
+        assertEquals(expResult, result);
+ 
+        
+    }
+    @Test
+       public void testSearchForCustomer_passed() {
+        System.out.println("searchForCustomer");
+        HotelLogic instance = new HotelLogic();
+        Customer d = new Customer("123456", "Helle", "Moon", "123456");
+        instance.getArrayListCustomers().add(d);
+        boolean result = instance.searchForCustomer("123456");
+        boolean expResult = true;
+     
+        assertEquals(expResult, result);
+ 
+        
+    }
