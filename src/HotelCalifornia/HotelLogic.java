@@ -6,9 +6,12 @@
  */
 package HotelCalifornia;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -363,22 +366,14 @@ public class HotelLogic {
     }
 
     public void CheckAvailableRooms(ArrayList<Room> rooms) {
-        String output = "";
-        for (int i = 0; i < rooms.size(); i++) {
-            String everything = rooms.get(i).toString();
 
-            output += everything + "\n";
+
+        for (Room room : rooms) {
+
+            if (!room.isBooked) {
+                System.out.println("Room " + room.roomNumber + " is available.");
+            }
         }
-        JOptionPane.showMessageDialog(null, output);
-
-        System.out.printf("Checked in: " + "\u001B[32m" + output + "test "+ "\u001B[0m" + "\n");
-
-//        for (Room room : rooms) {
-//
-//            if (!room.isBooked) {
-//                System.out.println("Room " + room.roomNumber + " is available.");
-//            }
-//        }
     }
 
     public void CheckAvailableRooms() {
@@ -392,6 +387,8 @@ public class HotelLogic {
         JOptionPane.showMessageDialog(null, output);
 
         System.out.printf("Checked in: " + "\u001B[32m" + output + "test2 "+ "\u001B[0m" + "\n");
+       
+
 //        for (Room room : rooms) {
 //
 //            if (!room.isBooked) {
