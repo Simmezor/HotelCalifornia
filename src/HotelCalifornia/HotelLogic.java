@@ -330,10 +330,10 @@ public class HotelLogic {
                 + "Write 4 for TestMenu\n"
                 + "Write 5 to exit\n";
 
-    JOptionPane.showMessageDialog(frame,
-        output,
-        "Welcome to help for main menu",
-        JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(frame,
+                output,
+                "Welcome to help for main menu",
+                JOptionPane.INFORMATION_MESSAGE);
 
     }
 
@@ -349,12 +349,11 @@ public class HotelLogic {
                 + "\n"
                 + "Write 5 to return to first menu\n";
 
-         JOptionPane.showMessageDialog(frame,
-        output,
-        "Welcome to help for room menu",
-        JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(frame,
+                output,
+                "Welcome to help for room menu",
+                JOptionPane.INFORMATION_MESSAGE);
 
-    
     }
 
     public void helpCustomerMenu() {
@@ -369,13 +368,13 @@ public class HotelLogic {
                 + "If you write 5 , you will be avaible to edit customer room\n"
                 + "\n"
                 + "Write 6 to return to first menu\n";
- JOptionPane.showMessageDialog(frame,
-        output,
-        "Welcome to help for customer menu",
-        JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(frame,
+                output,
+                "Welcome to help for customer menu",
+                JOptionPane.INFORMATION_MESSAGE);
 
     }
-    
+
     public void helpBookingMenu() {
         String output = "Welcome\n"
                 + "In this menu you you will have six (6) diffrent options\n"
@@ -387,11 +386,10 @@ public class HotelLogic {
                 + "If you write 4 , you can edit booking\n"
                 + "\n"
                 + "Write 5 to return to first menu\n";
- JOptionPane.showMessageDialog(frame,
-        output,
-        "Welcome to help for booking menu",
-        JOptionPane.INFORMATION_MESSAGE);
- 
+        JOptionPane.showMessageDialog(frame,
+                output,
+                "Welcome to help for booking menu",
+                JOptionPane.INFORMATION_MESSAGE);
 
     }
 
