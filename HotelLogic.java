@@ -268,7 +268,7 @@ public class HotelLogic {
 
                 case "1":
                     System.out.println("Show Bookings");
-                    testMenu();
+                    showBookings();
                     break;
 
                 case "2":
@@ -800,31 +800,38 @@ public class HotelLogic {
 
     public void checkOut() {
 
-        int searchForBookings;
+        int searchForBookings = 0;
         Scanner sc = new Scanner(System.in);
-
         boolean resultFound = false;
-        System.out.println("Enter bookingId:");
-        searchForBookings = sc.nextInt();
-        System.out.println("Searching for " + searchForBookings);
+        boolean getInput = true;
+        
+        while (getInput) {
 
+            try {
+            System.out.println("What is the booking Id?: ");
+            searchForBookings = sc.nextInt();
+            getInput = false;
+
+            } catch (Exception e) {
+                        
+                System.out.println("invalid input");
+                searchForBookings = sc.nextInt();
+                    
+            }
+        }
         
         System.out.println(bookings.size());
         for (Booking booking : bookings) {
 
-            String bookingIdString = String.valueOf(booking.getBookingId());
-
             if (searchForBookings == booking.getBookingId()) {
-
-                resultFound = true;
 
                 System.out.println("Do you wish to remove this booking?");
 
+                ArrayList<Room> rooms = new ArrayList<Room>();
+                
                 String remove = sc.next();
 
-                ArrayList<Room> rooms = new ArrayList<Room>();
-
-                if (remove.matches("yes") || remove.matches("Yes") || remove.matches("YES")) {
+                if (remove.equalsIgnoreCase("yes") || remove.matches("y")) {
 
                     for (Room room : booking.rooms) {
 
