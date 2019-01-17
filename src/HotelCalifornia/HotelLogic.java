@@ -6,12 +6,8 @@
  */
 package HotelCalifornia;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -123,7 +119,8 @@ public class HotelLogic {
                     + "2 = Customer\n"
                     + "3 = Booking\n"
                     + "4 = TestMenu\n"
-                    + "5 = exit\n");
+                    + "5 = exit\n"
+                    + "Write help for help instruction");
 
             choice = sc.nextLine();
 
@@ -146,6 +143,9 @@ public class HotelLogic {
                 case "5":
                     System.exit(0);
                     break;
+                case "help":
+                    helpMainMenu();
+                    break;
                 default:
                     System.out.println("Error: Pick 1,2 or 5 and try again!");
                     break;
@@ -166,7 +166,8 @@ public class HotelLogic {
                     + "2 = Show available rooms\n"
                     + "3 = Add new room\n"
                     + "4 = Search for room\n"
-                    + "5 = Return to main menu");
+                    + "5 = Return to main menu\n"
+                    + "Write help for help instruction");
 
             choice = sc.nextLine();
 
@@ -193,6 +194,9 @@ public class HotelLogic {
                     System.out.println("Returning to main menu");
                     gettingInput = false;
                     break;
+                case "help":
+                    helpRoomMenu();
+                    break;
 
                 default:
                     System.out.println("Error: Pick 1 - 5 and try again!");
@@ -216,7 +220,8 @@ public class HotelLogic {
                     + "3 = Search Customer\n"
                     + "4 = Edit customer\n"
                     + "5 = Edit customer room\n"
-                    + "6 = Return to main menu");
+                    + "6 = Return to main menu\n"
+                    + "write help for help instruction");
 
             choice = sc.nextLine();
 
@@ -246,6 +251,8 @@ public class HotelLogic {
                     System.out.println("Returning to main menu");
                     gettingInput = false;
                     break;
+                case "help":
+                    helpCustomerMenu();
 
                 default:
                     System.out.println("Error: Pick 1 - 5 and try again!");
@@ -267,7 +274,8 @@ public class HotelLogic {
                     + "2 = Check in\n"
                     + "3 = Check out\n"
                     + "4 = Edit Booking\n"
-                    + "5 = Return to main menu");
+                    + "5 = Return to main menu\n"
+                    + "write help for help instructions");
             choice = sc.nextLine();
 
             switch (choice) {
@@ -295,6 +303,9 @@ public class HotelLogic {
                     System.out.println("Returning to main menu");
                     asking = false;
                     break;
+                case "help":
+                    helpBookingMenu();
+                    break;
 
                 default:
                     System.out.println("Error: Pick 1 - 5 and try again!");
@@ -305,6 +316,83 @@ public class HotelLogic {
 
     public void testMenu() {
         System.out.println("\n" + "\u001B[32m" + "Working master" + "\u001B[0m" + "\n");
+    }
+
+    // Help instruction for each menu
+    public void helpMainMenu() {
+        String output = "Welcome to help menu\n"
+                + "In this menu you you will have five (5) diffrent options\n"
+                + "You have to write 1, 2, 3, 4 or 5 to access the diffrent menu\n"
+                + "\n"
+                + "Write 1 for Rooms\n"
+                + "Write 2 for Customer\n"
+                + "Write 3 for Booking\n"
+                + "Write 4 for TestMenu\n"
+                + "Write 5 to exit\n";
+
+    JOptionPane.showMessageDialog(frame,
+        output,
+        "Welcome to help for main menu",
+        JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    public void helpRoomMenu() {
+        String output = "Welcome to help menu\n"
+                + "In this menu you you will have five (5) diffrent options\n"
+                + "You have to write 1, 2, 3, 4 or 5 to access the diffrent menu\n"
+                + "\n"
+                + "If you write 1 , you will see all rooms in the hotel\n"
+                + "If you write 2 , you will see all rooms thats are free for booking\n"
+                + "If you write 3  , you will be avaible to add new rooms\n"
+                + "If you write 4 , you can search for a room\n"
+                + "\n"
+                + "Write 5 to return to first menu\n";
+
+         JOptionPane.showMessageDialog(frame,
+        output,
+        "Welcome to help for room menu",
+        JOptionPane.INFORMATION_MESSAGE);
+
+    
+    }
+
+    public void helpCustomerMenu() {
+        String output = "Welcome\n"
+                + "In this menu you you will have six (6) diffrent options\n"
+                + "You have to write 1, 2, 3, 4, 5 or 6 to access the diffrent menu\n"
+                + "\n"
+                + "If you write 1 , you will see all customers registred\n"
+                + "If you write 2 , you will be avaible to add new customer\n"
+                + "If you write 3 , you will be avaible to search for customer\n"
+                + "If you write 4 , you can edit customer info\n"
+                + "If you write 5 , you will be avaible to edit customer room\n"
+                + "\n"
+                + "Write 6 to return to first menu\n";
+ JOptionPane.showMessageDialog(frame,
+        output,
+        "Welcome to help for customer menu",
+        JOptionPane.INFORMATION_MESSAGE);
+
+    }
+    
+    public void helpBookingMenu() {
+        String output = "Welcome\n"
+                + "In this menu you you will have six (6) diffrent options\n"
+                + "You have to write 1, 2, 3, 4, 5 or 6 to access the diffrent menu\n"
+                + "\n"
+                + "If you write 1 , you will see all bookings\n"
+                + "If you write 2 , you will be avaible to check in customer\n"
+                + "If you write 3 , you will be avaible to Check out customer\n"
+                + "If you write 4 , you can edit booking\n"
+                + "\n"
+                + "Write 5 to return to first menu\n";
+ JOptionPane.showMessageDialog(frame,
+        output,
+        "Welcome to help for booking menu",
+        JOptionPane.INFORMATION_MESSAGE);
+ 
+
     }
 
     public void CheckAllRooms(ArrayList<Room> rooms) {
@@ -367,7 +455,6 @@ public class HotelLogic {
 
     public void CheckAvailableRooms(ArrayList<Room> rooms) {
 
-
         for (Room room : rooms) {
 
             if (!room.isBooked) {
@@ -386,8 +473,7 @@ public class HotelLogic {
         }
         JOptionPane.showMessageDialog(null, output);
 
-        System.out.printf("Checked in: " + "\u001B[32m" + output + "test2 "+ "\u001B[0m" + "\n");
-       
+        System.out.printf("Checked in: " + "\u001B[32m" + output + "test2 " + "\u001B[0m" + "\n");
 
 //        for (Room room : rooms) {
 //
@@ -528,6 +614,7 @@ public class HotelLogic {
                     } else {
                         System.out.println("Could not find booking number");
                     }
+                    break;
                 }
             } else {
                 System.out.println(" The search didn´t succeed, please try again. ");
@@ -782,9 +869,10 @@ public class HotelLogic {
                 System.out.println("Enter New Phone Number: ");
                 String editPhoneNo = scEdit.nextLine();
                 customer.setTelephoneNumber(editPhoneNo);
+                break;
 
             } else {
-                System.out.println(" The search didn´t succeed, please try again. ");
+                System.out.println("The search didn´t succeed," + "could not find: " + ssnToSearch + " please try again. ");
             }
 
         }
@@ -993,7 +1081,7 @@ public class HotelLogic {
                         System.out.println("Could not find booking number");
                     }
                 }
-
+                break;
             } else {
                 System.out.println(" The search didn´t succeed, please try again. ");
             }
