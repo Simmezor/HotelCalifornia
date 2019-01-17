@@ -831,7 +831,7 @@ public class HotelLogic {
                 
                 String remove = sc.next();
 
-                if (remove.equalsIgnoreCase("yes") || remove.matches("y")) {
+                if (remove.equalsIgnoreCase("yes") || remove.equalsIgnoreCase("y") || remove.equalsIgnoreCase("ye")) {
 
                     for (Room room : booking.rooms) {
 
