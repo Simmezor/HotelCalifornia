@@ -1,0 +1,22 @@
+
+ public boolean searchForCustomer(String ssn) {
+        boolean matchfound = false;
+
+        for (Customer customer : customers) {
+
+            if (ssn.matches(customer.getSsn())) {
+
+                matchfound = true;
+
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+        }
+
+        if (matchfound == false) {
+            System.out.println("No match found.");
+    }   
+        }
+        return matchfound;         
+    }
