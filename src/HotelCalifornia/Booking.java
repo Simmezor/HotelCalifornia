@@ -11,6 +11,7 @@ public class Booking {
     double totalPrice;
     
     ArrayList<Room> rooms;
+    ArrayList<Booking> bookings;
     
     public Booking(int bookingId,String checkInDate,String checkOutDate,double totalPrice){
     
@@ -19,6 +20,7 @@ public class Booking {
         this.checkOutDate = checkOutDate;
         this.totalPrice = totalPrice;
         rooms = new ArrayList();
+        bookings = new ArrayList();
     }
    
     public int getBookingId(){
@@ -46,5 +48,4 @@ public class Booking {
         totalPrice = newPrice;
     }
     
-    
-}
+  }

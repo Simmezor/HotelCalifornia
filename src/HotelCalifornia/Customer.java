@@ -59,8 +59,9 @@ public class Customer {
     public void addBooking(Booking b){
         bookings.add(b);
     }
-    
-    
+     public void setName(String newName){
+    name = newName;
+    }
     
     //attribut personnummer, namn, adress, telefon (String)
     //ArrayList av Booking

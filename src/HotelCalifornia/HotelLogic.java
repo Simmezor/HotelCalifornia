@@ -17,11 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -640,7 +636,6 @@ fc.setFileFilter(filter);
 
     public void editBooking(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
         String ssnToSearch;
-        String EditCustomer;
         Scanner sc = new Scanner(System.in);
         Scanner scEdit = new Scanner(System.in);
 
@@ -673,29 +668,44 @@ fc.setFileFilter(filter);
                 System.out.println(customerRoom.hasBalcony + ": " + customerRoom.isBooked + ": " + customerRoom.numberOfBeds + ": " + customerRoom.pricePerNight + ": " + customerRoom.roomNumber);
             }
             System.out.println(" The search didn´t succeed, please try again. ");
-            
-            // Edit part starts here, after searching booked room, so a edit can happen - Above code taken from Meck getBookedRoom
-            
-            ArrayList<Booking> Edit1 = new ArrayList<Booking>();
-            Edit1.add(customerBooking.bookingId);
-            System.out.println("Enter the customer you wanna edit booking off");
-            
 
-        Edit1.add(new Booking("Booking")); // the integer represents stock
-        Edit1.add(new Booking("Booking"));
-        Edit1.add(new Booking("Booking"));
-        Booking temp;
-        String bookingSelected = scEdit.next();; // customer's input
-        for (int i = 0; i < Edit1.size(); i++) {
-            temp = Edit1.get(i);
-            if(temp.EditCustomer == bookingSelected) {
-                Edit1.get(i).setQuantity(temp.quantity - bookingSelected);
-                System.out.println(Edit1.get(i).bookingid);
-            }
-        }
-        System.out.println("wait");
-    
+            
+            // Edit part starts here, after searching booked room, so a edit can happen
+            
+for (Customer customer : customers) {
 
+if(ssnToSearch.matches(customer.getSsn()))
+{
+System.out.println("Found a match!");
+System.out.println("Name: " + customer.getName());
+System.out.println("Address: " + customer.getAddress());
+System.out.println("Phone number: " + customer.getTelephoneNumber());
+System.out.println("BOOKINGS");
+
+System.out.println("Enter New Name: ");
+String editName = scEdit.next(); 
+customer.setName(editName);
+
+System.out.println("Enter New Address: ");
+String editAddress = scEdit.next();
+customer.setAdress(editAddress);
+
+System.out.println("Enter New Phone Number: ");
+String editPhoneNo = scEdit.next();
+customer.setTelephoneNumber(editPhoneNo);
+
+}else{
+System.out.println("Please enter numbers. ");
+}
+
+ArrayList<Booking> customerBookings = customer.getBookings();
+for (Booking customerBooking : customerBookings) {
+System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDate + ": " + customerBooking.checkOutDate + ": " + customerBooking.totalPrice);
+
+}
+
+}
+            
          
                         
             
@@ -731,7 +741,7 @@ fc.setFileFilter(filter);
                 }
                 
             }
-            ArrayList<Room> customerRooms = customer.getRooms ();
+            ArrayList<Room> customerRooms = customers.getRooms ();
             for (Room customerRoom : customerRooms) {
                 System.out.println(customerRoom.hasBalcony + ": " + customerRoom.isBooked + ": " + customerRoom.numberOfBeds + ": " + customerRoom.pricePerNight + ": " + customerRoom.roomNumber);
             }
