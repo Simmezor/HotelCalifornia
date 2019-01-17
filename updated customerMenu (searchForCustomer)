@@ -1,0 +1,54 @@
+ public void customerMenu() {
+
+        String choice;
+        boolean gettingInput = true;
+
+        Scanner sc = new Scanner(System.in);
+
+        while (gettingInput == true) {
+
+            System.out.println(""
+                    + "1 = Show Customers\n"
+                    + "2 = Add new Customer\n"
+                    + "3 = Search Customer\n"
+                    + "4 = Edit customer\n"
+                    + "5 = Return to main menu");
+
+            choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    showAllCustomers();
+                    break;
+
+                case "2":
+                    addCustomer();
+                    checkInCustomer(customers.get(customers.size()-1));
+                    break;
+
+                case "3":
+                         String ssnToSearch;
+                Scanner in = new Scanner(System.in);
+
+                System.out.println("Enter customer SSN: ");
+
+                ssnToSearch = sc.nextLine();
+                System.out.println("Searching for " + ssnToSearch);
+                    boolean foundCustomer = searchForCustomer(ssnToSearch);
+                    break;
+
+                case "4":
+                    System.out.println("Edit customer not implemented");
+                    break;
+
+                case "5":
+                    System.out.println("Returning to main menu");
+                    gettingInput = false;
+                    break;
+
+                default:
+                    System.out.println("Error: Pick 1 - 5 and try again!");
+                    break;
+            }
+        }
+    }
