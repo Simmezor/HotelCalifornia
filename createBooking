@@ -1,0 +1,68 @@
+  public Booking createBooking(ArrayList<Room> rooms) {
+
+        Scanner in = new Scanner(System.in);
+
+        Booking tempBooking;
+
+        boolean gettinginput = true;
+
+        int bookingID = -1;
+
+        String indate = "-";
+        String outdate = "-";
+
+        double totalprice = -1;
+
+        while (gettinginput) {
+
+            try {
+                System.out.println("Booking ID: ");
+                bookingID = in.nextInt();
+                gettinginput = false;
+
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
+            }
+        }
+
+        System.out.println("Enter checkin date: ");
+        indate = in.next();
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date2;
+        
+        try {
+           date2 = dateFormat.parse(indate);
+           System.out.println(date2);
+        }
+        catch(ParseException e){
+            e.printStackTrace();
+            System.out.println("Invalid input. ");
+        }
+        
+
+        System.out.println("Enter checkout date: ");
+        outdate = in.next();
+
+        gettinginput = true;
+
+        while (gettinginput) {
+            try {
+                System.out.println("Total cost for booking?: ");
+                totalprice = in.nextDouble();    //Needs to be in a try catch 
+                gettinginput = false;
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
+
+            }
+        }
+        tempBooking = new Booking(bookingID, indate, outdate, totalprice);
+
+        for (int i = 0; i < rooms.size(); i++) {
+            tempBooking.addRoom(rooms.get(i));
+        }
+        printBookingInfo(tempBooking);
+        return tempBooking;
+    }
