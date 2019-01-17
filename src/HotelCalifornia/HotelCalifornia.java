@@ -5,8 +5,6 @@
  */
 package HotelCalifornia;
 
-import java.io.FileNotFoundException;
-
 
 /**
  *
@@ -18,15 +16,8 @@ public class HotelCalifornia {
     
     
     public static void main(String[] args) {
-        
        
-        HotelLogic myhotel = null;
-        try {
-            myhotel = new HotelLogic();
-        } catch (FileNotFoundException ex) {
-            System.out.println("File not found - Main window -");
-        }
-        
+        HotelLogic myhotel = new HotelLogic();
         
         System.out.println("Test");
         

@@ -6,53 +6,26 @@
  */
 package HotelCalifornia;
 
-
-import java.awt.BorderLayout;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JFileChooser;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
-
-/**
- *
- * @author simon
- */
 public class HotelLogic {
 
     private ArrayList<Customer> customers;
     private ArrayList<Room> rooms;
     private ArrayList<Booking> bookings;
-   JFileChooser fileChooser = new JFileChooser();
-   
-   
-    String[] checkIn = { "Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6" };
+
     JFrame frame = new JFrame("Pick avaible room");
 
-
-    public HotelLogic() throws FileNotFoundException {
-
+    public HotelLogic() {
         customers = new ArrayList();
         rooms = new ArrayList();
         bookings = new ArrayList();
     }
 
-    public Customer getCustomer(String ssn) {
-        return null;
-    }
-
-    public ArrayList getCustomers() {
-        return customers;
-    }
     public ArrayList getArrayListCustomers() {
         return customers;
     }
@@ -110,7 +83,6 @@ public class HotelLogic {
 
     }
 
-
     public static void showLogo() {
 
         System.out.println("   _           _       _             _ _  __                 _        \n"
@@ -136,6 +108,7 @@ public class HotelLogic {
     public void showMenu() {
 
         showLogo();
+
         String choice;
         boolean gettingInput = true;
 
@@ -144,8 +117,8 @@ public class HotelLogic {
         while (gettingInput) {
             System.out.println(""
                     + "1 = Rooms\n"
-                    + "2 = Booking\n"
-                    + "3 = Customer\n"
+                    + "2 = Customer\n"
+                    + "3 = Booking\n"
                     + "4 = TestMenu\n"
                     + "5 = exit\n");
 
@@ -158,24 +131,20 @@ public class HotelLogic {
                     break;
 
                 case "2":
-                    bookingMenu();
-                    break;
-
-                case "3":
                     customerMenu();
                     break;
 
+                case "3":
+                    bookingMenu();
+                    break;
                 case "4":
-                    testMenu();
+                    System.out.println("No test menu yet");
                     break;
-
                 case "5":
-
-                    gettingInput = false;
+                    System.exit(0);
                     break;
-
                 default:
-                    System.out.println("Error: Pick 1 - 5 and try again!");
+                    System.out.println("Error: Pick 1,2 or 5 and try again!");
                     break;
             }
         }
@@ -190,10 +159,10 @@ public class HotelLogic {
         Scanner sc = new Scanner(System.in);
         while (gettingInput == true) {
             System.out.println(""
-                    + "1 = Show available rooms\n"
-                    + "2 = Show all rooms\n"
+                    + "1 = Show all rooms\n"
+                    + "2 = Show available rooms\n"
                     + "3 = Add new room\n"
-                    + "4 = Remove room\n"
+                    + "4 = Search for room\n"
                     + "5 = Return to main menu");
 
             choice = sc.nextLine();
@@ -201,12 +170,12 @@ public class HotelLogic {
             switch (choice) {
 
                 case "1":
-                    CheckAvailableRooms();
+                    CheckAllRooms();
 
                     break;
 
                 case "2":
-                    CheckAllRooms();
+                    CheckAvailableRooms();
                     break;
 
                 case "3":
@@ -214,7 +183,7 @@ public class HotelLogic {
                     break;
 
                 case "4":
-                    System.out.println("Remove room not implemented");
+                    searchRoom();
                     break;
 
                 case "5":
@@ -223,7 +192,7 @@ public class HotelLogic {
                     break;
 
                 default:
-                    System.out.println("Error: Pick 1 - 6 and try again!");
+                    System.out.println("Error: Pick 1 - 5 and try again!");
                     break;
             }
         }
@@ -239,32 +208,38 @@ public class HotelLogic {
         while (gettingInput == true) {
 
             System.out.println(""
-                    + "1 = Show Cusomers\n"
+                    + "1 = Show Customers\n"
                     + "2 = Add new Customer\n"
-                    + "3 = Remove Customer\n"
+                    + "3 = Search Customer\n"
                     + "4 = Edit customer\n"
-                    + "5 = Return to main menu");
+                    + "5 = Edit customer room\n"
+                    + "6 = Return to main menu");
 
             choice = sc.nextLine();
 
             switch (choice) {
                 case "1":
-                    System.out.println("Show Customer not implemented");
+                    showAllCustomers();
                     break;
 
                 case "2":
                     addCustomer();
+                    checkInCustomer(customers.get(customers.size() - 1));
+
                     break;
 
                 case "3":
-                    System.out.println("Remove Customer not implemented");
+                    searchForCustomer();
                     break;
 
                 case "4":
-                    System.out.println("Edit customer not implemented");
+                    editCustomer();
+                    break;
+                case "5":
+                    editRoom();
                     break;
 
-                case "5":
+                case "6":
                     System.out.println("Returning to main menu");
                     gettingInput = false;
                     break;
@@ -286,8 +261,8 @@ public class HotelLogic {
 
             System.out.println(""
                     + "1 = Show Bookings\n"
-                    + "2 = Add new Booking / Check in customer\n"
-                    + "3 = Remove Booking\n"
+                    + "2 = Check in\n"
+                    + "3 = Check out\n"
                     + "4 = Edit Booking\n"
                     + "5 = Return to main menu");
             choice = sc.nextLine();
@@ -295,23 +270,22 @@ public class HotelLogic {
             switch (choice) {
 
                 case "1":
-                    System.out.println("Show Bookings");
-                    testMenu();
+                    showBookings();
+
                     break;
 
                 case "2":
-                    System.out.println("Add new Booking / Check in");
-                    checkInCustomer();
+                    // this.checkInCustomer(customer);
+                    System.out.println("Not implemented");
                     break;
 
                 case "3":
-                    System.out.println("Remove Booking");
-                    testMenu();
+                    checkOutCustomer();
+
                     break;
 
                 case "4":
-                    System.out.println("Edit Booking");
-                    editBooking(rooms, customers,  bookings);
+                    editBooking();
                     break;
 
                 case "5":
@@ -389,38 +363,41 @@ public class HotelLogic {
     }
 
     public void CheckAvailableRooms(ArrayList<Room> rooms) {
-        for (Room room : rooms) {
+        String output = "";
+        for (int i = 0; i < rooms.size(); i++) {
+            String everything = rooms.get(i).toString();
 
-            if (!room.isBooked) {
-                System.out.println("Room " + room.roomNumber + " is available.");
-            }
+            output += everything + "\n";
         }
+        JOptionPane.showMessageDialog(null, output);
+
+        System.out.printf("Checked in: " + "\u001B[32m" + output + "test "+ "\u001B[0m" + "\n");
+
+//        for (Room room : rooms) {
+//
+//            if (!room.isBooked) {
+//                System.out.println("Room " + room.roomNumber + " is available.");
+//            }
+//        }
     }
 
     public void CheckAvailableRooms() {
-        for (Room room : rooms) {
 
-            if (!room.isBooked) {
-                System.out.println("Room " + room.roomNumber + " is available.");
-            }
+        String output = "";
+        for (int i = 0; i < rooms.size(); i++) {
+            String everything = rooms.get(i).toString();
+
+            output += everything + "\n";
         }
-    }
+        JOptionPane.showMessageDialog(null, output);
 
-    public void addCustomer() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Please enter your social security number: ");
-
-        String ssn = in.nextLine();
-        System.out.println("Please enter name: ");
-        String name = in.nextLine();
-        System.out.println("Please enter address: ");
-        String address = in.nextLine();
-        System.out.println("Please enter your telephone number: ");
-        String telephone = in.nextLine();
-
-        Customer newCustomer = new Customer(ssn, name, address, telephone);
-        customers.add(newCustomer);
-
+        System.out.printf("Checked in: " + "\u001B[32m" + output + "test2 "+ "\u001B[0m" + "\n");
+//        for (Room room : rooms) {
+//
+//            if (!room.isBooked) {
+//                System.out.println("Room " + room.roomNumber + " is available.");
+//            }
+//        }
     }
 
     public void addRoom() {
@@ -439,7 +416,7 @@ public class HotelLogic {
         while (gettinginput) {
 
             try {
-                System.out.println("What is the rooms number: ");
+                System.out.println("What is the room's number: ");
                 temproomnum = in.nextInt();
                 gettinginput = false;
 
@@ -514,248 +491,314 @@ public class HotelLogic {
         rooms.add(newRoom);
 
     }
-    
 
-    public void checkInCustomer() {
-
-        String choice;
-        boolean asking = true;
+    public void editRoom() {
+        String ssnToSearch;
         Scanner sc = new Scanner(System.in);
-        
-//    fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-    
-        
-//        System.out.println("This is the avaible rooms: "
-//                + "\nRoom 1"
-//                + "\nRoom 2 "
-//                + "\nRoom 3 "
-//                + "\nRoom 4");
-//
-//        CheckAvailableRooms();
-        
+        Scanner scEditRoom = new Scanner(System.in);
 
-    JFileChooser fc = new JFileChooser();
-    JFrame frame2 = new JFrame();
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-frame.setLocationRelativeTo(null);
-    JTextArea tarea = new JTextArea(10, 10);
-    JButton readButton = new JButton("OPEN FILE");
-    
-    readButton.addActionListener(ev -> {
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-    "TEXT FILES", "txt", "text");
-        
-fc.setFileFilter(filter);
+        System.out.println("Enter customer SSN: ");
+        ssnToSearch = sc.nextLine();
+        System.out.println("Searching for " + ssnToSearch);
 
-      int returnVal = fc.showOpenDialog(frame);
-      if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = fc.getSelectedFile();
-        try {
-          BufferedReader input = new BufferedReader(new InputStreamReader(
-              new FileInputStream(file)));
-          tarea.read(input, "READING FILE :-)");
-        } catch (Exception e) {
-          e.printStackTrace();
+        // Edit part starts here, after searching booked room, so a edit can happen
+        for (Customer customer : customers) {
+
+            if (ssnToSearch.matches(customer.getSsn())) {
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS" + customer.bookings);
+
+                System.out.println("Enter room number");
+                int searching = sc.nextInt();
+
+                for (Room rooms : rooms) {
+                    if (searching == rooms.roomNumber) {
+
+                        System.out.println("Enter new Room number: ");
+                        String editDate = scEditRoom.nextLine();
+                        rooms.getRoomNumber();
+
+                        System.out.println("Enter new total beds (not implemented yet): ");
+                        String editBeds = scEditRoom.nextLine();
+                        rooms.setNumberOfBeds(searching);
+
+                        System.out.println("Enter New Price: ");
+                        String editPrice = scEditRoom.nextLine();
+                        rooms.setPricePerNight(searching);
+                    } else {
+                        System.out.println("Could not find booking number");
+                    }
+                }
+            } else {
+                System.out.println(" The search didn´t succeed, please try again. ");
+            }
+
         }
-      } else {
-        System.out.println("Operation is CANCELLED :(");
-      }
-    });
+    }
 
-    frame.getContentPane().add(tarea, BorderLayout.CENTER);
-    frame.getContentPane().add(readButton, BorderLayout.PAGE_END);
-    frame.pack();
-    frame.setVisible(true);
-  
+    public void addCustomer() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Please enter your social security number: ");
 
-// Väljer vilken fil man vill läsa
+        String ssn = in.nextLine();
+        System.out.println("Please enter name: ");
+        String name = in.nextLine();
+        System.out.println("Please enter address: ");
+        String address = in.nextLine();
+        System.out.println("Please enter your telephone number: ");
+        String telephone = in.nextLine();
 
-//        JFileChooser chooser = new JFileChooser();
-//FileNameExtensionFilter filter = new FileNameExtensionFilter(
-//    "TEXT FILES", "txt", "text");
-//chooser.setFileFilter(filter);
-//
-//int returnVal = chooser.showOpenDialog(fileChooser);
-//if(returnVal == JFileChooser.APPROVE_OPTION) {
-//   System.out.println("You chose to open this file: " +
-//        chooser.getSelectedFile().getName());
-//   
- 
-   
-   
+        Customer newCustomer = new Customer(ssn, name, address, telephone);
+        customers.add(newCustomer);
 
+    }
 
+    public Booking createBooking(ArrayList<Room> rooms) {
 
-          
+        Scanner in = new Scanner(System.in);
 
-        
+        Booking tempBooking;
 
-        while (asking == true) {
-            
-            System.out.println(""
-                    + "1 = Check in room\n"
-                    + "5 = Return to main menu\n"
-                    + "6 = Quit\n");
-            choice = sc.nextLine();
-            
-            switch (choice) {
+        boolean gettinginput = true;
 
-                case "1":
-                    
-    String checkIn2 = (String) JOptionPane.showInputDialog(frame, 
-        "Wich room you wanna check into?",
-        "Rooms avaible",
-        JOptionPane.QUESTION_MESSAGE, 
-        null, 
-        checkIn, 
-        checkIn[0]);
+        int bookingID = -1;
 
-   System.out.printf("Checked in: " +  "\u001B[32m" +  checkIn2 + "\u001B[0m" + "\n");
-                    break;
+        String indate = "-";
+        String outdate = "-";
 
-                case "5":
-                    System.out.println("Returning to main menu");
-                    asking = false;
-                    break;
-                 case "6":
-                    System.exit(0);
-                    asking = false;
-                    break;
+        double totalprice = -1;
 
-                default:
-                    System.out.println("Error: Pick 1 or 5 and try again!");
-                    break;
+        while (gettinginput) {
+
+            try {
+                System.out.println("Booking ID: ");
+                bookingID = in.nextInt();
+                gettinginput = false;
+
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
             }
         }
-        
-        
+
+        System.out.println("Enter checkin date: ");
+        indate = in.next();
+
+        System.out.println("Enter checkout date: ");
+        outdate = in.next();
+
+        gettinginput = true;
+
+        while (gettinginput) {
+            try {
+                System.out.println("Total cost for booking?: ");
+                totalprice = in.nextDouble();    //Needs to be in a try catch 
+                gettinginput = false;
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
+
+            }
+        }
+        tempBooking = new Booking(bookingID, indate, outdate, totalprice);
+
+        for (int i = 0; i < rooms.size(); i++) {
+            tempBooking.addRoom(rooms.get(i));
+        }
+        printBookingInfo(tempBooking);
+        bookings.add(tempBooking);
+        return tempBooking;
+    }
+
+    public void checkInCustomer(Customer customer) {
+
+        ArrayList<Room> bookedrooms = new ArrayList();
+
+        int roomnumber = -1;
+        int numberOfrooms = -1;
+        int numrooms = 0;
+
+        Scanner sc = new Scanner(System.in);
+        boolean booking = true;
+        boolean gettinginput = true;
+
+        int allbooked = 0;
+
+        for (Room room : rooms) {
+            if (room.isBooked) {
+                allbooked++;
+            }
+        }
+
+        while (gettinginput) {
+
+            try {
+                System.out.println("How many rooms do you want to book? ");
+                numberOfrooms = sc.nextInt();
+                gettinginput = false;
+
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                sc.next();
+            }
+        }
+
+        while (booking == true && numberOfrooms > 0) {
+
+            if (rooms.size() == 0 || allbooked == rooms.size()) {
+                System.out.println("There are no more rooms available");
+                break;
+            }
+            System.out.println("Book one of the following rooms:");
+            CheckAvailableRooms();
+
+            gettinginput = true;
+
+            while (gettinginput) {
+
+                try {
+                    System.out.println("Enter roomnumber: ");
+                    roomnumber = sc.nextInt();
+                    gettinginput = false;
+
+                } catch (Exception e) {
+                    System.out.println("invalid input");
+                    sc.next();
+                }
+            }
+
+            boolean booked = false;
+
+            for (Room room : rooms) {
+                if (room.isIsBooked() == true && room.getRoomNumber() == roomnumber) {
+
+                    booked = true;
+
+                }
+            }
+            if (booked) {
+                System.out.println("That room is unavailable, please try again.");
+            } else {
+
+                for (Room room : rooms) {
+                    if (room.getRoomNumber() == roomnumber) {
+                        room.setIsBooked(true);
+                        bookedrooms.add(room);
+
+                        numrooms++;
+                    }
+                }
+            }
+            if (numrooms == numberOfrooms) {
+                booking = false;
+
+                customer.addBooking(createBooking(bookedrooms));
+            }
+        }
+
     }
 
     public void checkOutCustomer() {
+
+        int searchForBookings;
+        Scanner sc = new Scanner(System.in);
+
+        boolean resultFound = false;
+        System.out.println("Enter bookingId:");
+        searchForBookings = sc.nextInt();
+        System.out.println("Searching for " + searchForBookings);
+
+        System.out.println(bookings.size());
+        for (Booking booking : bookings) {
+
+            String bookingIdString = String.valueOf(booking.getBookingId());
+
+            if (searchForBookings == booking.getBookingId()) {
+
+                resultFound = true;
+
+                System.out.println("Do you wish to remove this booking?");
+
+                String remove = sc.next();
+
+                ArrayList<Room> rooms = new ArrayList<Room>();
+
+                if (remove.matches("yes") || remove.matches("Yes") || remove.matches("YES")) {
+
+                    for (Room room : booking.rooms) {
+
+                        rooms.add(room);
+
+                    }
+
+                    for (int i = 0; i < rooms.size(); i++) {
+                        rooms.get(i).setIsBooked(false);
+                    }
+
+                    System.out.println("Booking removed!"
+                            + "\nYou Removed: "
+                            + remove);
+
+                    showMenu();
+
+                } else {
+                    System.out.println("Removing booking aborted.");
+                    break;
+
+                }
+
+            }
+
+        }
+
     }
 
-    public void editBooking(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
+    public void editCustomer() {
         String ssnToSearch;
         Scanner sc = new Scanner(System.in);
         Scanner scEdit = new Scanner(System.in);
 
         System.out.println("Enter customer SSN: ");
-        ssnToSearch = sc.next();
-        System.out.println("Searching for " + ssnToSearch);  
-        
-        for (Customer customer : customers) {
-
-            if(ssnToSearch.matches(customer.getSsn()))
-            {
-                System.out.println("Found a match!");
-                System.out.println("Name: " + customer.getName());
-                System.out.println("Address: " + customer.getAddress());
-                System.out.println("Phone number: " + customer.getTelephoneNumber());
-                System.out.println("BOOKINGS");
-            }else{
-                System.out.println("Please enter numbers. ");
-                        }
-                
-                ArrayList<Booking> customerBookings = customer.getBookings();
-                for (Booking customerBooking : customerBookings) {
-                System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDate + ": " + customerBooking.checkOutDate + ": " + customerBooking.totalPrice);
-
-                }
-                
-            }
-            ArrayList<Room> customerRooms = customer.getRooms ();
-            for (Room customerRoom : customerRooms) {
-                System.out.println(customerRoom.hasBalcony + ": " + customerRoom.isBooked + ": " + customerRoom.numberOfBeds + ": " + customerRoom.pricePerNight + ": " + customerRoom.roomNumber);
-            }
-            System.out.println(" The search didn´t succeed, please try again. ");
-
-            
-            // Edit part starts here, after searching booked room, so a edit can happen
-            
-for (Customer customer : customers) {
-
-if(ssnToSearch.matches(customer.getSsn()))
-{
-System.out.println("Found a match!");
-System.out.println("Name: " + customer.getName());
-System.out.println("Address: " + customer.getAddress());
-System.out.println("Phone number: " + customer.getTelephoneNumber());
-System.out.println("BOOKINGS");
-
-System.out.println("Enter New Name: ");
-String editName = scEdit.next(); 
-customer.setName(editName);
-
-System.out.println("Enter New Address: ");
-String editAddress = scEdit.next();
-customer.setAdress(editAddress);
-
-System.out.println("Enter New Phone Number: ");
-String editPhoneNo = scEdit.next();
-customer.setTelephoneNumber(editPhoneNo);
-
-}else{
-System.out.println("Please enter numbers. ");
-}
-
-ArrayList<Booking> customerBookings = customer.getBookings();
-for (Booking customerBooking : customerBookings) {
-System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDate + ": " + customerBooking.checkOutDate + ": " + customerBooking.totalPrice);
-
-}
-
-}
-            
-         
-                        
-            
-    }
-
- public void getBookedRoom(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
-        
-       String ssnToSearch;
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("Enter customer SSN: ");
-        ssnToSearch = sc.next();
+        ssnToSearch = sc.nextLine();
         System.out.println("Searching for " + ssnToSearch);
 
-
+        // Edit part starts here, after searching booked room, so a edit can happen
         for (Customer customer : customers) {
 
-            if(ssnToSearch.matches(customer.getSsn()))
-            {
+            if (ssnToSearch.matches(customer.getSsn())) {
                 System.out.println("Found a match!");
                 System.out.println("Name: " + customer.getName());
                 System.out.println("Address: " + customer.getAddress());
                 System.out.println("Phone number: " + customer.getTelephoneNumber());
-                System.out.println("BOOKINGS");
-            }else{
-                System.out.println("Please enter numbers. ");
-                        }
-                
-                ArrayList<Booking> customerBookings = customer.getBookings();
-                for (Booking customerBooking : customerBookings) {
-                System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDate + ": " + customerBooking.checkOutDate + ": " + customerBooking.totalPrice);
+                System.out.println("BOOKINGS" + customer.bookings);
 
-                }
-                
-            }
-            ArrayList<Room> customerRooms = customers.getRooms ();
-            for (Room customerRoom : customerRooms) {
-                System.out.println(customerRoom.hasBalcony + ": " + customerRoom.isBooked + ": " + customerRoom.numberOfBeds + ": " + customerRoom.pricePerNight + ": " + customerRoom.roomNumber);
-            }
-            System.out.println(" The search didn´t succeed, please try again. ");
-        
+//                System.out.println("Enter New Name: ");
+//                String editName = scEdit.next();
+//                customer.
+                System.out.println("Enter New Address: ");
+                String editAddress = scEdit.nextLine();
+                customer.setAdress(editAddress);
 
+                System.out.println("Enter New Phone Number: ");
+                String editPhoneNo = scEdit.nextLine();
+                customer.setTelephoneNumber(editPhoneNo);
+
+            } else {
+                System.out.println(" The search didn´t succeed, please try again. ");
+            }
 
         }
-    
 
- public void getRoom() {
     }
-    
- public void searchForCustomer(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
+
+    public void getRoom() {
+        System.out.println("getRoom not implemented");
+    }
+
+    public void searchForCustomer(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
         String ssnToSearch;
         Scanner sc = new Scanner(System.in);
 
@@ -786,7 +829,7 @@ System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDat
 
     }
 
- public void searchForCustomer() {
+    public void searchForCustomer() {
         String ssnToSearch;
         Scanner sc = new Scanner(System.in);
 
@@ -831,9 +874,7 @@ System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDat
 
     }
 
-
-
- public void searchRoom() {
+    public void searchRoom() {
 
         ArrayList<Room> bookedrooms = new ArrayList();
 
@@ -863,15 +904,15 @@ System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDat
 //            System.out.println("room.getRoomNumber " + room.getRoomNumber());
 //            System.out.println(room.isIsBooked());
             if (room.isIsBooked() == false && room.getRoomNumber() == roomnumber) {
-                 System.out.println("Match found!");
-                 printRoomInfo(room);
-                 matchfound= true;
+                System.out.println("Match found!");
+                printRoomInfo(room);
+                matchfound = true;
 
             }
 
             if (room.isIsBooked() == true && room.getRoomNumber() == roomnumber) {
-                         System.out.println("Match found!");
-                        printRoomInfo(room);
+                System.out.println("Match found!");
+                printRoomInfo(room);
                 for (Customer customer : customers) {
 
                     for (int i = 0; i < customer.getBookings().size(); i++) {
@@ -890,7 +931,7 @@ System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDat
                     }
 
                 }
-                 matchfound= true;
+                matchfound = true;
             }
         }
 
@@ -900,13 +941,69 @@ System.out.println(customerBooking.bookingId + ": " + customerBooking.checkInDat
 
     }
 
+    public void showBookings() {
 
+        for (Booking booking : bookings) {
 
- public void showAllCustomers() {
+            printBookingInfo(booking);
+        }
+
+    }
+
+    public void showAllCustomers() {
 
         for (Customer customer : customers) {
             printCustomerInfo(customer);
         }
     }
 
+    public void editBooking() {
+        String ssnToSearch;
+        Scanner sc = new Scanner(System.in);
+        Scanner scEditBooking = new Scanner(System.in);
+
+        System.out.println("Enter customer SSN: ");
+        ssnToSearch = sc.nextLine();
+        System.out.println("Searching for " + ssnToSearch);
+
+        // Edit part starts here, after searching booked room, so a edit can happen
+        for (Customer customer : customers) {
+
+            if (ssnToSearch.matches(customer.getSsn())) {
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+                System.out.println("BOOKINGS" + customer.bookings);
+
+                System.out.println("Enter booking number");
+                int searching = sc.nextInt();
+                for (Booking booking : customer.getBookings()) {
+                    if (searching == booking.getBookingId()) {
+
+                        System.out.println("Enter New Date: ");
+                        String editDate = scEditBooking.nextLine();
+                        booking.setCheckOutDate(editDate);
+
+                        System.out.println("Enter new total rooms (not implemented yet): ");
+                        String editRooms = scEditBooking.nextLine();
+                        booking.setTotalPrice(searching);
+
+                        System.out.println("Enter New Price: ");
+                        String editPrice = scEditBooking.nextLine();
+                        booking.setTotalPrice(searching);
+                    } else {
+                        System.out.println("Could not find booking number");
+                    }
+                }
+
+            } else {
+                System.out.println(" The search didn´t succeed, please try again. ");
+            }
+
+        }
+
+    }
+
 } // end of class
+

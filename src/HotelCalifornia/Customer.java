@@ -17,6 +17,9 @@ public class Customer {
     String name;
     String address;
     String telephoneNumber;
+    String cbooking;
+    String crooms;
+    String cdate;
     
     ArrayList<Booking> bookings;
     
@@ -59,8 +62,20 @@ public class Customer {
     public void addBooking(Booking b){
         bookings.add(b);
     }
-     public void setName(String newName){
-    name = newName;
+    
+    public void setBooking(String newBooking){
+        System.out.println("No set booking yet");
+        cbooking = newBooking;
+    }
+    
+    public void setRooms(String newRooms){
+        System.out.println("No set rooms yet");
+        crooms = newRooms;
+    }
+    
+    public void setDate(String newDate){
+        System.out.println("No set date yet");
+        cdate = newDate;
     }
     
     //attribut personnummer, namn, adress, telefon (String)
