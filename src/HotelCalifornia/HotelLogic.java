@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ *
+ * @author simon
+ */
 public class HotelLogic {
 
     private ArrayList<Customer> customers;
@@ -148,7 +152,7 @@ public class HotelLogic {
                     UnitTests.runUnitTests(false);
                     break;
                 default:
-                    System.out.println("Error: Pick 1,2 or 5 and try again!");
+                    System.out.println("Error: Pick 1 - 3  or 5 and try again!");
                     break;
             }
         }
@@ -166,8 +170,9 @@ public class HotelLogic {
                     + "1 = Show all rooms\n"
                     + "2 = Show available rooms\n"
                     + "3 = Add new room\n"
-                    + "4 = Search for room\n"
-                    + "5 = Return to main menu");
+                    + "4 = Remove room\n"
+                    + "5 = Search for room\n"
+                    + "6 = Return to main menu");
 
             choice = sc.nextLine();
 
@@ -187,16 +192,21 @@ public class HotelLogic {
                     break;
 
                 case "4":
-                    searchRoom();
+                    removeRoom();
                     break;
 
                 case "5":
+                    searchRoom();
+
+                    break;
+
+                case "6":
                     System.out.println("Returning to main menu");
                     gettingInput = false;
                     break;
 
                 default:
-                    System.out.println("Error: Pick 1 - 5 and try again!");
+                    System.out.println("Error: Pick 1 - 6 and try again!");
                     break;
             }
         }
@@ -271,12 +281,12 @@ public class HotelLogic {
 
                 case "1":
                     showBookings();
-                  
+
                     break;
 
                 case "2":
-                   // this.checkInCustomer(customer);
-                    System.out.println("Not implemented");
+                    checkInCustomer();
+
                     break;
 
                 case "3":
@@ -509,12 +519,29 @@ public class HotelLogic {
             try {
                 System.out.println("Booking ID: ");
                 bookingID = in.nextInt();
-                gettinginput = false;
 
             } catch (Exception e) {
                 System.out.println("invalid input");
                 in.next();
             }
+
+            for (Booking booking : bookings) {
+
+                System.out.println("BookingId:" + booking.getBookingId());
+
+                if (booking.getBookingId() == bookingID) {
+
+                    System.out.println("BookingID Already exits");
+
+                    gettinginput = true;
+                    break;
+                } else {
+                    gettinginput = false;
+
+                }
+
+            }
+
         }
 
         System.out.println("Enter checkin date: ");
@@ -559,6 +586,8 @@ public class HotelLogic {
         boolean gettinginput = true;
 
         int allbooked = 0;
+
+        customer.addBooking(createBooking(bookedrooms));
 
         for (Room room : rooms) {
             if (room.isBooked) {
@@ -628,61 +657,126 @@ public class HotelLogic {
             if (numrooms == numberOfrooms) {
                 booking = false;
 
-                customer.addBooking(createBooking(bookedrooms));
             }
         }
 
     }
 
-    public void checkOutCustomer() {
+    public void checkInCustomer() {
 
-        int searchForBookings;
+        ArrayList<Room> bookedrooms = new ArrayList();
+
+        int roomnumber = -1;
+        int numberOfrooms = -1;
+        int numrooms = 0;
+
         Scanner sc = new Scanner(System.in);
+        boolean booking = true;
+        boolean gettinginput = true;
 
-        boolean resultFound = false;
-        System.out.println("Enter bookingId:");
-        searchForBookings = sc.nextInt();
-        System.out.println("Searching for " + searchForBookings);
+        int allbooked = 0;
 
-        
-        System.out.println(bookings.size());
-        for (Booking booking : bookings) {
+        String ssnToSearch;
 
-            String bookingIdString = String.valueOf(booking.getBookingId());
+        Customer tempCustomer;
 
-            if (searchForBookings == booking.getBookingId()) {
+        tempCustomer = new Customer("", "", "", "");
 
-                resultFound = true;
+        boolean matchfound = false;
 
-                System.out.println("Do you wish to remove this booking?");
+        System.out.println("Enter customer SSN: ");
 
-                String remove = sc.next();
+        ssnToSearch = sc.nextLine();
+        System.out.println("Searching for " + ssnToSearch);
 
-                ArrayList<Room> rooms = new ArrayList<Room>();
+        for (Customer customer : customers) {
 
-                if (remove.matches("yes") || remove.matches("Yes") || remove.matches("YES")) {
+            if (ssnToSearch.matches(customer.getSsn())) {
 
-                    for (Room room : booking.rooms) {
+                matchfound = true;
 
-                        rooms.add(room);
+                tempCustomer = customer;
 
+                for (Room room : rooms) {
+                    if (room.isBooked) {
+                        allbooked++;
+                    }
+                }
+
+                while (gettinginput) {
+
+                    try {
+                        System.out.println("How many rooms do you want to book? ");
+                        numberOfrooms = sc.nextInt();
+                        gettinginput = false;
+
+                    } catch (Exception e) {
+                        System.out.println("invalid input");
+                        sc.next();
+                    }
+                }
+
+                while (booking == true && numberOfrooms > 0) {
+
+                    if (rooms.size() == 0 || allbooked == rooms.size()) {
+                        System.out.println("There are no more rooms available");
+                        break;
+                    }
+                    System.out.println("Book one of the following rooms:");
+                    CheckAvailableRooms();
+
+                    gettinginput = true;
+
+                    while (gettinginput) {
+
+                        try {
+                            System.out.println("Enter roomnumber: ");
+                            roomnumber = sc.nextInt();
+                            gettinginput = false;
+
+                        } catch (Exception e) {
+                            System.out.println("invalid input");
+                            sc.next();
+                        }
                     }
 
-                    for (int i = 0; i < rooms.size(); i++) {
-                        rooms.get(i).setIsBooked(false);
+                    boolean booked = false;
+
+                    for (Room room : rooms) {
+                        if (room.isIsBooked() == true && room.getRoomNumber() == roomnumber) {
+
+                            booked = true;
+
+                        }
                     }
+                    if (booked) {
+                        System.out.println("That room is unavailable, please try again.");
+                    } else {
 
-                    System.out.println("Booking removed!");
+                        for (Room room : rooms) {
+                            if (room.getRoomNumber() == roomnumber) {
+                                room.setIsBooked(true);
+                                bookedrooms.add(room);
 
-                    showMenu();
+                                numrooms++;
+                            }
+                        }
+                    }
+                    if (numrooms == numberOfrooms) {
+                        booking = false;
+                        if (matchfound) {
 
-                } else {
-                    System.out.println("Removing booking aborted.");
-                    break;
+                            tempCustomer.addBooking(createBooking(bookedrooms));
+                        }
+                    }
 
                 }
 
             }
+        }
+
+        if (matchfound == false) {
+            System.out.println("No match found.");
 
         }
 
@@ -697,8 +791,6 @@ public class HotelLogic {
         System.out.println("Enter customer SSN: ");
         ssnToSearch = sc.next();
         System.out.println("Searching for " + ssnToSearch);
-
-
 
         // Edit part starts here, after searching booked room, so a edit can happen
         for (Customer customer : customers) {
@@ -722,13 +814,12 @@ public class HotelLogic {
                 customer.setTelephoneNumber(editPhoneNo);
 
             } else {
-                    System.out.println(" The search didn´t succeed, please try again. ");
+                System.out.println(" The search didn´t succeed, please try again. ");
             }
 
         }
 
     }
-
 
     public void getRoom() {
         System.out.println("getRoom not implemented");
@@ -809,6 +900,30 @@ public class HotelLogic {
         }
 
     }
+    
+    
+ public boolean searchForCustomer(String ssn) {
+        boolean matchfound = false;
+
+        for (Customer customer : customers) {
+
+            if (ssn.matches(customer.getSsn())) {
+
+                matchfound = true;
+
+                System.out.println("Found a match!");
+                System.out.println("Name: " + customer.getName());
+                System.out.println("Address: " + customer.getAddress());
+                System.out.println("Phone number: " + customer.getTelephoneNumber());
+        }
+
+        if (matchfound == false) {
+            System.out.println("No match found.");
+    }   
+        }
+        return matchfound;         
+    }
+
 
     public void searchRoom() {
 
@@ -876,15 +991,15 @@ public class HotelLogic {
         }
 
     }
-    
-        public void showBookings(){
-        
+
+    public void showBookings() {
+
         for (Booking booking : bookings) {
-        
-        printBookingInfo(booking);
+
+            printBookingInfo(booking);
         }
-        
-}
+
+    }
 
     public void showAllCustomers() {
 
@@ -892,10 +1007,92 @@ public class HotelLogic {
             printCustomerInfo(customer);
         }
     }
-    
-    public void editBooking(){
-    
+
+    public void removeRoom() {
+        String roomToSearch;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter room number");
+        roomToSearch = sc.next();
+        int roomNum = Integer.parseInt(roomToSearch);
+
+        for (Room room : rooms) {
+            if (room.getRoomNumber() == roomNum) {
+                System.out.println(" Match ");
+                System.out.println(" Do you want remove this room? ");
+                String remove = sc.next();
+                if (remove.equalsIgnoreCase("yes")) {
+                    rooms.remove(room);
+                    System.out.println("The room has been removed. ");
+                    break;
+                }
+            }
+        }
     }
+
+    public void editBooking() {
+
+    }
+    
+    public void checkOutCustomer() {
+
+        int searchForBookings = 0;
+        Scanner sc = new Scanner(System.in);
+        boolean resultFound = false;
+        boolean getInput = true;
+        
+        while (getInput) {
+
+            try {
+            System.out.println("What is the booking Id?: ");
+            searchForBookings = sc.nextInt();
+            getInput = false;
+
+            } catch (Exception e) {
+                        
+                System.out.println("invalid input");
+                searchForBookings = sc.nextInt();
+                    
+            }
+        }
+        
+        System.out.println(bookings.size());
+        for (Booking booking : bookings) {
+
+            if (searchForBookings == booking.getBookingId()) {
+
+                System.out.println("Do you wish to remove this booking?");
+
+                ArrayList<Room> rooms = new ArrayList<Room>();
+                
+                String remove = sc.next();
+
+                if (remove.equalsIgnoreCase("yes") || remove.equalsIgnoreCase("y") || remove.equalsIgnoreCase("ye")) {
+
+                    for (Room room : booking.rooms) {
+
+                        rooms.add(room);
+
+                    }
+
+                    for (int i = 0; i < rooms.size(); i++) {
+                        rooms.get(i).setIsBooked(false);
+                    }
+
+                    System.out.println("Booking removed!");
+
+                    showMenu();
+
+                }  else {
+                    System.out.println("Removing booking aborted.");
+                    break;
+
+                }
+
+            }
+
+        }
+
+}
 
 } // end of class
 
