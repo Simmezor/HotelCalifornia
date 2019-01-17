@@ -1,0 +1,130 @@
+ 
+ THINGS TO CHANGE
+
+1-Limits of beds to add (1 min - 5 max) for example :
+-How many beds does the room have?:
+200000
+2-Fixed Price (400 kr min - 1000 kr max) for example:
+-How much does the room cost per night?:
+555555555555555
+3-Realistic numbers of rooms(100 - 520) for example:
+-What is the room's number: 
+-01
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ public void addRoom() {
+
+        Scanner in = new Scanner(System.in);
+
+        boolean gettinginput = true;
+
+        int temproomnum = -1;
+        int beds = -1;
+
+        String balcony = "-1";
+        boolean balconybool = false;
+        double price = -1;
+
+        while (gettinginput) {
+
+            try {
+                System.out.println("What is the room's number (100 - 1112): ");
+                temproomnum = in.nextInt();
+                gettinginput = false;
+                
+                if(temproomnum <100 || temproomnum > 1112) {
+                    System.out.println("Invalid input");
+                    gettinginput = true;
+                }
+                for (int i = 0; i < rooms.size(); i++) {
+                    if (rooms.get(i).getRoomNumber() == temproomnum ){
+                         System.out.println(" the room already exist");
+                        gettinginput = true;
+                        }
+                    }                    
+                
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
+            }
+        }
+
+        gettinginput = true;
+
+        while (gettinginput) {
+
+            try {
+                System.out.println("How many beds does the room have? (1 - 5: ");
+                beds = in.nextInt();
+                gettinginput = false;
+                if(beds <1 || beds >5) {
+                    System.out.println("Invalid input ");
+                    gettinginput = true;
+                }
+
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
+            }
+        }
+
+        gettinginput = true;
+        while (gettinginput) {
+
+            System.out.println("Does the room have a balcony?: ");
+            balcony = in.next();    //Needs to be in a try catch 
+
+            switch (balcony) {
+
+                case "yes":
+                    balconybool = true;
+                    gettinginput = false;
+                    break;
+                case "Yes":
+                    balconybool = true;
+                    gettinginput = false;
+                    break;
+                case "no":
+                    balconybool = false;
+                    gettinginput = false;
+                    break;
+                case "No":
+                    balconybool = false;
+                    gettinginput = false;
+                    break;
+                default:
+                    System.out.println("invalid input");
+
+                    break;
+            }
+
+        }
+        gettinginput = true;
+
+        while (gettinginput) {
+            try {
+                System.out.println("How much does the room cost per night? (500 - 1000): ");
+                price = in.nextDouble();    //Needs to be in a try catch 
+                gettinginput = false;
+                if (price < 500 || price > 1000) {
+                    System.out.println("Invalid input");
+                    gettinginput = true;
+                }
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
+
+            }
+        }
+
+        Room newRoom = new Room(temproomnum, beds, balconybool, price, false);
+
+        rooms.add(newRoom);
+
+    }
