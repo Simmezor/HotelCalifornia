@@ -8,8 +8,17 @@ package hotelcalifornia;
 
 import hotelcalifornia.testcode.UnitTests;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Scanner;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Writer;
+import java.net.URL;
 
 /**
  *
@@ -112,6 +121,10 @@ public class HotelLogic {
 
         showLogo();
 
+//        loadCustomers("Customers.txt");
+//        loadRooms("Rooms.txt");
+//        loadBookings("Bookings.txt");
+
         String choice;
         boolean gettingInput = true;
 
@@ -159,6 +172,10 @@ public class HotelLogic {
                 case "5":
 
                     gettingInput = false;
+
+//                    writeCustomers("Customers");
+//                    writeRooms("Rooms");
+//                    writeBookings("Bookings");
                     break;
                 case "admin test":
                     UnitTests.runUnitTests(true);
@@ -189,7 +206,7 @@ public class HotelLogic {
                     + "2 = Show available rooms\n"
                     + "3 = Add new room\n"
                     + "4 = Remove room\n"
-                    + "5 = Edit Room"
+                    + "5 = Edit Room\n"
                     + "6 = Search for room\n"
                     + "7 = Return to main menu");
 
@@ -428,9 +445,20 @@ public class HotelLogic {
         while (gettinginput) {
 
             try {
-                System.out.println("What is the room's number: ");
+                System.out.println("What is the room's number (100 - 1112): ");
                 temproomnum = in.nextInt();
                 gettinginput = false;
+
+                if (temproomnum < 100 || temproomnum > 1112) {
+                    System.out.println("Invalid input");
+                    gettinginput = true;
+                }
+                for (int i = 0; i < rooms.size(); i++) {
+                    if (rooms.get(i).getRoomNumber() == temproomnum) {
+                        System.out.println(" the room already exist");
+                        gettinginput = true;
+                    }
+                }
 
             } catch (Exception e) {
                 System.out.println("invalid input");
@@ -443,9 +471,13 @@ public class HotelLogic {
         while (gettinginput) {
 
             try {
-                System.out.println("How many beds does the room have?: ");
+                System.out.println("How many beds does the room have? (1 - 5: ");
                 beds = in.nextInt();
                 gettinginput = false;
+                if (beds < 1 || beds > 5) {
+                    System.out.println("Invalid input ");
+                    gettinginput = true;
+                }
 
             } catch (Exception e) {
                 System.out.println("invalid input");
@@ -488,9 +520,13 @@ public class HotelLogic {
 
         while (gettinginput) {
             try {
-                System.out.println("How much does the room cost per night?: ");
+                System.out.println("How much does the room cost per night? (500 - 1000): ");
                 price = in.nextDouble();    //Needs to be in a try catch 
                 gettinginput = false;
+                if (price < 500 || price > 1000) {
+                    System.out.println("Invalid input");
+                    gettinginput = true;
+                }
             } catch (Exception e) {
                 System.out.println("invalid input");
                 in.next();
@@ -541,6 +577,7 @@ public class HotelLogic {
             try {
                 System.out.println("Booking ID: ");
                 bookingID = in.nextInt();
+             gettinginput = false;
 
             } catch (Exception e) {
                 System.out.println("invalid input");
@@ -549,14 +586,14 @@ public class HotelLogic {
 
             for (Booking booking : bookings) {
 
-                System.out.println("BookingId:" + booking.getBookingId());
 
                 if (booking.getBookingId() == bookingID) {
 
                     System.out.println("BookingID Already exits");
 
                     gettinginput = true;
-                    break;
+                    
+                    
                 } else {
                     gettinginput = false;
 
@@ -1049,9 +1086,9 @@ public class HotelLogic {
     }
 
     public void editBooking() {
-        
+
         boolean match = false;
-        
+
         String ssnToSearch;
         Scanner sc = new Scanner(System.in);
         Scanner scEditBooking = new Scanner(System.in);
@@ -1059,8 +1096,6 @@ public class HotelLogic {
         System.out.println("Enter customer SSN: ");
         ssnToSearch = sc.nextLine();
         System.out.println("Searching for " + ssnToSearch);
-        
-       
 
         // Edit part starts here, after searching booked room, so a edit can happen
         for (Customer customer : customers) {
@@ -1072,8 +1107,8 @@ public class HotelLogic {
                 System.out.println("Phone number: " + customer.getTelephoneNumber());
                 System.out.println("BOOKINGS:");
                 for (Booking booking : customer.getBookings()) {
-                                   System.out.println(booking.bookingId + ": Check-in:" + booking.checkInDate + ". Check-out: " + booking.checkOutDate + ". "
-                                + "Price: " + booking.getTotalPrice() + ".");
+                    System.out.println(booking.bookingId + ": Check-in:" + booking.checkInDate + ". Check-out: " + booking.checkOutDate + ". "
+                            + "Price: " + booking.getTotalPrice() + ".");
                 }
                 System.out.println(" ");
 
@@ -1097,9 +1132,9 @@ public class HotelLogic {
                         System.out.println("Could not find booking number");
                     }
                 }
-                    match =true;
-                    break;
-            } 
+                match = true;
+                break;
+            }
 
         }
         if (!match) {
@@ -1167,6 +1202,345 @@ public class HotelLogic {
 
         }
 
+    }
+
+    public ArrayList<Customer> LoadCustomersInArray(String ref) {
+
+        ArrayList<Customer> loadedCustomers = new ArrayList();
+
+        ArrayList lines = new ArrayList();
+        boolean reading = true;
+        URL url = this.getClass().getClassLoader().getResource(ref);
+
+        int counting = 0;
+
+        if (url == null) {
+            System.out.println("Can't find ref: " + ref);
+        } else {
+
+            try {
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+
+                    while (reading) {
+
+                        String tempString = in.readLine();
+
+                        if (tempString.matches("END")) {
+
+                            reading = false;
+                            break;
+                        }
+                        if (!tempString.matches("-----")) {
+                            lines.add(tempString);
+                        } else {
+                            counting++;
+                        }
+
+                    }
+
+                    in.close();
+
+                }
+
+            } catch (IOException e) {
+                System.out.println("file not found");
+            }
+
+        }
+
+        for (int i = 0; i < counting; i++) {
+
+            loadedCustomers.add(new Customer(lines.get(0 + i).toString(), lines.get(1 + i).toString(), lines.get(2 + i).toString(), lines.get(3 + i).toString()));
+
+        }
+
+        return loadedCustomers;
+    }
+
+    public void loadCustomers(String ref) {
+
+        ArrayList lines = new ArrayList();
+        boolean reading = true;
+        URL url = this.getClass().getClassLoader().getResource(ref);
+
+        int counting = 0;
+
+        if (url == null) {
+            System.out.println("Can't find ref: " + ref);
+        } else {
+
+            try {
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+
+                    while (reading) {
+
+                        String tempString = in.readLine();
+
+                        if (tempString.matches("END")) {
+
+                            reading = false;
+                            break;
+                        }
+                        if (!tempString.matches("-----")) {
+                            lines.add(tempString);
+                        } else {
+                            counting++;
+                        }
+
+                    }
+
+                    in.close();
+
+                }
+
+            } catch (IOException e) {
+                System.out.println("file not found");
+            }
+
+        }
+
+        for (int i = 0; i < counting; i++) {
+            customers.add(new Customer(lines.get(0 + (i * 4)).toString(), lines.get(1 + (i * 4)).toString(), lines.get(2 + (i * 4)).toString(), lines.get(3 + (i * 4)).toString()));
+
+        }
+
+    }
+
+    public void loadRooms(String ref) {
+
+        ArrayList lines = new ArrayList();
+        boolean reading = true;
+        URL url = this.getClass().getClassLoader().getResource(ref);
+
+        int counting = 0;
+
+        if (url == null) {
+            System.out.println("Can't find ref: " + ref);
+        } else {
+
+            try {
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+
+                    while (reading) {
+
+                        String tempString = in.readLine();
+
+                        if (tempString.matches("END")) {
+
+                            reading = false;
+                            break;
+                        }
+                        if (!tempString.matches("-----")) {
+                            lines.add(tempString);
+                        } else {
+                            counting++;
+                        }
+
+                    }
+
+                    in.close();
+
+                }
+
+            } catch (IOException e) {
+                System.out.println("file not found");
+            }
+
+        }
+
+        for (int i = 0; i < counting; i++) {
+            rooms.add(new Room(
+                    Integer.parseInt(lines.get(0 + (i * 5)).toString()),
+                    Integer.parseInt(lines.get(1 + (i * 5)).toString()),
+                    Boolean.parseBoolean(lines.get(2 + (i * 5)).toString()),
+                    Double.parseDouble(lines.get(3 + (i * 5)).toString()),
+                    Boolean.parseBoolean(lines.get(2 + (i * 5)).toString())
+            ));
+
+        }
+
+    }
+
+    public void loadBookings(String ref) {
+
+        ArrayList lines = new ArrayList();
+        boolean reading = true;
+        URL url = this.getClass().getClassLoader().getResource(ref);
+
+        int counting = 0;
+
+        int numofrooms = 1;
+
+        if (url == null) {
+            System.out.println("Can't find ref: " + ref);
+        } else {
+
+            try {
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+
+                    while (reading) {
+
+                        String tempString = in.readLine();
+
+                        if (tempString.matches("END")) {
+
+                            reading = false;
+                            break;
+                        }
+
+                        if (!tempString.matches("-----")) {
+
+                            if (tempString.matches("ROOMS")) {
+                         
+                               
+                               
+                            } else {
+                                lines.add(tempString);
+                            }
+
+                        } else {
+
+                            counting++;
+                         
+                        }
+
+                    }
+
+                    in.close();
+
+                }
+
+            } catch (IOException e) {
+                System.out.println("file not found");
+            }
+
+        }
+
+        for (int i = 0; i < counting; i++) {
+            
+            
+
+            System.out.println(lines.get(0 + (i * 6)).toString());
+            System.out.println(lines.get(1 + (i * 6)).toString());
+            System.out.println(lines.get(2 + (i * 6)).toString());
+            System.out.println(lines.get(3 + (i * 6)).toString());
+            
+            for (int j = 0; j < Integer.parseInt(lines.get(4 + (i * 6)).toString()); j++) {
+                System.out.println(lines.get((5+j) + (i * 6)).toString());
+            }
+            
+            
+   
+            
+            System.out.println("-----");
+//            bookings.add(new Booking(
+//                    Integer.parseInt(lines.get(0 + (i * 5)).toString()),
+//                    lines.get(1 + (i * 5)).toString(),
+//                    lines.get(2 + (i * 5)).toString(),
+//                    Double.parseDouble(lines.get(3 + (i * 5)).toString())
+//            ));
+
+//            for (Room room : rooms) {
+//                
+//                
+//                if (room.getRoomNumber() == Integer.parseInt(lines.get(4 + (i * 5)).toString())) {
+//                    bookings.get(bookings.size() - 1).addRoom(room);
+//                }
+//            }
+
+        }
+
+//        for (Booking booking : bookings) {
+//            System.out.println(booking.getBookingId());
+//        }
+
+    }
+
+    public void writeCustomers(String name) {
+
+        if (name == null) {
+            System.out.println("Can't find ref: " + name);
+        } else {
+
+            try (BufferedWriter out = new BufferedWriter(new FileWriter("src/" + name + ".txt"))) {
+
+                for (Customer customer : customers) {
+
+                    out.write(customer.getSsn() + "\n");
+                    out.write(customer.getName() + "\n");
+                    out.write(customer.getAddress() + "\n");
+                    out.write(customer.getTelephoneNumber() + "\n");
+                    out.write("-----\n");
+
+                }
+
+                out.write("END");
+                out.close();
+            } catch (IOException ex) {
+
+            }
+
+        }
+    }
+
+    public void writeRooms(String name) {
+
+        if (name == null) {
+            System.out.println("Can't find ref: " + name);
+        } else {
+
+            try (BufferedWriter out = new BufferedWriter(new FileWriter("src/" + name + ".txt"))) {
+
+                for (Room room : rooms) {
+
+                    out.write(room.getRoomNumber() + "\n");
+                    out.write(room.getNumberOfBeds() + "\n");
+                    out.write(room.isHasBalcony() + "\n");
+                    out.write(room.getPricePerNight() + "\n");
+                    out.write(room.isIsBooked() + "\n");
+                    out.write("-----\n");
+
+                }
+
+                out.write("END");
+                out.close();
+            } catch (IOException ex) {
+
+            }
+
+        }
+    }
+
+    public void writeBookings(String name) {
+
+        if (name == null) {
+            System.out.println("Can't find ref: " + name);
+        } else {
+
+            try (BufferedWriter out = new BufferedWriter(new FileWriter("src/" + name + ".txt"))) {
+
+                for (Booking booking : bookings) {
+
+                    out.write(booking.getBookingId() + "\n");
+                    out.write(booking.getCheckInDate() + "\n");
+                    out.write(booking.getCheckOutDate() + "\n");
+                    out.write(booking.getTotalPrice() + "\n");
+                    out.write("ROOMS\n");
+                    for (Room room : booking.rooms) {
+                        out.write(room.getRoomNumber() + "\n");
+                    }
+
+                    out.write("-----\n");
+
+                }
+
+                out.write("END");
+                out.close();
+            } catch (IOException ex) {
+
+            }
+
+        }
     }
 
 } // end of class
