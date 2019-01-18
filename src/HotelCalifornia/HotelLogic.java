@@ -1539,7 +1539,7 @@ public class HotelLogic {
                     out.write(booking.getTotalPrice() + "\n");
                     out.write("ROOMS\n");
                     for (Room room : booking.getRooms()) {
-                        out.write(booking.getBookingId() + ".");
+                        out.write(room.getRoomNumber() + ".");
                     }
                     if (booking.getRooms().size() == 0) {
                         out.write("-");
