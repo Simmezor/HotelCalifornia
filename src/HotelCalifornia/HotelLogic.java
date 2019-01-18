@@ -121,9 +121,9 @@ public class HotelLogic {
 
         showLogo();
 
-//        loadCustomers("Customers.txt");
-//        loadRooms("Rooms.txt");
-//        loadBookings("Bookings.txt");
+        loadRooms("Rooms.txt");
+        loadBookings("Bookings.txt");
+        loadCustomers("Customers.txt");
 
         String choice;
         boolean gettingInput = true;
@@ -173,9 +173,9 @@ public class HotelLogic {
 
                     gettingInput = false;
 
-//                    writeCustomers("Customers");
-//                    writeRooms("Rooms");
-//                    writeBookings("Bookings");
+                    writeCustomers("Customers");
+                    writeBookings("Bookings");
+                    writeRooms("Rooms");
                     break;
                 case "admin test":
                     UnitTests.runUnitTests(true);
@@ -577,7 +577,7 @@ public class HotelLogic {
             try {
                 System.out.println("Booking ID: ");
                 bookingID = in.nextInt();
-             gettinginput = false;
+                gettinginput = false;
 
             } catch (Exception e) {
                 System.out.println("invalid input");
@@ -586,14 +586,12 @@ public class HotelLogic {
 
             for (Booking booking : bookings) {
 
-
                 if (booking.getBookingId() == bookingID) {
 
                     System.out.println("BookingID Already exits");
 
                     gettinginput = true;
-                    
-                    
+
                 } else {
                     gettinginput = false;
 
@@ -1282,7 +1280,13 @@ public class HotelLogic {
                             break;
                         }
                         if (!tempString.matches("-----")) {
-                            lines.add(tempString);
+
+                            if (tempString.matches("BOOKINGS")) {
+
+                            } else {
+                                lines.add(tempString);
+                            }
+
                         } else {
                             counting++;
                         }
@@ -1300,7 +1304,23 @@ public class HotelLogic {
         }
 
         for (int i = 0; i < counting; i++) {
-            customers.add(new Customer(lines.get(0 + (i * 4)).toString(), lines.get(1 + (i * 4)).toString(), lines.get(2 + (i * 4)).toString(), lines.get(3 + (i * 4)).toString()));
+
+            String bookingline = lines.get((4) + (i * 5)).toString();
+
+            customers.add(new Customer(
+                    lines.get(0 + (i * 5)).toString(),
+                    lines.get(1 + (i * 5)).toString(),
+                    lines.get(2 + (i * 5)).toString(),
+                    lines.get(3 + (i * 5)).toString()));
+
+            for (int j = 0; j < bookingline.length(); j = j + 2) {
+                for (Booking booking : bookings) {
+
+                    if (booking.getBookingId() == Character.getNumericValue(bookingline.charAt(j))) {
+                        customers.get(i).addBooking(booking);
+                    }
+                }
+            }
 
         }
 
@@ -1391,9 +1411,7 @@ public class HotelLogic {
                         if (!tempString.matches("-----")) {
 
                             if (tempString.matches("ROOMS")) {
-                         
-                               
-                               
+
                             } else {
                                 lines.add(tempString);
                             }
@@ -1401,7 +1419,7 @@ public class HotelLogic {
                         } else {
 
                             counting++;
-                         
+
                         }
 
                     }
@@ -1417,43 +1435,29 @@ public class HotelLogic {
         }
 
         for (int i = 0; i < counting; i++) {
-            
-            
 
-            System.out.println(lines.get(0 + (i * 6)).toString());
-            System.out.println(lines.get(1 + (i * 6)).toString());
-            System.out.println(lines.get(2 + (i * 6)).toString());
-            System.out.println(lines.get(3 + (i * 6)).toString());
-            
-            for (int j = 0; j < Integer.parseInt(lines.get(4 + (i * 6)).toString()); j++) {
-                System.out.println(lines.get((5+j) + (i * 6)).toString());
+            String roomline = lines.get((4) + (i * 5)).toString();
+
+            bookings.add(new Booking(
+                    Integer.parseInt(lines.get(0 + (i * 5)).toString()),
+                    lines.get(1 + (i * 5)).toString(),
+                    lines.get(2 + (i * 5)).toString(),
+                    Double.parseDouble(lines.get(3 + (i * 5)).toString())
+            ));
+            for (int j = 0; j < roomline.length(); j = j + 2) {
+                for (Room room : rooms) {
+
+                    if (room.getRoomNumber() == Character.getNumericValue(roomline.charAt(j))) {
+                        bookings.get(bookings.size() - 1).addRoom(room);
+                    }
+                }
             }
-            
-            
-   
-            
-            System.out.println("-----");
-//            bookings.add(new Booking(
-//                    Integer.parseInt(lines.get(0 + (i * 5)).toString()),
-//                    lines.get(1 + (i * 5)).toString(),
-//                    lines.get(2 + (i * 5)).toString(),
-//                    Double.parseDouble(lines.get(3 + (i * 5)).toString())
-//            ));
-
-//            for (Room room : rooms) {
-//                
-//                
-//                if (room.getRoomNumber() == Integer.parseInt(lines.get(4 + (i * 5)).toString())) {
-//                    bookings.get(bookings.size() - 1).addRoom(room);
-//                }
-//            }
 
         }
 
 //        for (Booking booking : bookings) {
 //            System.out.println(booking.getBookingId());
 //        }
-
     }
 
     public void writeCustomers(String name) {
@@ -1470,6 +1474,14 @@ public class HotelLogic {
                     out.write(customer.getName() + "\n");
                     out.write(customer.getAddress() + "\n");
                     out.write(customer.getTelephoneNumber() + "\n");
+                    out.write("BOOKINGS\n");
+                    for (Booking booking : customer.getBookings()) {
+                        out.write(booking.getBookingId() + ".");
+                    }
+                    if (customer.getBookings().size() == 0) {
+                        out.write("-");
+                    }
+                    out.write("\n");
                     out.write("-----\n");
 
                 }
@@ -1526,11 +1538,16 @@ public class HotelLogic {
                     out.write(booking.getCheckOutDate() + "\n");
                     out.write(booking.getTotalPrice() + "\n");
                     out.write("ROOMS\n");
-                    for (Room room : booking.rooms) {
-                        out.write(room.getRoomNumber() + "\n");
+                    for (Room room : booking.getRooms()) {
+                        out.write(booking.getBookingId() + ".");
                     }
-
+                    if (booking.getRooms().size() == 0) {
+                        out.write("-");
+                    }
+                    out.write("\n");
                     out.write("-----\n");
+
+
 
                 }
 
