@@ -1374,7 +1374,7 @@ public class HotelLogic {
                     Integer.parseInt(lines.get(1 + (i * 5)).toString()),
                     Boolean.parseBoolean(lines.get(2 + (i * 5)).toString()),
                     Double.parseDouble(lines.get(3 + (i * 5)).toString()),
-                    Boolean.parseBoolean(lines.get(2 + (i * 5)).toString())
+                    Boolean.parseBoolean(lines.get(4 + (i * 5)).toString())
             ));
 
         }
