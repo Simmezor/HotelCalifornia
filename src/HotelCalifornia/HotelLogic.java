@@ -575,7 +575,7 @@ public class HotelLogic {
     }
 
 
-    public Booking createBooking(ArrayList<Room> rooms) {
+    public Booking createBookingOLD(ArrayList<Room> rooms) {
 
         Scanner in = new Scanner(System.in);
 
@@ -1598,7 +1598,8 @@ public class HotelLogic {
         }
     }
 
-    public Booking createBooking2(ArrayList<Room> rooms) {
+   
+    public Booking createBooking(ArrayList<Room> rooms) {
 
         Scanner in = new Scanner(System.in);
 
@@ -1644,10 +1645,22 @@ public class HotelLogic {
 
         }
 
-        //Put this block in a try-catch or loop to retry if input is wrong
+   // Put this block in a try-catch or loop to retry if input is wrong
+        gettinginput = true;
         System.out.println("Enter checkin date (yyyy-mm-dd): ");
-        indate = in.next();
 
+//        while (gettinginput) {
+//               String pattern = "\d\d\d\d-\d\d-\d\d";
+//                indate = in.next();
+//               if(indate.matches(pattern)){
+//                  checkInDate = enterDate(indate);
+//                  gettinginput = false;
+//               }else{
+//                   System.out.println("invalid input");
+//               }
+//
+//           }
+//in progress
         checkInDate = enterDate(indate);
 
         //Put this block in try-catch or loop to retry if input is wrong or check-out date is earlier then check-in date
@@ -1667,22 +1680,9 @@ public class HotelLogic {
         }
 
         calcPrice = priceAllrooms * compareTo;
+        System.out.println("Total cost: " + calcPrice);
 
-        //REMOVE COST HERE AND ADD IT AUTOMATICALLY AFTER ALL ROOMS ARE BOOKED
-        // DateTimeComparator.getDateOnlyInstance().compare(first, second);
-        gettinginput = true;
-
-        while (gettinginput) {
-            try {
-                System.out.println("Total cost for booking?: ");
-                totalprice = in.nextDouble();    //Needs to be in a try catch 
-                gettinginput = false;
-            } catch (Exception e) {
-                System.out.println("invalid input");
-                in.next();
-
-            }
-        }
+        totalprice = calcPrice;
 
         tempBooking = new Booking(bookingID, indate, outdate, totalprice);
 
@@ -1700,12 +1700,14 @@ public class HotelLogic {
 
         //Convert the String to date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         LocalDate localDate = LocalDate.parse(inputDate, formatter);
 
-        // System.out.println("Converted date: " + localDate);
+   // System.out.println("Converted date: " + localDate);
         return localDate;
 
     }
+
 
 } // end of class
 
