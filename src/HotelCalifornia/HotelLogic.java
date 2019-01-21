@@ -556,21 +556,24 @@ public class HotelLogic {
         String telephone = "";
 
         while (gettingInput) {
-            System.out.println("Please enter your telephone number (000-0000000): ");
+            System.out.println("Please enter your telephone number: ");
             telephone = in.nextLine();
-            String pattern = "([\\-])*\\d{4,}";
-            if (!telephone.matches(pattern)) {
-                System.out.println("invalid input");
-            } else {
+           String pattern1 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d";
+             String pattern2 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d\\d";      
+            if (telephone.matches(pattern1) || telephone.matches(pattern2) ) {
                 gettingInput = false;
+            } else {
+                System.out.println("invalid input");
             }
 
         }
 
         Customer newCustomer = new Customer(ssn, name, address, telephone);
         customers.add(newCustomer);
+           System.out.println("New customer " + name + " succesfully added. " );
 
     }
+
 
     public Booking createBooking(ArrayList<Room> rooms) {
 
