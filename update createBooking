@@ -1,0 +1,130 @@
+public Booking createBooking(ArrayList<Room> rooms) {
+
+    Scanner in = new Scanner(System.in);
+
+    Booking tempBooking;
+
+    boolean gettinginput = true;
+
+    int bookingID = -1;
+
+    String indate = "-";
+    String outdate = "-";
+    LocalDate checkInDate;
+    LocalDate checkOutDate;
+
+    double totalprice = -1;
+
+    while (gettinginput) {
+
+        try {
+            System.out.println("Booking ID: ");
+            bookingID = in.nextInt();
+         gettinginput = false;
+
+        } catch (Exception e) {
+            System.out.println("invalid input");
+            in.next();
+        }
+
+        for (Booking booking : bookings) {
+
+
+            if (booking.getBookingId() == bookingID) {
+
+                System.out.println("BookingID Already exits");
+
+                gettinginput = true;
+                
+                
+            } else {
+                gettinginput = false;
+
+            }
+
+        }
+
+    }
+
+   // Put this block in a try-catch or loop to retry if input is wrong
+    
+        gettinginput = true;
+        System.out.println("Enter checkin date (yyyy-mm-dd): ");
+          
+//        while (gettinginput) {
+//               String pattern = "\d\d\d\d-\d\d-\d\d";
+//                indate = in.next();
+//               if(indate.matches(pattern)){
+//                  checkInDate = enterDate(indate);
+//                  gettinginput = false;
+//               }else{
+//                   System.out.println("invalid input");
+//               }
+//
+//           }
+//in progress
+    
+
+    checkInDate = enterDate(indate);
+
+    //Put this block in try-catch or loop to retry if input is wrong or check-out date is earlier then check-in date
+    System.out.println("Enter checkout date (yyyy-mm-dd): ");
+    outdate = in.next();
+
+    checkOutDate = enterDate(outdate);
+    
+        int compareTo = enterDate(outdate).compareTo(enterDate(indate));
+        System.out.println("You have booked " + compareTo + " days. ");;
+        
+        double calcPrice = 0;
+        double priceAllrooms = 0;
+
+        for (Room room : rooms) {
+           priceAllrooms = priceAllrooms + room.getPricePerNight();
+        }
+
+        calcPrice = priceAllrooms * compareTo;
+        System.out.println("Total cost: " + calcPrice);
+
+
+
+    
+    gettinginput = true;
+    
+    
+    while (gettinginput) {
+        try {
+            System.out.println("Total cost for booking: ");
+            totalprice = in.nextDouble();    //Needs to be in a try catch 
+            gettinginput = false;
+        } catch (Exception e) {
+            System.out.println("invalid input");
+            in.next();
+
+        }
+    }
+
+    tempBooking = new Booking(bookingID, indate, outdate, totalprice);
+
+    for (int i = 0; i < rooms.size(); i++) {
+        tempBooking.addRoom(rooms.get(i));
+    }
+    printBookingInfo(tempBooking);
+    bookings.add(tempBooking);
+    return tempBooking;
+}
+
+public LocalDate enterDate(String inputDate) {
+
+    System.out.println("String passed in: " + inputDate);
+
+    //Convert the String to date
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    LocalDate localDate = LocalDate.parse(inputDate, formatter);
+
+   // System.out.println("Converted date: " + localDate);
+
+    return localDate;
+
+}
