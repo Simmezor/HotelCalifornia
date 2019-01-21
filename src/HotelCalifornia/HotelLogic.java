@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -549,8 +551,21 @@ public class HotelLogic {
         String name = in.nextLine();
         System.out.println("Please enter address: ");
         String address = in.nextLine();
-        System.out.println("Please enter your telephone number: ");
-        String telephone = in.nextLine();
+
+        boolean gettingInput = true;
+        String telephone = "";
+
+        while (gettingInput) {
+            System.out.println("Please enter your telephone number (000-0000000): ");
+            telephone = in.nextLine();
+            String pattern = "([\\-])*\\d{4,}";
+            if (!telephone.matches(pattern)) {
+                System.out.println("invalid input");
+            } else {
+                gettingInput = false;
+            }
+
+        }
 
         Customer newCustomer = new Customer(ssn, name, address, telephone);
         customers.add(newCustomer);
@@ -1307,19 +1322,30 @@ public class HotelLogic {
 
             String bookingline = lines.get((4) + (i * 5)).toString();
 
+            String tempstring = "";
+
             customers.add(new Customer(
                     lines.get(0 + (i * 5)).toString(),
                     lines.get(1 + (i * 5)).toString(),
                     lines.get(2 + (i * 5)).toString(),
                     lines.get(3 + (i * 5)).toString()));
 
-            for (int j = 0; j < bookingline.length(); j = j + 2) {
-                for (Booking booking : bookings) {
+            for (int j = 0; j < bookingline.length(); j++) {
 
-                    if (booking.getBookingId() == Character.getNumericValue(bookingline.charAt(j))) {
-                        customers.get(i).addBooking(booking);
+                if (bookingline.charAt(j) != '.') {
+                    tempstring = tempstring + bookingline.charAt(j);
+
+                } else {
+      
+                    for (Booking booking : bookings) {
+                        String bookingstring = "" + booking.getBookingId();
+                        if (bookingstring.matches(tempstring)) {
+                            customers.get(i).addBooking(booking);
+                        }
                     }
+                    tempstring = "";
                 }
+
             }
 
         }
@@ -1438,19 +1464,30 @@ public class HotelLogic {
 
             String roomline = lines.get((4) + (i * 5)).toString();
 
+            String tempstring = "";
+
             bookings.add(new Booking(
                     Integer.parseInt(lines.get(0 + (i * 5)).toString()),
                     lines.get(1 + (i * 5)).toString(),
                     lines.get(2 + (i * 5)).toString(),
                     Double.parseDouble(lines.get(3 + (i * 5)).toString())
             ));
-            for (int j = 0; j < roomline.length(); j = j + 2) {
-                for (Room room : rooms) {
+            for (int j = 0; j < roomline.length(); j++) {
 
-                    if (room.getRoomNumber() == Character.getNumericValue(roomline.charAt(j))) {
-                        bookings.get(bookings.size() - 1).addRoom(room);
+                if (roomline.charAt(j) != '.') {
+                    tempstring = tempstring + roomline.charAt(j);
+
+                } else {
+                  
+                    for (Room room : rooms) {
+                        String roomstring = "" + room.getRoomNumber();
+                        if (roomstring.matches(tempstring)) {
+                            bookings.get(bookings.size() - 1).addRoom(room);
+                        }
                     }
+
                 }
+
             }
 
         }
@@ -1547,8 +1584,6 @@ public class HotelLogic {
                     out.write("\n");
                     out.write("-----\n");
 
-
-
                 }
 
                 out.write("END");
@@ -1558,6 +1593,115 @@ public class HotelLogic {
             }
 
         }
+    }
+
+    public Booking createBooking2(ArrayList<Room> rooms) {
+
+        Scanner in = new Scanner(System.in);
+
+        Booking tempBooking;
+
+        boolean gettinginput = true;
+
+        int bookingID = -1;
+
+        String indate = "-";
+        String outdate = "-";
+        LocalDate checkInDate;
+        LocalDate checkOutDate;
+
+        double totalprice = -1;
+
+        while (gettinginput) {
+
+            try {
+                System.out.println("Booking ID: ");
+                bookingID = in.nextInt();
+                gettinginput = false;
+
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
+            }
+
+            for (Booking booking : bookings) {
+
+                if (booking.getBookingId() == bookingID) {
+
+                    System.out.println("BookingID Already exits");
+
+                    gettinginput = true;
+
+                } else {
+                    gettinginput = false;
+
+                }
+
+            }
+
+        }
+
+        //Put this block in a try-catch or loop to retry if input is wrong
+        System.out.println("Enter checkin date (yyyy-mm-dd): ");
+        indate = in.next();
+
+        checkInDate = enterDate(indate);
+
+        //Put this block in try-catch or loop to retry if input is wrong or check-out date is earlier then check-in date
+        System.out.println("Enter checkout date (yyyy-mm-dd): ");
+        outdate = in.next();
+
+        checkOutDate = enterDate(outdate);
+
+        int compareTo = enterDate(outdate).compareTo(enterDate(indate));
+        System.out.println("You have booked " + compareTo + " days. ");;
+
+        double calcPrice = 0;
+        double priceAllrooms = 0;
+
+        for (Room room : rooms) {
+            priceAllrooms = priceAllrooms + room.getPricePerNight();
+        }
+
+        calcPrice = priceAllrooms * compareTo;
+
+        //REMOVE COST HERE AND ADD IT AUTOMATICALLY AFTER ALL ROOMS ARE BOOKED
+        // DateTimeComparator.getDateOnlyInstance().compare(first, second);
+        gettinginput = true;
+
+        while (gettinginput) {
+            try {
+                System.out.println("Total cost for booking?: ");
+                totalprice = in.nextDouble();    //Needs to be in a try catch 
+                gettinginput = false;
+            } catch (Exception e) {
+                System.out.println("invalid input");
+                in.next();
+
+            }
+        }
+
+        tempBooking = new Booking(bookingID, indate, outdate, totalprice);
+
+        for (int i = 0; i < rooms.size(); i++) {
+            tempBooking.addRoom(rooms.get(i));
+        }
+        printBookingInfo(tempBooking);
+        bookings.add(tempBooking);
+        return tempBooking;
+    }
+
+    public LocalDate enterDate(String inputDate) {
+
+        System.out.println("String passed in: " + inputDate);
+
+        //Convert the String to date
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(inputDate, formatter);
+
+        // System.out.println("Converted date: " + localDate);
+        return localDate;
+
     }
 
 } // end of class
