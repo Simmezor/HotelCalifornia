@@ -1726,7 +1726,7 @@ public class HotelLogic {
 
     public int compareTo(LocalDate one, LocalDate two) {
 
-        int compareTo = one.compareTo(two);
+        int compareTo = one.getDayOfYear() - two.getDayOfYear();
 
         
         
