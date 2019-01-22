@@ -1594,6 +1594,7 @@ public class HotelLogic {
                     System.out.println("BookingID Already exits");
 
                     gettinginput = true;
+                    break;
 
                 } else {
                     gettinginput = false;
@@ -1727,6 +1728,8 @@ public class HotelLogic {
 
         int compareTo = one.compareTo(two);
 
+        
+        
         System.out.println("You have booked " + compareTo + " days. ");
 
         return compareTo;
