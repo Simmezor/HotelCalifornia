@@ -92,7 +92,7 @@ public class HotelLogic {
 
             for (int i = 0; i < b.getRooms().size(); i++) {
 
-                System.out.println("Room " + b.getBookingId());
+                System.out.println("Room " + b.getRooms().get(i).getRoomNumber());
             }
 
         }
@@ -1662,19 +1662,19 @@ public class HotelLogic {
 
                 if (roomline.charAt(j) != '.') {
                     tempstring = tempstring + roomline.charAt(j);
-                    
-               
+
 
                 } else {
 
                     for (Room room : rooms) {
                         String roomstring = "" + room.getRoomNumber();
-                             System.out.println(tempstring);
+                            
                         if (roomstring.matches(tempstring)) {
+                             System.out.println(tempstring);
                             bookings.get(bookings.size() - 1).addRoom(room);
                         }
                     }
-
+            tempstring = "";
                 }
 
             }
