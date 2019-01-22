@@ -1403,58 +1403,7 @@ public class HotelLogic {
 
     }
 
-    public ArrayList<Customer> LoadCustomersInArray(String ref) {
 
-        ArrayList<Customer> loadedCustomers = new ArrayList();
-
-        ArrayList lines = new ArrayList();
-        boolean reading = true;
-        URL url = this.getClass().getClassLoader().getResource(ref);
-
-        int counting = 0;
-
-        if (url == null) {
-            System.out.println("Can't find ref: " + ref);
-        } else {
-
-            try {
-                try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
-
-                    while (reading) {
-
-                        String tempString = in.readLine();
-
-                        if (tempString.matches("END")) {
-
-                            reading = false;
-                            break;
-                        }
-                        if (!tempString.matches("-----")) {
-                            lines.add(tempString);
-                        } else {
-                            counting++;
-                        }
-
-                    }
-
-                    in.close();
-
-                }
-
-            } catch (IOException e) {
-                System.out.println("file not found");
-            }
-
-        }
-
-        for (int i = 0; i < counting; i++) {
-
-            loadedCustomers.add(new Customer(lines.get(0 + i).toString(), lines.get(1 + i).toString(), lines.get(2 + i).toString(), lines.get(3 + i).toString()));
-
-        }
-
-        return loadedCustomers;
-    }
 
     public void loadCustomers(String ref) {
 
@@ -1670,7 +1619,7 @@ public class HotelLogic {
                         String roomstring = "" + room.getRoomNumber();
                             
                         if (roomstring.matches(tempstring)) {
-                             System.out.println(tempstring);
+              
                             bookings.get(bookings.size() - 1).addRoom(room);
                         }
                     }
