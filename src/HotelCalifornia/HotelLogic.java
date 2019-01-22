@@ -1120,7 +1120,6 @@ public class HotelLogic {
                         System.out.println("Enter New Date: ");
                         String editDate = scEditBooking.nextLine();
                         booking.setCheckOutDate(editDate);
-                   
 
                     } else {
                         System.out.println("Could not find booking number");
@@ -1180,7 +1179,7 @@ public class HotelLogic {
                         }
                     }
 
-                      //  booking.getRooms().clear();
+                    //  booking.getRooms().clear();
                     System.out.println("Booking removed!");
 
                 } else {
@@ -1191,28 +1190,25 @@ public class HotelLogic {
         }
 
         int customerindex = 0;
-         int bookingindex = 0;
+        int bookingindex = 0;
 
         if (removebool) {
             for (int n = 0; n < customers.size(); n++) {
-                
-            
 
                 for (int i = 0; i < customers.get(n).getBookings().size(); i++) {
                     if (customers.get(n).getBookings().get(i).bookingId == searchForBookings) {
-                       customerindex = n;
+                        customerindex = n;
                         bookingindex = i;
                     }
                 }
-          
+
             }
-                customers.get(customerindex).getBookings().remove(bookingindex);
+            customers.get(customerindex).getBookings().remove(bookingindex);
         }
-    
 
-}
+    }
 
-public void loadCustomers(String ref) {
+    public void loadCustomers(String ref) {
 
         ArrayList lines = new ArrayList();
         boolean reading = true;
