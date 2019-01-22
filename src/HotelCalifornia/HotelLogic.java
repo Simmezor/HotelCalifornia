@@ -623,17 +623,31 @@ public class HotelLogic {
 
     public void addCustomer() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Please enter your social security number: ");
 
+        boolean gettingInput = true;
+        System.out.println("Please enter your social security number: ");
         String ssn = in.nextLine();
-        System.out.println("Please enter name: ");
-        String name = in.nextLine();
+
+        String name = "";
+
+        while (gettingInput) {
+            System.out.println("Please enter name: ");
+            name = in.nextLine();
+            String pattern1 = "[a-öA-Ö]{2,100}";
+
+            if (name.matches(pattern1)) {
+                gettingInput = false;
+            } else {
+                System.out.println("invalid input");
+            }
+
+        }
+
         System.out.println("Please enter address: ");
         String address = in.nextLine();
 
-        boolean gettingInput = true;
         String telephone = "";
-
+        gettingInput = true;
         while (gettingInput) {
             System.out.println("Please enter your telephone number: ");
             telephone = in.nextLine();
@@ -937,37 +951,52 @@ public class HotelLogic {
 
     public void editCustomer() {
         String ssnToSearch;
-        Scanner sc = new Scanner(System.in);
-        Scanner scEdit = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
+
+        boolean gettingInput = true;
+
+        boolean matchfound = false;
 
         System.out.println("Enter customer SSN: ");
-        ssnToSearch = sc.next();
+        ssnToSearch = in.nextLine();
         System.out.println("Searching for " + ssnToSearch);
 
-        // Edit part starts here, after searching booked room, so a edit can happen
         for (Customer customer : customers) {
 
             if (ssnToSearch.matches(customer.getSsn())) {
+
+                matchfound = true;
+
                 System.out.println("Found a match!");
                 System.out.println("Name: " + customer.getName());
                 System.out.println("Address: " + customer.getAddress());
                 System.out.println("Phone number: " + customer.getTelephoneNumber());
-                System.out.println("BOOKINGS");
 
-//                System.out.println("Enter New Name: ");
-//                String editName = scEdit.next();
-//                customer.
+                System.out.println(" ");
+
                 System.out.println("Enter New Address: ");
-                String editAddress = scEdit.next();
+                String editAddress = in.nextLine();
                 customer.setAdress(editAddress);
 
-                System.out.println("Enter New Phone Number: ");
-                String editPhoneNo = scEdit.next();
-                customer.setTelephoneNumber(editPhoneNo);
+                while (gettingInput) {
+                    System.out.println("Please enter new telephone number: ");
+                    String telephone = in.nextLine();
+                    String pattern1 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d";
+                    String pattern2 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d\\d";
+                    if (telephone.matches(pattern1) || telephone.matches(pattern2)) {
+                        gettingInput = false;
+                        customer.setTelephoneNumber(telephone);
+                    } else {
+                        System.out.println("invalid input");
+                    }
+
+                }
+
                 break;
 
-            } else {
-                System.out.println(" The search didn´t succeed, please try again. ");
+            }
+            if (!matchfound) {
+                System.out.println("No match found for " + ssnToSearch + ", please try again. ");
             }
 
         }
@@ -987,9 +1016,9 @@ public class HotelLogic {
 
         for (Room room : rooms) {
             if (searching == room.roomNumber) {
-                
+
                 System.out.println("Room found!");
-                
+
                 printRoomInfo(room);
 
                 matchfound = true;
@@ -1789,41 +1818,17 @@ public class HotelLogic {
 
         }
 
-        // Put this block in a try-catch or loop to retry if input is wrong
-        gettinginput = true;
-        System.out.println("Enter checkin date (yyyy-mm-dd): ");
+        checkInDate = enterCheckIn();
+        checkOutDate = enterCheckOut(checkInDate);
 
-//        while (gettinginput) {
-//               String pattern = "\d\d\d\d-\d\d-\d\d";
-//                indate = in.next();
-//               if(indate.matches(pattern)){
-//                  checkInDate = enterDate(indate);
-//                  gettinginput = false;
-//               }else{
-//                   System.out.println("invalid input");
-//               }
-//
-//           }
-//in progress
-        checkInDate = enterDate(indate);
-
-        //Put this block in try-catch or loop to retry if input is wrong or check-out date is earlier then check-in date
-        System.out.println("Enter checkout date (yyyy-mm-dd): ");
-        outdate = in.next();
-
-        checkOutDate = enterDate(outdate);
-
-        int compareTo = enterDate(outdate).compareTo(enterDate(indate));
-        System.out.println("You have booked " + compareTo + " days. ");;
-
-        double calcPrice = 0;
+        double calcPrice;
         double priceAllrooms = 0;
 
         for (Room room : rooms) {
             priceAllrooms = priceAllrooms + room.getPricePerNight();
         }
 
-        calcPrice = priceAllrooms * compareTo;
+        calcPrice = priceAllrooms * compareTo(checkOutDate, checkInDate);
         System.out.println("Total cost: " + calcPrice);
 
         totalprice = calcPrice;
@@ -1838,18 +1843,123 @@ public class HotelLogic {
         return tempBooking;
     }
 
-    public LocalDate enterDate(String inputDate) {
-
-        System.out.println("String passed in: " + inputDate);
-
+    public boolean dateFormatterCheckIn(String inputDate) {
         //Convert the String to date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(inputDate, formatter);
+        LocalDate dateNow = LocalDate.now();
+        boolean valid = false;
 
+        if (!localDate.isBefore(dateNow)) {
+            valid = true;
+        } else {
+            System.out.println("Invalid date, that date has passed. Please try again ");
+        }
+
+        return valid;
+
+    }
+
+    public boolean dateFormatterCheckOut(String inputDate, LocalDate checkindate) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(inputDate, formatter);
 
-        // System.out.println("Converted date: " + localDate);
-        return localDate;
+        boolean valid = false;
 
+        if (!localDate.isBefore(checkindate) && !localDate.isEqual(checkindate)) {
+
+            valid = true;
+        } else {
+            System.out.println("Invalid date, date is before the check in date. Please try again ");
+        }
+
+        return valid;
+
+    }
+
+    public LocalDate enterCheckIn() {
+        Scanner in = new Scanner(System.in);
+        String indate = "";
+        boolean gettingInput = true;
+        while (gettingInput) {
+
+            System.out.println("Enter checkin date: ");
+            indate = in.next();
+
+            // check if the indate has the correct format and is not in the past
+            if (matchesPatternDate(indate) && (dateFormatterCheckIn(indate))) {
+                gettingInput = false;
+            }
+
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(indate, formatter);
+        return localDate;
+    }
+
+    public LocalDate enterCheckOut(LocalDate checkindate) {
+        Scanner in = new Scanner(System.in);
+        String indate = "";
+        boolean gettingInput = true;
+        while (gettingInput) {
+
+            System.out.println("Enter checkout date: ");
+            indate = in.next();
+
+            // check if the indate has the correct format and is not in the past
+            if (matchesPatternDate(indate) && (dateFormatterCheckOut(indate, checkindate))) {
+                gettingInput = false;
+            }
+
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(indate, formatter);
+        return localDate;
+    }
+
+    public boolean matchesPatternDate(String indate) {
+
+        boolean valid = false;
+        String pattern;
+        pattern = "\\d\\d\\d\\d-\\d\\d-\\d\\d";
+
+        if (!indate.matches(pattern)) {
+            System.out.println("Invalid date format. Please try again ");
+
+        } else {
+            valid = true;
+
+        }
+
+        return valid;
+    }
+
+    public boolean validCheckInDate(LocalDate localDate) {
+
+        LocalDate dateNow = LocalDate.now();
+        System.out.println(dateNow);
+        boolean isValidDate = true;
+
+        dateNow.isBefore(localDate);
+
+        if (localDate.isAfter(dateNow)) {
+            System.out.println("Correct");
+        } else {
+            enterCheckIn();
+        }
+
+        return isValidDate;
+    }
+
+    public int compareTo(LocalDate one, LocalDate two) {
+
+        int compareTo = one.compareTo(two);
+        System.out.println("You have booked " + compareTo + " days. ");
+
+        return compareTo;
     }
 
 } // end of class
