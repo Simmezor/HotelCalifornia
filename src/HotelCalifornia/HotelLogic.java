@@ -84,7 +84,7 @@ public class HotelLogic {
         System.out.println("Check-out Date: " + b.getCheckOutDate());
         System.out.println("Total Price:    " + b.getTotalPrice());
 
-        System.out.println("Rooms Booked: \n");
+        System.out.println("Rooms Booked:");
 
         if (b.getRooms().size() == 0) {
             System.out.println("No rooms Booked.");
@@ -92,7 +92,7 @@ public class HotelLogic {
 
             for (int i = 0; i < b.getRooms().size(); i++) {
 
-                printRoomInfo(b.getRooms().get(i));
+                System.out.println("Room " + b.getBookingId());
             }
 
         }
@@ -865,7 +865,7 @@ public class HotelLogic {
                 tempCustomer = customer;
 
                 for (Room room : rooms) {
-                    if (room.isBooked) {
+                    if (!room.isBooked) {
                         allbooked++;
                     }
                 }
@@ -875,17 +875,26 @@ public class HotelLogic {
                     try {
                         System.out.println("How many rooms do you want to book? ");
                         numberOfrooms = sc.nextInt();
-                        gettinginput = false;
-
+                        
+                        if(allbooked >= numberOfrooms ){
+                         gettinginput = false;
+                        }else{
+                            System.out.println("There are not enough rooms available");
+                        }
+                  
+                        
+                        
                     } catch (Exception e) {
                         System.out.println("invalid input");
                         sc.next();
                     }
+
                 }
 
                 while (booking == true && numberOfrooms > 0) {
+                    
 
-                    if (rooms.size() == 0 || allbooked == rooms.size()) {
+                    if (rooms.size() == 0 ) {
                         System.out.println("There are no more rooms available");
                         break;
                     }
@@ -1653,11 +1662,14 @@ public class HotelLogic {
 
                 if (roomline.charAt(j) != '.') {
                     tempstring = tempstring + roomline.charAt(j);
+                    
+               
 
                 } else {
 
                     for (Room room : rooms) {
                         String roomstring = "" + room.getRoomNumber();
+                             System.out.println(tempstring);
                         if (roomstring.matches(tempstring)) {
                             bookings.get(bookings.size() - 1).addRoom(room);
                         }
