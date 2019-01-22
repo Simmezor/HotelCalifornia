@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,6 +33,8 @@ public class HotelLogic {
     private ArrayList<Customer> customers;
     private ArrayList<Room> rooms;
     private ArrayList<Booking> bookings;
+
+    JFrame frame = new JFrame("");
 
     private boolean help = false;
 
@@ -54,13 +58,11 @@ public class HotelLogic {
 
     public static void printRoomInfo(Room r) {
 
-        System.out.println("RoomNumber: " + r.getRoomNumber());
-        System.out.println("Beds: " + r.getNumberOfBeds());
-        System.out.println("Has Balcony: " + r.isHasBalcony());
-        System.out.println("Price: " + r.getPricePerNight());
-        System.out.println("Booked: " + r.isIsBooked());
-
-        System.out.println("");
+        System.out.println("Room:    " + "\u001B[36m" + r.getRoomNumber() + "\u001B[00m");
+        System.out.println("Beds:    " + "\u001B[36m" + r.getNumberOfBeds() + "\u001B[00m");
+        System.out.println("Balcony: " + "\u001B[36m" + r.isHasBalcony() + "\u001B[00m");
+        System.out.println("Price:   " + "\u001B[36m" + r.getPricePerNight() + "\u001B[00m");
+        System.out.println("Booked:  " + "\u001B[36m" + r.isIsBooked() + "\u001B[00m");
 
     }
 
@@ -118,7 +120,6 @@ public class HotelLogic {
 
     }
 
-// Menu code written by Andreas
     public void showMenu() {
 
         showLogo();
@@ -134,24 +135,13 @@ public class HotelLogic {
 
         while (gettingInput) {
 
-            if (help) {
-                System.out.println(""
-                        + "1 = Rooms (here is all the functions)\n"
-                        + "2 = Customer\n"
-                        + "3 = Booking\n"
-                        + "4 = TestMenu\n"
-                        + "5 = exit\n"
-                        + "type help for instructions");
-
-            } else {
-                System.out.println(""
-                        + "1 = Rooms\n"
-                        + "2 = Customer\n"
-                        + "3 = Booking\n"
-                        + "4 = TestMenu\n"
-                        + "5 = exit\n");
-
-            }
+            System.out.println(""
+                    + "1 = Rooms\n"
+                    + "2 = Customer\n"
+                    + "3 = Booking\n"
+                    + "4 = exit\n"
+                    + "Write help for instructions\n"
+            );
 
             choice = sc.nextLine();
 
@@ -168,10 +158,8 @@ public class HotelLogic {
                 case "3":
                     bookingMenu();
                     break;
+
                 case "4":
-                    testMenu();
-                    break;
-                case "5":
 
                     gettingInput = false;
 
@@ -179,17 +167,13 @@ public class HotelLogic {
                     writeBookings("Bookings");
                     writeRooms("Rooms");
                     break;
-                case "admin test":
-                    UnitTests.runUnitTests(true);
-                    break;
+
                 case "help":
-                    help = true;
+                    helpMainMenu();
                     break;
-                case "admin test -ver":
-                    UnitTests.runUnitTests(false);
-                    break;
+
                 default:
-                    System.out.println("Error: Pick 1 - 3  or 5 and try again!");
+                    System.out.println("Error: Pick 1 - 4 and try again!");
                     break;
             }
         }
@@ -210,7 +194,9 @@ public class HotelLogic {
                     + "4 = Remove room\n"
                     + "5 = Edit Room\n"
                     + "6 = Search for room\n"
-                    + "7 = Return to main menu");
+                    + "7 = Return to main menu\n"
+                    + "Write help for instructions\n"
+            );
 
             choice = sc.nextLine();
 
@@ -246,9 +232,12 @@ public class HotelLogic {
                     System.out.println("Returning to main menu");
                     gettingInput = false;
                     break;
+                case "help":
+                    helpRoomMenu();
 
+                    break;
                 default:
-                    System.out.println("Error: Pick 1 - 6 and try again!");
+                    System.out.println("Error: Pick 1 - 7 and try again!");
                     break;
             }
         }
@@ -266,9 +255,11 @@ public class HotelLogic {
             System.out.println(""
                     + "1 = Show Customers\n"
                     + "2 = Add new Customer\n"
-                    + "3 = Search Customer\n"
-                    + "4 = Edit customer\n"
-                    + "5 = Return to main menu");
+                    + "3 = Edit customer\n"
+                    + "4 = Search Customer\n"
+                    + "5 = Return to main menu\n"
+                    + "Write help for instructions\n"
+            );
 
             choice = sc.nextLine();
 
@@ -283,16 +274,20 @@ public class HotelLogic {
                     break;
 
                 case "3":
-                    searchForCustomer();
+                    editCustomer();
                     break;
 
                 case "4":
-                    editCustomer();
+                    searchForCustomer();
                     break;
 
                 case "5":
                     System.out.println("Returning to main menu");
                     gettingInput = false;
+                    break;
+                case "help":
+                    helpCustomerMenu();
+
                     break;
 
                 default:
@@ -315,7 +310,10 @@ public class HotelLogic {
                     + "2 = Check in\n"
                     + "3 = Check out\n"
                     + "4 = Edit Booking\n"
-                    + "5 = Return to main menu");
+                    + "5 = Return to main menu\n"
+                    + "Write help for instructions\n"
+            );
+
             choice = sc.nextLine();
 
             switch (choice) {
@@ -343,7 +341,10 @@ public class HotelLogic {
                     System.out.println("Returning to main menu");
                     asking = false;
                     break;
+                case "help":
+                    helpBookingMenu();
 
+                    break;
                 default:
                     System.out.println("Error: Pick 1 - 5 and try again!");
                     break;
@@ -353,6 +354,84 @@ public class HotelLogic {
 
     public void testMenu() {
         System.out.println("\n" + "\u001B[32m" + "Working master" + "\u001B[0m" + "\n");
+    }
+
+    // Help instruction for each menu
+    public void helpMainMenu() {
+        String output = "Welcome to help menu\n"
+                + "In this menu you you will have four (4) different options\n"
+                + "You have to write 1, 2, 3, or 4 \n"
+                + "and press enter to access the different menus\n"
+                + "\n"
+                + "Write 1 for Rooms\n"
+                + "Write 2 for Customer\n"
+                + "Write 3 for Booking\n"
+                + "Write 4 to exit\n";
+
+        JOptionPane.showMessageDialog(frame,
+                output,
+                "Welcome to help for main menu",
+                JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    public void helpRoomMenu() {
+        String output = "Welcome to help menu\n"
+                + "In this menu you you will have seven (7) different options\n"
+                + "You have to write 1, 2, 3, 4, 5, 6, or 7 \n"
+                + "and press enter to access the different menus\n"
+                + "\n"
+                + "If you write 1, you will see all rooms in the hotel\n"
+                + "If you write 2, you will see all rooms that are free for booking\n"
+                + "If you write 3, you will be able to add new rooms\n"
+                + "If you write 4, you will be able to remove old rooms\n"
+                + "If you write 5, you will be able to edit existing rooms\n"
+                + "If you write 6, you can search for a room\n"
+                + "\n"
+                + "Write 7 to return to the first menu\n";
+
+        JOptionPane.showMessageDialog(frame,
+                output,
+                "Welcome to help for room menu",
+                JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    public void helpCustomerMenu() {
+        String output = "Welcome to help menu\n"
+                + "In this menu you you will have five (5) different options\n"
+                + "You have to write 1, 2, 3, 4, or 5 \n"
+                + "and press enter to access the different menus\n"
+                + "\n"
+                + "If you write 1 , you will see all customers registered\n"
+                + "If you write 2 , you will be able to add new customers\n"
+                + "If you write 3 , you will be able to edit customer information\n"
+                + "If you write 4 , you will be able to search for customers\n"
+                + "\n"
+                + "Write 5 to return to first menu\n";
+        JOptionPane.showMessageDialog(frame,
+                output,
+                "Welcome to help for customer menu",
+                JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    public void helpBookingMenu() {
+        String output = "Welcome to help menu\n"
+                + "In this menu you you will have five (5) different options\n"
+                + "You have to write 1, 2, 3, 4, or 5 to access the different menu\n"
+                + "\n"
+                + "If you write 1 , you will see all bookings\n"
+                + "If you write 2 , you will be able to check in customers\n"
+                + "If you write 3 , you will be able to check out customers\n"
+                + "If you write 4 , you will be able to edit bookings\n"
+                + "\n"
+                + "Write 5 to return to first menu\n";
+        JOptionPane.showMessageDialog(frame,
+                output,
+                "Welcome to help for booking menu",
+                JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     public void CheckAllRooms(ArrayList<Room> rooms) {
@@ -558,9 +637,9 @@ public class HotelLogic {
         while (gettingInput) {
             System.out.println("Please enter your telephone number: ");
             telephone = in.nextLine();
-           String pattern1 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d";
-             String pattern2 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d\\d";      
-            if (telephone.matches(pattern1) || telephone.matches(pattern2) ) {
+            String pattern1 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d";
+            String pattern2 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d\\d";
+            if (telephone.matches(pattern1) || telephone.matches(pattern2)) {
                 gettingInput = false;
             } else {
                 System.out.println("invalid input");
@@ -570,10 +649,9 @@ public class HotelLogic {
 
         Customer newCustomer = new Customer(ssn, name, address, telephone);
         customers.add(newCustomer);
-           System.out.println("New customer " + name + " succesfully added. " );
+        System.out.println("New customer " + name + " succesfully added. ");
 
     }
-
 
     public Booking createBookingOLD(ArrayList<Room> rooms) {
 
@@ -897,6 +975,74 @@ public class HotelLogic {
     }
 
     public void editRoom() {
+
+        Scanner in = new Scanner(System.in);
+
+        boolean gettinginput = true;
+
+        boolean matchfound = false;
+
+        System.out.println("Enter room number");
+        int searching = in.nextInt();
+
+        for (Room room : rooms) {
+            if (searching == room.roomNumber) {
+                
+                System.out.println("Room found!");
+                
+                printRoomInfo(room);
+
+                matchfound = true;
+
+                while (gettinginput) {
+
+                    try {
+                        System.out.println("Enter new total beds? (1 - 5: ");
+                        int beds = in.nextInt();
+
+                        if (beds < 1 || beds > 5) {
+                            System.out.println("Invalid input ");
+                            gettinginput = true;
+                        }
+                        gettinginput = false;
+
+                        room.setNumberOfBeds(beds);
+
+                    } catch (Exception e) {
+                        System.out.println("invalid input");
+                        in.next();
+                    }
+                }
+
+                gettinginput = true;
+
+                while (gettinginput) {
+                    try {
+                        System.out.println("Enter new cost per night? (500 - 1000): ");
+                        double price = in.nextDouble();
+
+                        if (price < 500 || price > 1000) {
+                            System.out.println("Invalid input");
+                            gettinginput = true;
+                        }
+
+                        gettinginput = false;
+
+                        room.setPricePerNight(price);
+
+                    } catch (Exception e) {
+                        System.out.println("invalid input");
+                        in.next();
+
+                    }
+                }
+            }
+        }
+
+        if (!matchfound) {
+            System.out.println("Could not find a room with roomnumber " + searching);
+        }
+
     }
 
     public void searchForCustomer(ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Booking> bookings) {
@@ -1137,13 +1283,12 @@ public class HotelLogic {
                         String editDate = scEditBooking.nextLine();
                         booking.setCheckOutDate(editDate);
 
-                        System.out.println("Enter new total rooms (not implemented yet): ");
-                        String editRooms = scEditBooking.nextLine();
-                        booking.setTotalPrice(searching);
-
-                        System.out.println("Enter New Price: ");
-                        String editPrice = scEditBooking.nextLine();
-                        booking.setTotalPrice(searching);
+//                        System.out.println("Enter new total rooms (not implemented yet): ");
+//                        String editRooms = scEditBooking.nextLine();
+//                        booking.setTotalPrice(searching);
+//                        System.out.println("Enter New Price: ");
+//                        String editPrice = scEditBooking.nextLine();
+//                        booking.setTotalPrice(searching);
                     } else {
                         System.out.println("Could not find booking number");
                     }
@@ -1339,7 +1484,7 @@ public class HotelLogic {
                     tempstring = tempstring + bookingline.charAt(j);
 
                 } else {
-      
+
                     for (Booking booking : bookings) {
                         String bookingstring = "" + booking.getBookingId();
                         if (bookingstring.matches(tempstring)) {
@@ -1481,7 +1626,7 @@ public class HotelLogic {
                     tempstring = tempstring + roomline.charAt(j);
 
                 } else {
-                  
+
                     for (Room room : rooms) {
                         String roomstring = "" + room.getRoomNumber();
                         if (roomstring.matches(tempstring)) {
@@ -1598,7 +1743,6 @@ public class HotelLogic {
         }
     }
 
-   
     public Booking createBooking(ArrayList<Room> rooms) {
 
         Scanner in = new Scanner(System.in);
@@ -1645,7 +1789,7 @@ public class HotelLogic {
 
         }
 
-   // Put this block in a try-catch or loop to retry if input is wrong
+        // Put this block in a try-catch or loop to retry if input is wrong
         gettinginput = true;
         System.out.println("Enter checkin date (yyyy-mm-dd): ");
 
@@ -1703,11 +1847,10 @@ public class HotelLogic {
 
         LocalDate localDate = LocalDate.parse(inputDate, formatter);
 
-   // System.out.println("Converted date: " + localDate);
+        // System.out.println("Converted date: " + localDate);
         return localDate;
 
     }
-
 
 } // end of class
 
