@@ -1833,7 +1833,7 @@ public class HotelLogic {
 
         totalprice = calcPrice;
 
-        tempBooking = new Booking(bookingID, indate, outdate, totalprice);
+        tempBooking = new Booking(bookingID, checkInDate.toString(), checkOutDate.toString(), totalprice);
 
         for (int i = 0; i < rooms.size(); i++) {
             tempBooking.addRoom(rooms.get(i));
