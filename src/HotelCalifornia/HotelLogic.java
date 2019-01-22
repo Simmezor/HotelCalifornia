@@ -1112,14 +1112,44 @@ public class HotelLogic {
                 }
                 System.out.println(" ");
 
-                System.out.println("Enter booking number");
-                int searching = sc.nextInt();
+                boolean gettinginput = true;
+                int searching = -1;
+
+                while (gettinginput) {
+
+                    try {
+                        System.out.println("Enter booking number");
+                        searching = sc.nextInt();
+
+                        gettinginput = false;
+
+                    } catch (Exception e) {
+                        System.out.println("invalid input");
+                        sc.next();
+                    }
+                }
+
                 for (Booking booking : customer.getBookings()) {
                     if (searching == booking.getBookingId()) {
 
-                        System.out.println("Enter New Date: ");
-                        String editDate = scEditBooking.nextLine();
-                        booking.setCheckOutDate(editDate);
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        LocalDate checkindate = LocalDate.parse(booking.getCheckInDate(), formatter);
+
+                        LocalDate checkoutdate = enterCheckOut(checkindate);
+                        booking.setCheckOutDate(checkoutdate.toString());
+
+                        double calcPrice;
+                        double priceAllrooms = 0;
+
+                        for (Room room : rooms) {
+                            priceAllrooms = priceAllrooms + room.getPricePerNight();
+                        }
+
+                        calcPrice = priceAllrooms * compareTo(checkoutdate, checkindate);
+
+                        System.out.println("Total cost: " + calcPrice);
+
+                        booking.setTotalPrice(calcPrice);
 
                     } else {
                         System.out.println("Could not find booking number");
@@ -1141,7 +1171,11 @@ public class HotelLogic {
         int searchForBookings = 0;
         Scanner sc = new Scanner(System.in);
         boolean removebool = false;
+        boolean matchfound = false;
         boolean getInput = true;
+
+        int customerindex = 0;
+        int bookingindex = 0;
 
         while (getInput) {
 
@@ -1153,59 +1187,51 @@ public class HotelLogic {
             } catch (Exception e) {
 
                 System.out.println("invalid input");
-                searchForBookings = sc.nextInt();
+                 sc.next();
 
             }
         }
+        for (int n = 0; n < customers.size(); n++) {
+            for (int i = 0; i < customers.get(n).getBookings().size(); i++) {
+                if (customers.get(n).getBookings().get(i).bookingId == searchForBookings) {
+                    System.out.println("Match found!");
+                    matchfound = true;
+                    System.out.println("Do you wish to remove this booking?");
+                    
+                    String remove = sc.next();
+                    
+                    if (remove.equalsIgnoreCase("yes") || remove.equalsIgnoreCase("y") || remove.equalsIgnoreCase("ye")) {
+                        removebool = true;
 
-        System.out.println(bookings.size());
-        for (Booking booking : bookings) {
-
-            if (searchForBookings == booking.getBookingId()) {
-
-                System.out.println("Do you wish to remove this booking?");
-
-                String remove = sc.next();
-
-                if (remove.equalsIgnoreCase("yes") || remove.equalsIgnoreCase("y") || remove.equalsIgnoreCase("ye")) {
-
-                    removebool = true;
-
-                    for (Room room1 : rooms) {
-                        for (Room room2 : booking.rooms) {
-                            if (room1.getRoomNumber() == room2.getRoomNumber()) {
-                                room1.setIsBooked(false);
-                            }
-                        }
-                    }
-
-                    //  booking.getRooms().clear();
-                    System.out.println("Booking removed!");
-
-                } else {
-                    System.out.println("Removing booking aborted.");
-                    break;
-                }
-            }
-        }
-
-        int customerindex = 0;
-        int bookingindex = 0;
-
-        if (removebool) {
-            for (int n = 0; n < customers.size(); n++) {
-
-                for (int i = 0; i < customers.get(n).getBookings().size(); i++) {
-                    if (customers.get(n).getBookings().get(i).bookingId == searchForBookings) {
                         customerindex = n;
                         bookingindex = i;
+
+                    } else {
+                        System.out.println("Remove booking aborted");
                     }
                 }
-
             }
-            customers.get(customerindex).getBookings().remove(bookingindex);
+
+            //  booking.getRooms().clear();
         }
 
+        if (removebool) {
+            customers.get(customerindex).getBookings().remove(bookingindex);
+
+            for (Booking booking : bookings) {
+                for (Room room1 : rooms) {
+                    for (Room room2 : booking.rooms) {
+                        if (room1.getRoomNumber() == room2.getRoomNumber()) {
+                            room1.setIsBooked(false);
+                        }
+                    }
+                }
+            }
+            System.out.println("Booking removed!");
+        }
+        if (!matchfound) {
+            System.out.println("No current booking with that ID exist");
+        }
     }
 
     public void loadCustomers(String ref) {
@@ -1700,6 +1726,7 @@ public class HotelLogic {
     public int compareTo(LocalDate one, LocalDate two) {
 
         int compareTo = one.compareTo(two);
+
         System.out.println("You have booked " + compareTo + " days. ");
 
         return compareTo;
