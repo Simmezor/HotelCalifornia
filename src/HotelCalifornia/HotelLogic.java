@@ -1074,27 +1074,46 @@ public class HotelLogic {
         }
     }
 
-    public void removeRoom() {
-        String roomToSearch;
+  public void removeRoom() {
+        int roomToSearch = -1;
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter room number");
-        roomToSearch = sc.next();
-        int roomNum = Integer.parseInt(roomToSearch);
+        System.out.println("Enter room number(100-1112)");
+        int roomNum = 0;
+        boolean gettinginput = true;
+
+        while (gettinginput) {
+
+            try {
+                roomToSearch = sc.nextInt();
+                gettinginput = false;
+
+            } catch (Exception ex) {
+                System.out.println("invalid input, try again");
+                sc.next();
+            }
+
+        }
 
         for (Room room : rooms) {
-            if (room.getRoomNumber() == roomNum) {
-                System.out.println(" Match ");
-                System.out.println(" Do you want remove this room? ");
-                String remove = sc.next();
+
+            if (room.getRoomNumber() == roomToSearch) {
+                System.out.println("Match ");
+                System.out.println("Do you want remove this room? ");
+                Scanner scanner=new Scanner(System.in);
+                String remove = scanner.nextLine();
+            
                 if (remove.equalsIgnoreCase("yes")) {
                     rooms.remove(room);
                     System.out.println("The room has been removed. ");
                     break;
+                } else if (remove.equals("") || remove.equals(" ")) {
+                    System.out.println("Try again! ");
                 }
             }
         }
-    }
 
+    }
+        
     public void editBooking() {
 
         boolean match = false;
