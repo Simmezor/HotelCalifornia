@@ -1709,7 +1709,7 @@ public class HotelLogic {
         boolean gettingInput = true;
         while (gettingInput) {
 
-            System.out.println("Enter checkin date, use format yyyy-mm-dd. ");
+            System.out.println("Enter checkout date, use format yyyy-mm-dd. ");
             indate = in.next();
 
             // check if the indate has the correct format and is not in the past
