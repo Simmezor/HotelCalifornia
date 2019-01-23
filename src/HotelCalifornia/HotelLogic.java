@@ -619,7 +619,9 @@ public class HotelLogic {
     }
 
     public void addCustomer() {
-        Scanner in = new Scanner(System.in);
+        // "ISO-8859-1" is needed for Swedish output and Input, and textfiles saves.
+        // Should the above not work try Scanner in = new Scanner(System.in, "Cp850");
+        Scanner in = new Scanner(System.in, "ISO-8859-1");
 
         boolean gettingInput = true;
 
@@ -817,7 +819,9 @@ public class HotelLogic {
 
     public void editCustomer() {
         String ssnToSearch;
-        Scanner in = new Scanner(System.in);
+        // "ISO-8859-1" is needed for Swedish output and Input, and textfiles saves.
+        // Should the above not work try Scanner in = new Scanner(System.in, "Cp850");
+        Scanner in = new Scanner(System.in, "ISO-8859-1");
         String telephone = "";
         boolean gettingInput = true;
 
