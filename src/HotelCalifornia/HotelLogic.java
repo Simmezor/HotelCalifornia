@@ -135,7 +135,7 @@ public class HotelLogic {
 
         while (gettingInput) {
 
-            System.out.println(""
+            System.out.println("\n"
                     + "1 = Rooms\n"
                     + "2 = Customer\n"
                     + "3 = Booking\n"
@@ -187,7 +187,7 @@ public class HotelLogic {
 
         Scanner sc = new Scanner(System.in);
         while (gettingInput == true) {
-            System.out.println(""
+            System.out.println("\n"
                     + "1 = Show all rooms\n"
                     + "2 = Show available rooms\n"
                     + "3 = Add new room\n"
@@ -252,7 +252,7 @@ public class HotelLogic {
 
         while (gettingInput == true) {
 
-            System.out.println(""
+            System.out.println("\n"
                     + "1 = Show Customers\n"
                     + "2 = Add new Customer\n"
                     + "3 = Edit customer\n"
@@ -305,7 +305,7 @@ public class HotelLogic {
 
         while (asking == true) {
 
-            System.out.println(""
+            System.out.println("\n"
                     + "1 = Show Bookings\n"
                     + "2 = Check in\n"
                     + "3 = Check out\n"
@@ -1088,10 +1088,10 @@ public class HotelLogic {
     public void editBooking() {
 
         boolean match = false;
-
+        boolean bookingmatch = false;
         String ssnToSearch;
+        int searching = -1;
         Scanner sc = new Scanner(System.in);
-        Scanner scEditBooking = new Scanner(System.in);
 
         System.out.println("Enter customer SSN: ");
         ssnToSearch = sc.nextLine();
@@ -1113,12 +1113,11 @@ public class HotelLogic {
                 System.out.println(" ");
 
                 boolean gettinginput = true;
-                int searching = -1;
 
                 while (gettinginput) {
 
                     try {
-                        System.out.println("Enter booking number");
+                        System.out.println("Enter booking ID:");
                         searching = sc.nextInt();
 
                         gettinginput = false;
@@ -1132,6 +1131,8 @@ public class HotelLogic {
                 for (Booking booking : customer.getBookings()) {
                     if (searching == booking.getBookingId()) {
 
+                        bookingmatch = true;
+
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         LocalDate checkindate = LocalDate.parse(booking.getCheckInDate(), formatter);
 
@@ -1141,7 +1142,7 @@ public class HotelLogic {
                         double calcPrice;
                         double priceAllrooms = 0;
 
-                        for (Room room : rooms) {
+                        for (Room room : booking.rooms) {
                             priceAllrooms = priceAllrooms + room.getPricePerNight();
                         }
 
@@ -1151,8 +1152,6 @@ public class HotelLogic {
 
                         booking.setTotalPrice(calcPrice);
 
-                    } else {
-                        System.out.println("Could not find booking number");
                     }
                 }
                 match = true;
@@ -1160,6 +1159,10 @@ public class HotelLogic {
             }
 
         }
+        if (!bookingmatch && match) {
+            System.out.println("Could not find booking ID: " + searching);
+        }
+
         if (!match) {
             System.out.println("No Customer found");
         }
@@ -1187,7 +1190,7 @@ public class HotelLogic {
             } catch (Exception e) {
 
                 System.out.println("invalid input");
-                 sc.next();
+                sc.next();
 
             }
         }
@@ -1197,9 +1200,9 @@ public class HotelLogic {
                     System.out.println("Match found!");
                     matchfound = true;
                     System.out.println("Do you wish to remove this booking?");
-                    
+
                     String remove = sc.next();
-                    
+
                     if (remove.equalsIgnoreCase("yes") || remove.equalsIgnoreCase("y") || remove.equalsIgnoreCase("ye")) {
                         removebool = true;
 
@@ -1726,10 +1729,10 @@ public class HotelLogic {
 
     public int compareTo(LocalDate one, LocalDate two) {
 
-        int compareTo = one.getDayOfYear() - two.getDayOfYear();
+        int compareTo = 0;
 
-        
-        
+        compareTo = ((one.getYear() - two.getYear()) * 365 + (one.getDayOfYear() - two.getDayOfYear()));
+
         System.out.println("You have booked " + compareTo + " days. ");
 
         return compareTo;
