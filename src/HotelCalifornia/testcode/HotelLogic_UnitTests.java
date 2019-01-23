@@ -122,3 +122,29 @@ public class HotelLogic_UnitTests {
         assertEquals(expResult, result);
         System.out.println(result);
     }
+
+     */
+    @Test
+    public void testDateFormatterCheckInPASSED() {
+        System.out.println("dateFormatterCheckIn");
+        String inputDate = "2019-01-22";
+        HotelLogic instance = new HotelLogic();
+        boolean expResult = true;
+        boolean result = instance.dateFormatterCheckIn(inputDate);
+        assertEquals(expResult, result);
+        System.out.println(result);
+       
+    }
+    
+     @Test
+    public void testDateFormatterCheckInFAILED() {
+        System.out.println("dateFormatterCheckIn");
+        String inputDate = "20190122";
+        HotelLogic instance = new HotelLogic();
+        boolean expResult = true;
+        boolean result = instance.dateFormatterCheckIn(inputDate);
+        assertEquals(expResult, result);
+        System.out.println(result);
+         System.out.println(expResult);
+       
+    }
