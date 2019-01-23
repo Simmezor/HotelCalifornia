@@ -617,7 +617,8 @@ public class HotelLogic {
 
         Room newRoom = new Room(temproomnum, beds, balconybool, price, false);
 
-        rooms.add(newRoom);
+        rooms.add(newRoom);printRoomInfo(newRoom);
+        printRoomInfo(newRoom);
 
     }
 
@@ -873,7 +874,7 @@ public class HotelLogic {
         for (Room room : rooms) {
             if (searching == room.roomNumber) {
 
-                System.out.println("Room found!");
+                System.out.println("Room found! ");
 
                 printRoomInfo(room);
 
@@ -897,7 +898,7 @@ public class HotelLogic {
                         
 
                     } catch (Exception e) {
-                        System.out.println("invalid input");
+                        System.out.println("Invalid input");
                         in.next();
                     }
                 }
@@ -918,7 +919,7 @@ public class HotelLogic {
                         }
 
                     } catch (Exception e) {
-                        System.out.println("invalid input");
+                        System.out.println("Invalid input");
                         in.next();
 
                     }
