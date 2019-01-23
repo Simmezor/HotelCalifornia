@@ -842,9 +842,7 @@ public class HotelLogic {
 
         }
 
-    }
-
-     public void editRoom() {
+    }  public void editRoom() {
 
         Scanner in = new Scanner(System.in);
 
@@ -852,12 +850,9 @@ public class HotelLogic {
 
         boolean matchfound = false;
 
-     
-        
-        
-        int searching =  -1;
-        
-            while (gettinginput) {
+        int searching = -1;
+
+        while (gettinginput) {
 
             try {
                 System.out.println("Enter room number (100 - 1112): ");
@@ -869,15 +864,11 @@ public class HotelLogic {
                     gettinginput = true;
                 }
 
-
             } catch (Exception e) {
                 System.out.println("Invalid input");
                 in.next();
             }
         }
-        
-        
-        
 
         for (Room room : rooms) {
             if (searching == room.roomNumber) {
@@ -887,7 +878,7 @@ public class HotelLogic {
                 printRoomInfo(room);
 
                 matchfound = true;
-
+                gettinginput = true;
                 while (gettinginput) {
 
                     try {
@@ -897,10 +888,13 @@ public class HotelLogic {
                         if (beds < 1 || beds > 5) {
                             System.out.println("Invalid input ");
                             gettinginput = true;
+                        }else{
+                         gettinginput = false;
+                         room.setNumberOfBeds(beds);
                         }
-                        gettinginput = false;
+                       
 
-                        room.setNumberOfBeds(beds);
+                        
 
                     } catch (Exception e) {
                         System.out.println("invalid input");
@@ -912,20 +906,16 @@ public class HotelLogic {
 
                 while (gettinginput) {
                     try {
-                        System.out.println("Enter new cost per night? (500 - 1000): ");
+                        System.out.println("Enter new cost per night (500 - 1000): ");
                         double price = in.nextDouble();
 
                         if (price < 500 || price > 1000) {
                             System.out.println("Invalid input");
                             gettinginput = true;
-                        }else{
-                          gettinginput = false;
-                          room.setPricePerNight(price);
+                        } else {
+                            gettinginput = false;
+                            room.setPricePerNight(price);
                         }
-
-                      
-
-                
 
                     } catch (Exception e) {
                         System.out.println("invalid input");
