@@ -844,7 +844,7 @@ public class HotelLogic {
 
     }
 
-    public void editRoom() {
+     public void editRoom() {
 
         Scanner in = new Scanner(System.in);
 
@@ -852,8 +852,32 @@ public class HotelLogic {
 
         boolean matchfound = false;
 
-        System.out.println("Enter room number");
-        int searching = in.nextInt();
+     
+        
+        
+        int searching =  -1;
+        
+            while (gettinginput) {
+
+            try {
+                System.out.println("Enter room number (100 - 1112): ");
+                searching = in.nextInt();
+                gettinginput = false;
+
+                if (searching < 100 || searching > 1112) {
+                    System.out.println("Invalid input");
+                    gettinginput = true;
+                }
+
+
+            } catch (Exception e) {
+                System.out.println("Invalid input");
+                in.next();
+            }
+        }
+        
+        
+        
 
         for (Room room : rooms) {
             if (searching == room.roomNumber) {
@@ -867,7 +891,7 @@ public class HotelLogic {
                 while (gettinginput) {
 
                     try {
-                        System.out.println("Enter new total beds? (1 - 5: ");
+                        System.out.println("Enter new total beds (1 - 5):");
                         int beds = in.nextInt();
 
                         if (beds < 1 || beds > 5) {
@@ -894,11 +918,14 @@ public class HotelLogic {
                         if (price < 500 || price > 1000) {
                             System.out.println("Invalid input");
                             gettinginput = true;
+                        }else{
+                          gettinginput = false;
+                          room.setPricePerNight(price);
                         }
 
-                        gettinginput = false;
+                      
 
-                        room.setPricePerNight(price);
+                
 
                     } catch (Exception e) {
                         System.out.println("invalid input");
