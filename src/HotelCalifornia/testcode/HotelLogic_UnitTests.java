@@ -72,3 +72,53 @@ public class HotelLogic_UnitTests {
    }
 
 }
+
+       
+    }
+
+    @Test
+    public void testEnterCheckInPASSED() {
+        System.out.println("enterCheckIn");
+        String inputDate = "2019-01-24";
+        HotelLogic instance = new HotelLogic();
+        boolean expResult = true;
+        boolean result = instance.dateFormatterCheckIn(inputDate);
+        assertEquals(expResult, result);
+        System.out.println(result);
+    
+    }
+ 
+    
+      @Test
+    public void testEnterCheckInFAILED() {
+        System.out.println("enterCheckIn");
+        String inputDate = "2018-01-25";
+        HotelLogic instance = new HotelLogic();
+        boolean expResult = false;
+        boolean result = instance.dateFormatterCheckIn(inputDate);
+        assertEquals(expResult, result);
+        System.out.println(result);
+        
+    }
+
+    @Test
+    public void testMatchesPatternDatePASSED() {
+        System.out.println("matchesPatternDate");
+        String indate = "2019-01-25";
+        HotelLogic instance = new HotelLogic();
+        boolean expResult = true;
+        boolean result = instance.matchesPatternDate(indate);
+        assertEquals(expResult, result);
+        System.out.println(result);
+    }
+    
+      @Test
+    public void testMatchesPatternDateFAILED() {
+        System.out.println("matchesPatternDate");
+        String indate = "20190122";
+        HotelLogic instance = new HotelLogic();
+        boolean expResult = false;
+        boolean result = instance.matchesPatternDate(indate);
+        assertEquals(expResult, result);
+        System.out.println(result);
+    }
