@@ -842,94 +842,89 @@ public class HotelLogic {
             }
 
         }
-
-    }  public void editRoom() {
+    public void editRoom() {
 
         Scanner in = new Scanner(System.in);
 
         boolean gettinginput = true;
-
         boolean matchfound = false;
+        int beds = -1;
+        double price = -1;
+        
+        System.out.println("Enter room number");
+        int searching = in.nextInt();
+        Room tempRoom = new Room();
+        
+                int roomfound = 0;
+                    
+        for (int i = 0; i < rooms.size(); i++) {
+            
+        
+ {
+            if (searching == rooms.get(i).roomNumber) {
 
-        int searching = -1;
+                System.out.println("Room found!");
 
-        while (gettinginput) {
-
-            try {
-                System.out.println("Enter room number (100 - 1112): ");
-                searching = in.nextInt();
-                gettinginput = false;
-
-                if (searching < 100 || searching > 1112) {
-                    System.out.println("Invalid input");
-                    gettinginput = true;
-                }
-
-            } catch (Exception e) {
-                System.out.println("Invalid input");
-                in.next();
-            }
-        }
-
-        for (Room room : rooms) {
-            if (searching == room.roomNumber) {
-
-                System.out.println("Room found! ");
-
-                printRoomInfo(room);
+                printRoomInfo(rooms.get(i));
 
                 matchfound = true;
+                roomfound = i;
                 gettinginput = true;
                 while (gettinginput) {
 
                     try {
-                        System.out.println("Enter new total beds (1 - 5):");
-                        int beds = in.nextInt();
+                        System.out.println("Enter new total beds? (1 - 5: ");
+                        beds = in.nextInt();
 
                         if (beds < 1 || beds > 5) {
                             System.out.println("Invalid input ");
                             gettinginput = true;
-                        }else{
-                         gettinginput = false;
-                         room.setNumberOfBeds(beds);
                         }
-                       
+                        gettinginput = false;
 
-                        
+                        rooms.get(i).setNumberOfBeds(beds);
 
                     } catch (Exception e) {
-                        System.out.println("Invalid input");
+                        System.out.println("invalid input");
                         in.next();
                     }
                 }
-
+                
+      
+       
                 gettinginput = true;
-
                 while (gettinginput) {
                     try {
-                        System.out.println("Enter new cost per night (500 - 1000): ");
-                        double price = in.nextDouble();
+                        System.out.println("Enter new cost per night? (500 - 1000): ");
+                        price = in.nextDouble();
 
                         if (price < 500 || price > 1000) {
                             System.out.println("Invalid input");
                             gettinginput = true;
-                        } else {
-                            gettinginput = false;
-                            room.setPricePerNight(price);
                         }
 
+                        gettinginput = false;
+
+                        rooms.get(i).setPricePerNight(price);
+
                     } catch (Exception e) {
-                        System.out.println("Invalid input");
+                        System.out.println("invalid input");
                         in.next();
 
                     }
                 }
+                
+                
             }
+            
+ }    
         }
 
         if (!matchfound) {
-            System.out.println("Could not find a room with roomnumber " + searching);
+            System.out.println("Could not find a room with room number " + searching);
         }
+        System.out.println("\n" + "Room edited. New info: ");
+        printRoomInfo(rooms.get(roomfound));
 
     }
 
