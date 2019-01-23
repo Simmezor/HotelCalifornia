@@ -633,7 +633,7 @@ public class HotelLogic {
         while (gettingInput) {
             System.out.println("Please enter name: ");
             name = in.nextLine();
-            String pattern1 = "[a-öA-Ö]{2,100}";
+            String pattern1 = "[a-öA-Ö\\s]{2,100}";
 
             if (name.matches(pattern1)) {
                 gettingInput = false;
