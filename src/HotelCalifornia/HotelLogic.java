@@ -640,17 +640,16 @@ public class HotelLogic {
             } else {
                 System.out.println("invalid input");
             }
-
         }
-
         System.out.println("Please enter address: ");
         String address = in.nextLine();
 
         String telephone = "";
         gettingInput = true;
         while (gettingInput) {
-            System.out.println("Please enter your telephone number: ");
+            System.out.println("Please enter your telephone number, use format XXX-XXX XX XX: ");
             telephone = in.nextLine();
+            telephone = telephone.replaceAll("\\s+","");
             String pattern1 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d";
             String pattern2 = "\\d\\d\\d([-])?\\d\\d\\d\\d\\d\\d\\d";
             if (telephone.matches(pattern1) || telephone.matches(pattern2)) {
@@ -658,9 +657,7 @@ public class HotelLogic {
             } else {
                 System.out.println("invalid input");
             }
-
         }
-
         Customer newCustomer = new Customer(ssn, name, address, telephone);
         customers.add(newCustomer);
         System.out.println("New customer " + name + " succesfully added. ");
