@@ -6,7 +6,6 @@
  */
 package hotelcalifornia;
 
-
 import java.util.ArrayList;
 
 import java.util.Scanner;
@@ -166,6 +165,9 @@ public class HotelLogic {
                     writeCustomers("Customers");
                     writeBookings("Bookings");
                     writeRooms("Rooms");
+
+                    frame.dispose();
+
                     break;
 
                 case "help":
@@ -374,7 +376,7 @@ public class HotelLogic {
         String output = "Welcome to help menu\n"
                 + "In this menu you you will have seven (7) different options\n"
                 + "You have to write 1, 2, 3, 4, 5, 6, or 7 \n"
-                + "and press enter to access the different menus\n"
+                + "and press enter to execute the different options\n"
                 + "\n"
                 + "If you write 1, you will see all rooms in the hotel\n"
                 + "If you write 2, you will see all rooms that are free for booking\n"
@@ -396,7 +398,7 @@ public class HotelLogic {
         String output = "Welcome to help menu\n"
                 + "In this menu you you will have five (5) different options\n"
                 + "You have to write 1, 2, 3, 4, or 5 \n"
-                + "and press enter to access the different menus\n"
+                + "and press enter to execute the different options\n"
                 + "\n"
                 + "If you write 1 , you will see all customers registered\n"
                 + "If you write 2 , you will be able to add new customers\n"
@@ -414,7 +416,8 @@ public class HotelLogic {
     public void helpBookingMenu() {
         String output = "Welcome to help menu\n"
                 + "In this menu you you will have five (5) different options\n"
-                + "You have to write 1, 2, 3, 4, or 5 to access the different menu\n"
+                + "You have to write 1, 2, 3, 4, or 5 \n"
+                + "and press enter to execute the different options\n"
                 + "\n"
                 + "If you write 1 , you will see all bookings\n"
                 + "If you write 2 , you will be able to check in customers\n"
@@ -477,9 +480,9 @@ public class HotelLogic {
             }
 
             if (room.isIsBooked()) {
-                System.out.println("Room is " + (char) 27 + "[31m" + "BOOKED!");
+                System.out.println("Room is " + (char) 27 + "[31m" + "BOOKED!" + "\u001B[00m");
             } else {
-                System.out.println("Room is " + (char) 27 + "[32m" + "AVAILABLE!");
+                System.out.println("Room is " + (char) 27 + "[32m" + "AVAILABLE!" + "\u001B[00m");
             }
 
             System.out.println((char) 27 + "[39m" + "Price per night: " + room.getPricePerNight() + ".\r\n");
@@ -621,7 +624,8 @@ public class HotelLogic {
     public void addCustomer() {
         // "ISO-8859-1" is needed for Swedish output and Input, and textfiles saves.
         // Should the above not work try Scanner in = new Scanner(System.in, "Cp850");
-        Scanner in = new Scanner(System.in, "ISO-8859-1");
+        //Scanner in = new Scanner(System.in, "ISO-8859-1");
+        Scanner in = new Scanner(System.in);
 
         boolean gettingInput = true;
 
@@ -665,7 +669,7 @@ public class HotelLogic {
 
             if (address.matches(pattern1)) {
                 gettingInput = false;
-               
+
             } else {
                 System.out.println("Invalid input");
             }
@@ -818,10 +822,14 @@ public class HotelLogic {
     }
 
     public void editCustomer() {
-        String ssnToSearch;
+
         // "ISO-8859-1" is needed for Swedish output and Input, and textfiles saves.
         // Should the above not work try Scanner in = new Scanner(System.in, "Cp850");
-        Scanner in = new Scanner(System.in, "ISO-8859-1");
+        //Scanner in = new Scanner(System.in, "ISO-8859-1");
+        Scanner in = new Scanner(System.in);
+
+        String ssnToSearch;
+
         String telephone = "";
         boolean gettingInput = true;
 
@@ -895,8 +903,23 @@ public class HotelLogic {
         int beds = -1;
         double price = -1;
 
-        System.out.println("Enter room number (100 - 1112): ");
-        int searching = in.nextInt();
+        int searching = -1;
+
+        System.out.println("Enter room number(100-1112)");
+        int roomNum = 0;
+
+        while (gettinginput) {
+
+            try {
+                searching = in.nextInt();
+                gettinginput = false;
+
+            } catch (Exception ex) {
+                System.out.println("Invalid input, try again");
+                in.next();
+            }
+
+        }
 
         int roomfound = 0;
 
@@ -1094,7 +1117,7 @@ public class HotelLogic {
         }
 
         if (matchfound == false) {
-            System.out.println("No room with that roomnumber found.");
+            System.out.println("No room with that room number found.");
         }
 
     }
@@ -1121,7 +1144,7 @@ public class HotelLogic {
         System.out.println("Enter room number(100-1112)");
         int roomNum = 0;
         boolean gettinginput = true;
-
+        boolean match = false;
         while (gettinginput) {
 
             try {
@@ -1129,7 +1152,7 @@ public class HotelLogic {
                 gettinginput = false;
 
             } catch (Exception ex) {
-                System.out.println("invalid input, try again");
+                System.out.println("Invalid input, try again");
                 sc.next();
             }
 
@@ -1138,6 +1161,8 @@ public class HotelLogic {
         for (Room room : rooms) {
 
             if (room.getRoomNumber() == roomToSearch) {
+                match = true;
+
                 System.out.println("Match ");
                 System.out.println("Do you want remove this room? ");
                 Scanner scanner = new Scanner(System.in);
@@ -1151,6 +1176,10 @@ public class HotelLogic {
                     System.out.println("Try again! ");
                 }
             }
+        }
+
+        if (!match) {
+            System.out.println("No room with number " + roomToSearch + " was found.");
         }
 
     }
